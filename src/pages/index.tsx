@@ -1,9 +1,9 @@
 import Head from 'next/head'
 import Image from 'next/image'
 import styles from '@/styles/Home.module.css'
-import Header from '../components/Header.js'
-import Footer from '../components/Footer.js'
-import Button from '../components/Button.js'
+import Header from '../../components/Header.js'
+import Footer from '../../components/Footer.js'
+import Button from '../../components/Button.js'
 
 
 export default function Home() {
@@ -34,7 +34,7 @@ export default function Home() {
         <p>This site makes ordering a boutonniere or corsage for yourself or your child an easy painless process. The choices for style, flower, and color choice have pictures to show what you will be getting, and you can pick how styles are arranged based on what is important to you. This site is only available at the florists and will not be available from other locations/wi-fi networks.</p>
         
         <h2>What We Recommend</h2>
-        <p>Picking out the perfect dance flower can be hard. To get a gorgeous creation we recommend choosing a </p>
+        <p>Picking out the perfect dance flower can be hard. To get a gorgeous creation we recommend choosing a color of flower that is NOT white. School dances are fun, and boutonnieres and corsages should be fun too! Spice up a design by adding a color that coordinates or highlights the color of the dress. If you have questions about which fun color can go with your dress, please ask one of our experienced designers for help.</p>
 
       </main>
 
