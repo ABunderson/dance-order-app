@@ -6,8 +6,7 @@ import styles from '@/styles/Utils.module.css'
 //     )
 // }
 
-const Button = ({ text , size }) => {
-    console.log(size)    
+const Button = ({ text , size }) => {   
     return (
         <button className={`${styles.button} ${size="Large" ? styles.buttonLarge : ""}`}>
             {text}
