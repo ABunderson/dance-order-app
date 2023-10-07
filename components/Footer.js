@@ -1,16 +1,38 @@
-import styles from '@/styles/Components.module.css'
 import Image from 'next/image'
+import styled from 'styled-components'
+
+const StyledFooter = styled.footer`
+    background-color: var(--main-green);
+
+    .footerDiv {
+        padding: 5px 3rem;
+        min-height: 80px;
+        max-width: var(--max-width);
+        margin: auto;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-size: 1.1rem;
+
+        @media (max-width: 700px) {
+            flex-direction: column;
+            padding: 5px;
+            justify-content: center;
+        }
+    }
+`;
+
 
 const Footer = () => {
     return (
-        <footer className={styles.footer}>
-            <div className={styles.footerDiv}>
+        <StyledFooter>
+            <div className="footerDiv">
                 <p>&copy;2023 Bunderson </p>
                 <p>icons by <a href="https://icons8.com/" target="_blank">Icons8</a></p>
-                <div className={styles.socialIcons}>
-                    <a href="#">
+                <div>
+                    <a href="#" target='_blank'>
                         <Image
-                            className={styles.socialIcon}
+                            className="socialIcon"
                             src="/icons/facebook.svg"
                             alt="The Facebook icon. Icon from Icons8"
                             title="Florists Facebook page"
@@ -19,9 +41,9 @@ const Footer = () => {
                             priority
                         />
                     </a>
-                    <a href="#">
+                    <a href="#" target="_blank">
                         <Image
-                            className={styles.socialIcon}
+                            className="socialIcon"
                             src="/icons/pinterest.svg"
                             alt="A Pinterest icon. Icon from Icons8"
                             title="Florists Facebook page"
@@ -30,9 +52,9 @@ const Footer = () => {
                             priority
                         />
                     </a>
-                    <a href="#">
+                    <a href="#" target="_blank">
                         <Image
-                            className={styles.socialIcon}
+                            className="socialIcon"
                             src="/icons/instagram.svg"
                             alt="An Instagram icon. Icon from Icons8"
                             title="Florists Instagram page"
@@ -43,7 +65,7 @@ const Footer = () => {
                     </a>
                 </div>
             </div>
-        </footer>
+        </StyledFooter>
     )
 }
 

@@ -12,7 +12,8 @@
     "mongodb": "^3.7.4",
     "next": "latest",
     "react": "latest",
-    "react-dom": "latest"
+    "react-dom": "latest",
+    "styled-components": "^6.0.8"
   },
   "devDependencies": {
     "@types/node": "latest",

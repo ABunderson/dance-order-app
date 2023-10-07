@@ -1,14 +1,37 @@
 import Image from 'next/image'
-import styles from '@/styles/Components.module.css'
 import Link from 'next/link'
+import styled from 'styled-components'
+
+const StyledHeader = styled.header`
+    background-color: var(--main-green);
+
+    @media (max-width: 700px) {
+        padding-left: 0;
+        padding-right: 0;
+    }
+
+    .headerDiv {
+        padding-left: 3rem;
+        padding-right: 3rem;
+        max-width: var(--max-width);
+        margin: auto;
+        display: flex;
+        justify-content: space-between;
+
+        @media (max-width: 700px) {
+            padding-left: 1rem;
+            padding-right: 1rem;
+        }
+    }
+`;
 
 const Header = () => {
     return (
-        <header className={styles.header}>
-            <div className={styles.headerDiv}>
+        <StyledHeader>
+            <div className='headerDiv'>
                 <Link href="/">
                     <Image
-                        className={styles.logo}
+                        // className={styles.logo}
                         src="/icons/logo.png"
                         alt="A logo image of a flower. Icon from Icons8"
                         title="Home page"
@@ -20,7 +43,6 @@ const Header = () => {
                 
                 <Link href="/">
                     <Image
-                        // className={styles.logo}
                         src="/icons/account.png"
                         alt="An Account icon. Icon from Icons8"
                         title="Click to login to your account. Florists only"
@@ -30,7 +52,7 @@ const Header = () => {
                     />
                 </Link>
             </div>
-        </header>
+        </StyledHeader>
     )
 }
 
