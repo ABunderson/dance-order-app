@@ -14,7 +14,7 @@ const StyledFooter = styled.footer`
         align-items: center;
         font-size: 1.1rem;
 
-        @media (max-width: 700px) {
+        @media (max-width: 550px) {
             flex-direction: column;
             padding: 5px;
             justify-content: center;

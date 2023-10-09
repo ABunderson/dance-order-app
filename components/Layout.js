@@ -14,7 +14,7 @@ const StyledMain = styled.main`
     max-width: var(--max-width);
     margin: auto;
 
-    @media (max-width: 700px) {
+    @media (max-width: 550px) {
         padding: 1rem;
     }
 `;

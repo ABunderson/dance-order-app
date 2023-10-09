@@ -2,12 +2,17 @@ import Image from 'next/image'
 import styles from '@/styles/Home.module.css'
 import Layout from 'components/Layout'
 import { LargeButton } from 'components/Button.js'
-
+import { useSession, SessionProvider } from 'next-auth/react';
 
 
 export default function Home() {
+  
+  const { data:session, status} = useSession()
+  console.log('in home page session=>', session)
+  console.log('status=>',status)
+  
   return (
-    <Layout pageTitle='Home'>
+    <Layout pageTitle='Home' >
        <Image
           className={styles.hero}
           src="/hero.jpg"
@@ -25,6 +30,7 @@ export default function Home() {
         <h2>What We Recommend</h2>
         <p>Picking out the perfect dance flower can be hard. To get a gorgeous creation we recommend choosing a color of flower that is NOT white. School dances are fun, and boutonnieres and corsages should be fun too! Spice up a design by adding a color that coordinates or highlights the color of the dress. If you have questions about which fun color can go with your dress, please ask one of our experienced designers for help.</p>
     </Layout>
+
   )
 }
 
