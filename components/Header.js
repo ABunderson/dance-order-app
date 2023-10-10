@@ -5,7 +5,7 @@ import styled from 'styled-components'
 const StyledHeader = styled.header`
     background-color: var(--main-green);
 
-    @media (max-width: 700px) {
+    @media (max-width: 550px) {
         padding-left: 0;
         padding-right: 0;
     }
@@ -18,7 +18,7 @@ const StyledHeader = styled.header`
         display: flex;
         justify-content: space-between;
 
-        @media (max-width: 700px) {
+        @media (max-width: 550px) {
             padding-left: 1rem;
             padding-right: 1rem;
         }
@@ -41,7 +41,7 @@ const Header = () => {
                     />
                 </Link>
                 
-                <Link href="/">
+                <Link href="/account/login">
                     <Image
                         src="/icons/account.png"
                         alt="An Account icon. Icon from Icons8"

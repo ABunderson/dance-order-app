@@ -10,11 +10,12 @@ const StyledMain = styled.main`
     gap: 2rem;
 
     padding: 3rem;
-    min-height: 80vh;
+    min-height: 85vh;
     max-width: var(--max-width);
     margin: auto;
+    font-size: 1.2em;
 
-    @media (max-width: 700px) {
+    @media (max-width: 550px) {
         padding: 1rem;
     }
 `;

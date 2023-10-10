@@ -1,4 +1,4 @@
-import { getStyles } from "../../../../lib/mongodb/styles"
+import { getStyles } from "mongoDb/styles"
 
 const handler = async (req, res) => {
     if (req.method === 'GET') {

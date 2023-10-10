@@ -27,7 +27,7 @@ const StyledButton = styled.button`
 const StyledLargeButton = styled(StyledButton)`
     padding: .5rem 3rem;
 
-    @media (max-width: 700px) {
+    @media (max-width: 550px) {
         width: 100%
     }
 `;
