@@ -2,8 +2,9 @@ import styled from 'styled-components'
 import { useState } from 'react'
 import { hashPassword} from 'components/account/Hashing'
 import Login from 'components/account/Login'
+import { LargeButton } from 'components/Button'
 
-const StyledLoginForm = styled.form`
+export const StyledForm = styled.form`
     display: flex;
     flex-wrap: wrap; 
     max-width: 400px;
@@ -25,24 +26,6 @@ const StyledLoginForm = styled.form`
     & button {
         margin-top: 10px;
         flex-basis: 92%;
-        color: black;
-        background-color: var(--main-green);
-        border-color: var(--main-green);
-        display: inline-block;
-        font-weight: 400;
-        text-align: center;
-        vertical-align: middle;
-        padding: .5rem 3rem;
-        border: 1px solid transparent;
-        font-size: 2rem;
-        border-radius: .3rem;
-        transition: background-color .15s ease-in-out, border-color .15s ease-in-out, box-shadow .15s ease-in-out;
-    
-        &:hover {
-            background-color: var(--lighter-green);
-            border-color: var(--lighter-green);
-            box-shadow: 2px 2px var(--main-blue);   
-        }
     }
 
     @media (max-width: 550px) {
@@ -91,13 +74,15 @@ const LoginForm = ({ }) => {
 
 
     return (
-        <StyledLoginForm onSubmit={onSubmit}>
+        <StyledForm onSubmit={onSubmit}>
             <label htmlFor='userName'>Username: </label>
             <input type='text' name='userName' id='userName' onChange={e => setUserName(e.target.value)} value={userName} required />
+            
             <label htmlFor='password'>Password: </label>
-            <input type='text' name='password' id='password' defaultValue={''} />
-            <button type='submit'>Login</button>
-        </StyledLoginForm>
+            <input type='password' name='password' id='password' defaultValue={''} />
+            
+            <LargeButton text='Login' type='submit'></LargeButton>
+        </StyledForm>
     )
 }
 

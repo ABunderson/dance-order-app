@@ -24,7 +24,7 @@ const StyledButton = styled.button`
     }
 `;
 
-const StyledLargeButton = styled(StyledButton)`
+export const StyledLargeButton = styled(StyledButton)`
     padding: .5rem 3rem;
 
     @media (max-width: 550px) {
@@ -41,9 +41,9 @@ const Button = ({ text }) => {
     )
 }
 
-export const LargeButton = ({ text }) => {
+export const LargeButton = ({ text, type, action}) => {
     return (
-        <StyledLargeButton type="button">
+        <StyledLargeButton type={type} onClick={action}>
             {text}
         </StyledLargeButton>
     )
