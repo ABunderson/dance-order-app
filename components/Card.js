@@ -4,6 +4,7 @@ import styled from 'styled-components'
 const StyledCard = styled.div`
     border: 1px solid black;
     padding: 2rem;
+    border-radius: 15px;
 
     img {
         max-width: 450px;
@@ -11,6 +12,11 @@ const StyledCard = styled.div`
         margin-top: 10px;
         margin-bottom: 10px;
         height: auto;
+    }
+
+    &:hover {
+        cursor: pointer;
+        box-shadow: 10px 10px 10px var(--main-pink);
     }
 
     @media (max-width: 550px) {
@@ -27,9 +33,9 @@ const StyledCard = styled.div`
 
 
 
-const Card = ({ title, src, alt, imageTitle, description }) => {
+const Card = ({ title, src, alt, imageTitle, description, action }) => {
     return (
-        <StyledCard>
+        <StyledCard onClick={action}>
             <h2>{title}</h2>
             <Image
                 src={src}

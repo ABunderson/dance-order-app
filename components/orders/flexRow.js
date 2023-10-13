@@ -18,8 +18,6 @@ const FlexDiv = styled.div`
 `
 
 const FlexRow = ({ children }) => {
-    console.log('should be flexed')
-    console.log(children)
 
     return (
         <FlexDiv>

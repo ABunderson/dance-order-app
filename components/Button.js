@@ -16,6 +16,7 @@ const StyledButton = styled.button`
     font-size: 2rem;
     border-radius: .3rem;
     transition: background-color .15s ease-in-out, border-color .15s ease-in-out, box-shadow .15s ease-in-out;
+    cursor: pointer;
 
     &:hover {
         background-color: var(--lighter-green);
@@ -41,7 +42,7 @@ const Button = ({ text }) => {
     )
 }
 
-export const LargeButton = ({ text, type, action}) => {
+export const LargeButton = ({ text, type, action }) => {
     return (
         <StyledLargeButton type={type} onClick={action}>
             {text}
