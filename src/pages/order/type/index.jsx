@@ -2,21 +2,24 @@ import Layout from 'components/Layout'
 import Breadcrumbs from 'components/Breadcrumbs'
 import Card from 'components/Card'
 import FlexRow from 'components/orders/flexRow'
+import { useRouter } from 'next/router'
 
-export default function Information() {
+export default function ChooseType() {
+    const router = useRouter()
 
     const corClick = () => {
-        console.log('go to cor styles')
-        // router.replace('/order/information')
+        // console.log('go to cor styles')
+        router.push('/order/type/corsage')
+        // <Link href={`posts/${post.id}`} passHref>
     }
 
     const boutClick = () => {
-        console.log('go to bout styles')
-        // router.replace('/order/information')
+        // console.log('go to bout styles')
+        router.push('/order/type/boutonniere')
     }
 
     return (
-        <Layout pageTitle='Personal Information'>
+        <Layout pageTitle='Choose Type'>
             <Breadcrumbs path={[{ 'loc': '/', 'string': 'info' }, { 'loc': '/', 'string': 'order' }, { 'loc': '/', 'string': 'styles' }]}></Breadcrumbs>
             <h1>Boutonniere or Corsage</h1>
             <FlexRow>
@@ -41,3 +44,14 @@ export default function Information() {
         </Layout>
     )
 }
+
+// export async function getStaticProps() {
+//     const response = await fetch(`api end point all styles`)
+//     const data = await response.json()
+
+//     return {
+//         props: {
+//             post: data,
+//         },
+//     }
+// }

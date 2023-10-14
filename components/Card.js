@@ -1,7 +1,7 @@
 import Image from 'next/image'
 import styled from 'styled-components'
 
-const StyledCard = styled.div`
+export const StyledCard = styled.div`
     border: 1px solid black;
     padding: 2rem;
     border-radius: 15px;
@@ -21,12 +21,6 @@ const StyledCard = styled.div`
 
     @media (max-width: 550px) {
         padding: 1rem;
-
-        // img {
-        //     max-width: 100%;
-        //     height: auto;
-        // }
-
     }
 
 `

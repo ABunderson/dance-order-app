@@ -11,7 +11,6 @@ function CommentsPage() {
         const response = await fetch('/api/styles')
         const data = await response.json()
         setComments(data.styles)
-
     }
 
     const submitComment = async () => {

@@ -12,7 +12,7 @@ export default function Home() {
   const router = useRouter();
 
   const buttonClick = () => {
-    router.replace('/order/information')
+    router.push('/order/information')
   }
 
 
