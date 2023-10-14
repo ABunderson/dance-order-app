@@ -4,10 +4,9 @@ import Breadcrumbs from 'components/Breadcrumbs'
 import { getStylesByType } from 'mongoDb/styles'
 import { useRouter } from 'next/router'
 import StyleCard from 'components/orders/StyleCard'
-import FlexGrid from '../../../../../components/orders/FlexGrid'
+import FlexGrid from 'components/orders/FlexGrid'
 
-export default function getStyles({ styles }) {
-    console.log(styles)
+export default function GetStyles({ styles }) {
 
     const router = useRouter()
     // // const styleId = router.query.productId
@@ -15,23 +14,20 @@ export default function getStyles({ styles }) {
         return <h1>Loading:</h1>
     }
 
-    // return (
-    //     <>
-    //         <h2>
-    //             {post.id} {post.title}
-    //         </h2>
-    //         <p>{post.body}</p>
-    //     </>
-    // )
-
+    const chooseStyle = (style) => {
+        // console.log(`clicked ${style.name}`)
+        router.push(`/order/type/${style.type}/${style._id}`)
+    }
 
     return (
         <Layout pageTitle='Styles'>
             <Breadcrumbs path={[{ 'loc': '/', 'string': 'info' }, { 'loc': '/', 'string': 'order' }, { 'loc': '/', 'string': 'styles' }]}></Breadcrumbs>
-            <h1>Pick Style</h1>
+            
+            <h1 style={{ textTransform: 'capitalize'}}>Pick {styles[0].type} Style</h1>
+
             <FlexGrid>
                 {styles.map((style) => {
-                    return <StyleCard style={style} key={style._id}></StyleCard>
+                    return <StyleCard style={style} key={style._id} action={chooseStyle}></StyleCard>
                 })}
             </FlexGrid>
 

@@ -12,7 +12,8 @@ const InformationForm = ({action}) => {
             <input type='text' name='lastName' id='lastName' required placeholder="Smith" />
             
             <label htmlFor='phoneOne'>Phone 1: </label>
-            <input type='text' name='phoneOne' id='phoneOne' placeholder="801-763-2227" required pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"/>
+            <input type='text' name='phoneOne' id='phoneOne' placeholder="801-763-2227" required />
+            {/* pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" */}
             
             <label htmlFor='phoneTwo'>Phone 2: </label>
             <input type='text' name='phoneTwo' id='phoneTwo' required placeholder="801-763-2227"/>

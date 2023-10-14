@@ -7,8 +7,15 @@
 //         </div>
 //     )
 // }
+function Comment() {
+    return (
+        <div>
+            not a real page
+        </div>
+    )
+}
 
-// export default Comment
+export default Comment
 
 // export async function getStaticPaths() {
 //     return {

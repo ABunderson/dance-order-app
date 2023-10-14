@@ -18,9 +18,9 @@ const StyledStyleCard = styled(StyledCard)`
     }
 `;
 
-const StyleCard = ({ style }) => {
+const StyleCard = ({ style, action }) => {
     return (
-        <StyledStyleCard>
+        <StyledStyleCard onClick={() => action(style)}>
             
             <h2>{style.name}</h2>
             <Image
