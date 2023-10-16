@@ -49,10 +49,11 @@ export async function getStaticPaths() {
                 params: { styleId: style._id },
             }
         })
+        // console.log(paths)
 
         return {
             paths,
-            fallback: true
+            fallback: "blocking"
         }
     } catch (error) {
         console.log('Error:' + error.message)
