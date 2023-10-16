@@ -1,7 +1,6 @@
 import Layout from 'components/Layout'
 import Breadcrumbs from 'components/Breadcrumbs'
-// import { getStyle, getStyles } from 'mongoDb/styles'
-import { getStyle } from 'mongoDb/styles'
+import { getStyle, getStyles } from 'mongoDb/styles'
 import { useRouter } from 'next/router'
 // import StyleInfo from 'components/orders/StyleInfo'
 import { getFlowerByName } from 'mongoDb/flowers'
@@ -41,23 +40,24 @@ export default function Customize({ style, flower, supplies }) {
 
 export async function getStaticPaths() {
     try {
-        // const { styles, error } = await getStyles()
-        // console.log(styles)
-        // if (error) throw new Error(error)
-        // let paths = []
-        // paths = styles.map((style) => {
-        //     return {
-        //         params: { styleId: style._id },
-        //     }
-        // })
-        // console.log(paths)
+        const { styles, error } = await getStyles()
+        console.log(styles)
+        if (error) throw new Error(error)
+        let paths = []
+        paths = styles.map((style) => {
+            return {
+                params: { styleId: style._id },
+            }
+        })
+        console.log(paths)
 
         return {
-            paths: [
-                { params: { styleId: '651b048e36961e25c50377af'}},
-                { params: { styleId: '651b052636961e25c50377b0'}},
-                { params: { styleId: '651b071c36961e25c50377b3'}},
-            ],
+            // paths: [
+            //     { params: { styleId: '651b048e36961e25c50377af'}},
+            //     { params: { styleId: '651b052636961e25c50377b0'}},
+            //     { params: { styleId: '651b052636961e25c50377b0'}},
+            // ],
+            paths,
             fallback: true
         }
     } catch (error) {
