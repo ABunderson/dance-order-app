@@ -15,8 +15,8 @@ export default function Customize({ style, flower, supplies }) {
     // style = style[0]
     // console.log(style)
     // only use below if you want to use fallback: true,
-    console.log(flower)
-    console.log(supplies)
+    // console.log(flower)
+    // console.log(supplies)
 
     const router = useRouter()
 
