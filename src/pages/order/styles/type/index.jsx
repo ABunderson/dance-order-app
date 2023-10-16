@@ -9,13 +9,13 @@ export default function ChooseType() {
 
     const corClick = () => {
         // console.log('go to cor styles')
-        router.push('/order/type/corsage')
+        router.push('/order/styles/type/corsage')
         // <Link href={`posts/${post.id}`} passHref>
     }
 
     const boutClick = () => {
         // console.log('go to bout styles')
-        router.push('/order/type/boutonniere')
+        router.push('/order/styles/type/boutonniere')
     }
 
     return (
@@ -44,14 +44,3 @@ export default function ChooseType() {
         </Layout>
     )
 }
-
-// export async function getStaticProps() {
-//     const response = await fetch(`api end point all styles`)
-//     const data = await response.json()
-
-//     return {
-//         props: {
-//             post: data,
-//         },
-//     }
-// }

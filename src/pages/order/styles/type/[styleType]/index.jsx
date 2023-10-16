@@ -16,14 +16,14 @@ export default function GetStyles({ styles }) {
 
     const chooseStyle = (style) => {
         // console.log(`clicked ${style.name}`)
-        router.push(`/order/type/${style.type}/${style._id}`)
+        router.push(`/order/styles/${style._id}`)
     }
 
     return (
         <Layout pageTitle='Styles'>
             <Breadcrumbs path={[{ 'loc': '/', 'string': 'info' }, { 'loc': '/', 'string': 'order' }, { 'loc': '/', 'string': 'styles' }]}></Breadcrumbs>
-            
-            <h1 style={{ textTransform: 'capitalize'}}>Pick {styles[0].type} Style</h1>
+
+            <h1 style={{ textTransform: 'capitalize' }}>Pick {styles[0].type} Style</h1>
 
             <FlexGrid>
                 {styles.map((style) => {

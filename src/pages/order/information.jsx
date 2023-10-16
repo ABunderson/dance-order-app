@@ -14,7 +14,7 @@ export default function Information() {
 
         // need validation for form and to get form and then to send form and get back the id if the new object
 
-        router.push('/order/type')
+        router.push('/order/styles/type')
     }
 
 
