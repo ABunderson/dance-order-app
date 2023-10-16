@@ -40,20 +40,24 @@ export default function Customize({ style, flower, supplies }) {
 
 export async function getStaticPaths() {
     try {
-        const { styles, error } = await getStyles()
+        // const { styles, error } = await getStyles()
         // console.log(styles)
-        if (error) throw new Error(error)
-        let paths = []
-        paths = styles.map((style) => {
-            return {
-                params: { styleId: style._id },
-            }
-        })
+        // if (error) throw new Error(error)
+        // let paths = []
+        // paths = styles.map((style) => {
+        //     return {
+        //         params: { styleId: style._id },
+        //     }
+        // })
         // console.log(paths)
 
         return {
-            paths,
-            fallback: "blocking"
+            paths: [
+                { params: { styleId: '651b048e36961e25c50377af'}},
+                { params: { styleId: '651b052636961e25c50377b0'}},
+                { params: { styleId: '651b071c36961e25c50377b3'}},
+            ],
+            fallback: true
         }
     } catch (error) {
         console.log('Error:' + error.message)
