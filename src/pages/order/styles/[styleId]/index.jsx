@@ -16,12 +16,13 @@ export default function Style({ style }) {
     }
 
     const goBack = () => {
-        console.log('want to go back')
+        // console.log('want to go back')
         router.back()
     }
 
     const pickStyle = () => {
-        console.log('want this style')
+        // console.log('want this style')
+        router.push(`/order/styles/${style[0]._id}/customize`)
     }
 
     return (

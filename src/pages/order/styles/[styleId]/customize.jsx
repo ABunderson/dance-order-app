@@ -1,98 +1,125 @@
-// import Layout from 'components/Layout'
-// import Breadcrumbs from 'components/Breadcrumbs'
-// import { getStyle, getStyles } from 'mongoDb/styles'
-// import { useRouter } from 'next/router'
+import Layout from 'components/Layout'
+import Breadcrumbs from 'components/Breadcrumbs'
+import { getStyle, getStyles } from 'mongoDb/styles'
+import { useRouter } from 'next/router'
 // import StyleInfo from 'components/orders/StyleInfo'
+import { getFlowerByName } from 'mongoDb/flowers'
+import { getSupplyByNameArray } from 'mongoDb/supplies'
 
 
-export default function Customize() {
-    return <h1>Customize</h1>
+// export default function Customize() {
+//     return <h1>Customize</h1>
+// }
+
+export default function Customize({ style, flower, supplies }) {
+    // style = style[0]
+    // console.log(style)
+    // only use below if you want to use fallback: true,
+    console.log(flower)
+    console.log(supplies)
+
+    const router = useRouter()
+
+    if (router.isFallback) {
+        return <h1>Loading. . .</h1>
+    }
+
+
+    return (
+        <Layout pageTitle={`Customize ${style[0].name} ${style[0].type}`}>
+
+            <Breadcrumbs path={[{ 'loc': '/', 'string': 'info' }, { 'loc': '/', 'string': 'order' }, { 'loc': '/', 'string': 'styles' }]}></Breadcrumbs>
+
+            {/* <StyleInfo style={style} backAction={goBack} forwardAction={pickStyle}></StyleInfo> */}
+            <h1>Customize</h1>
+
+        </Layout>
+    )
+
 }
 
-// export default function Customize({ style }) {
-//     style = style[0]
-//     // console.log(style)
-//     // only use below if you want to use fallback: true,
+export async function getStaticPaths() {
+    try {
+        const { styles, error } = await getStyles()
+        // console.log(styles)
+        if (error) throw new Error(error)
+        let paths = []
+        paths = styles.map((style) => {
+            return {
+                params: { styleId: style._id },
+            }
+        })
 
-//     const router = useRouter()
+        return {
+            paths,
+            fallback: true
+        }
+    } catch (error) {
+        console.log('Error:' + error.message)
+    }
+}
 
-//     if(router.isFallback){
-//         return <h1>The style is loading</h1>
-//     }
+export async function getStaticProps(context) {
+    const { params } = context
 
-//     const goBack = () => {
-//         console.log('want to go back')
-//         router.back()
-//     }
+    try {
+        const { styles, error } = await getStyle(params.styleId)
+        if (error) throw new Error(error)
+        if (!styles) {
+            return {
+                notFound: true,
+            }
+        }
 
-//     const pickStyle = () => {
-//         console.log('want this style')
-//     }
+        // console.log(styles[0].flower)
+        let flowerArray = []
+        if (styles[0].flower) {
+            const { flowers, error } = await getFlowerByName(styles[0].flower)
+            if (error) throw new Error(error)
+            if (!styles) {
+                return {
+                    notFound: true,
+                }
+            }
+            // console.log(flowers)
+            flowerArray = flowers
+        }
 
-//     return (
-//         <Layout pageTitle={`${style.name} ${style.type}`}>
+        let supplyArray = []
 
-//             <Breadcrumbs path={[{ 'loc': '/', 'string': 'info' }, { 'loc': '/', 'string': 'order' }, { 'loc': '/', 'string': 'styles' }]}></Breadcrumbs>
+        if (styles[0].ribbon || styles[0].metalBack || styles[0].wristlet) {
+            // console.log('need to look it up')
+            let searchArray = []
+            styles[0].ribbon ? searchArray.push('ribbon') : ''
+            styles[0].metalBack ? searchArray.push('metal back') : ''
+            styles[0].wristlet && styles[0].wristlet !== 'elastic' ? searchArray.push(styles[0].wristlet) : ''
+            // console.log(searchArray)
 
-//             <StyleInfo style={style} backAction={goBack} forwardAction={pickStyle}></StyleInfo>
+            const { supplies, error } = await getSupplyByNameArray(searchArray)
+            // let jsonSupplies = json( supplies )
+            if (error) throw new Error(error)
+            if (!styles) {
+                return {
+                    notFound: true,
+                }
+            }
+            // console.log(supplies)
+            supplyArray = supplies
+        }
 
-//         </Layout>
-//     )
-
-// }
-
-// export async function getStaticPaths() {
-//     try {
-//         const { styles, error } = await getStyles()
-//         // console.log(styles)
-//         if (error) throw new Error(error)
-//         const paths = styles.map(style => {
-//             return {
-//                 params: {
-//                     styleId: style._id,
-//                 }
-//             }
-
-//         })
-//         return {
-//             paths,
-//             fallback: true,
-//         }
-//     } catch (error) {
-//         console.log('Error:' + error.message)
-//     }
-// }
-
-// export async function getStaticProps(context) {
-//     const { params } = context
-//     // console.log(`these are the ${context}`)
-//     // console.log(context)
-//     // console.log(params.styleId)
-//     try {
-//         const { styles, error } = await getStyle(params.styleId)
-//         console.log(styles)
-//         if (error) throw new Error(error)
-//         if (!styles) {
-//             return {
-//                 notFound: true,
-//             }
-//         }
-//         return {
-//             props: {
-//                 style: styles,
-//             }
-//         }
-//     } catch (error) {
-//         console.log('Error:' + error.message)
-//     }
-    // const response = await fetch(`api end point${params.postId}`)
-    // const data = await response.json()
+        return {
+            props: {
+                style: styles,
+                flower: flowerArray,
+                supplies: supplyArray,
+            }
+        }
+    } catch (error) {
+        console.log('Error:' + error.message)
+    }
+}
 
 
-
-    // return {
-    //     props: {
-    //         post: data,
-    //     },
-    // }
-// }
+function checkForflower(name){
+    if(name){}
+}

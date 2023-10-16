@@ -3,7 +3,7 @@ import { getStyle } from "mongoDb/styles"
 
 const handler = async (req, res) => {
     const { styleId } = req.query
-    console.log(styleId)
+    // console.log(styleId)
 
     if (req.method === 'GET') {
         try {
