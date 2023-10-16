@@ -1,6 +1,7 @@
 import Layout from 'components/Layout'
 import Breadcrumbs from 'components/Breadcrumbs'
-import { getStyle, getStyles } from 'mongoDb/styles'
+// import { getStyle, getStyles } from 'mongoDb/styles'
+import { getStyle } from 'mongoDb/styles'
 import { useRouter } from 'next/router'
 // import StyleInfo from 'components/orders/StyleInfo'
 import { getFlowerByName } from 'mongoDb/flowers'
