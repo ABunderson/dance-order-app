@@ -16,7 +16,7 @@
     "paths": {
       "@/*": ["./src/*"],
       "components/*": ["./components/*"],
-      "mongoDb/*": ["./lib/mongoDb/*"]
+      "mongoDb/*": ["./lib/mongodb/*"]
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
