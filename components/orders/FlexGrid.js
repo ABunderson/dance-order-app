@@ -1,6 +1,6 @@
 import styled from "styled-components"
 
-const FlexDiv = styled.div`
+export const FlexDiv = styled.div`
     display: flex;
     gap: 15px;
     flex-wrap: wrap;

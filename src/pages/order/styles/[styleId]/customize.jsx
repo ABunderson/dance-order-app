@@ -2,9 +2,9 @@ import Layout from 'components/Layout'
 import Breadcrumbs from 'components/Breadcrumbs'
 import { getStyle, getStyles } from 'mongoDb/styles'
 import { useRouter } from 'next/router'
-// import StyleInfo from 'components/orders/StyleInfo'
 import { getFlowerByName } from 'mongoDb/flowers'
 import { getSupplyByNameArray } from 'mongoDb/supplies'
+import CustomizeForm from 'components/orders/customize/CustomizeForm'
 
 
 // export default function Customize() {
@@ -24,14 +24,33 @@ export default function Customize({ style, flower, supplies }) {
         return <h1>Loading. . .</h1>
     }
 
+    const goBack = () => {
+        // console.log('want to go back')
+        router.back()
+    }
+
+    async function onSubmit(event) {
+        console.log('submit')
+        event.preventDefault()
+
+        const formData = new FormData(event.target),
+            convertedJSON = {};
+
+        formData.forEach(function (value, key) {
+            convertedJSON[key] = value;
+        });
+
+        console.log(convertedJSON)
+    }
 
     return (
         <Layout pageTitle={`Customize ${style[0].name} ${style[0].type}`}>
 
             <Breadcrumbs path={[{ 'loc': '/', 'string': 'info' }, { 'loc': '/', 'string': 'order' }, { 'loc': '/', 'string': 'styles' }]}></Breadcrumbs>
 
-            {/* <StyleInfo style={style} backAction={goBack} forwardAction={pickStyle}></StyleInfo> */}
-            <h1>Customize</h1>
+            <h1>Customize {style[0].name} {style[0].type}</h1>
+            <CustomizeForm backAction={goBack} forwardAction={onSubmit} flower={flower} supplies={supplies}></CustomizeForm>
+
 
         </Layout>
     )
@@ -41,7 +60,7 @@ export default function Customize({ style, flower, supplies }) {
 export async function getStaticPaths() {
     try {
         const { styles, error } = await getStyles()
-        console.log(styles)
+        // console.log(styles)
         if (error) throw new Error(error)
         let paths = []
         paths = styles.map((style) => {
@@ -49,7 +68,7 @@ export async function getStaticPaths() {
                 params: { styleId: style._id },
             }
         })
-        console.log(paths)
+        // console.log(paths)
 
         return {
             // paths: [
@@ -126,6 +145,6 @@ export async function getStaticProps(context) {
 }
 
 
-function checkForflower(name){
-    if(name){}
+function checkForflower(name) {
+    if (name) { }
 }

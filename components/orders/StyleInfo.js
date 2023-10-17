@@ -1,6 +1,7 @@
 import Image from "next/image"
 import styled from 'styled-components'
-import { LargeButton } from 'components/Button'
+import Button from 'components/Button'
+import { FlexButton } from 'components/styles/ButtonStyles'
 
 const FlexDiv = styled.div`
     display: flex;
@@ -33,18 +34,7 @@ const FlexInfo = styled.div`
     flex-direction: column;
 `
 
-const FlexButton = styled.div`
-    display: flex;
-    justify-content: center;
-    gap: 50px;
 
-    @media (max-width: 670px){
-        flex-direction: column;
-        gap: 2rem;
-        padding-bottom: 1rem;
-    }
-
-`
 
 
 const StyleInfo = ({ style, backAction, forwardAction }) => {
@@ -79,8 +69,8 @@ const StyleInfo = ({ style, backAction, forwardAction }) => {
             </FlexDiv>
 
             <FlexButton>
-                <LargeButton text='Back' type='button' action={backAction}></LargeButton>
-                <LargeButton text='Pick this Style'type='button' action={forwardAction}></LargeButton>
+                <Button text='Back' type='button' action={backAction}></Button>
+                <Button text='Pick this Style'type='button' action={forwardAction}></Button>
             </FlexButton>
         </>
     )

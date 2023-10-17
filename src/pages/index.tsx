@@ -1,7 +1,7 @@
 import Image from 'next/image'
 import styles from '@/styles/Home.module.css'
 import Layout from 'components/Layout'
-import { LargeButton } from 'components/Button.js'
+import Button  from 'components/Button.js'
 import { useRouter } from 'next/router'
 
 
@@ -27,7 +27,7 @@ export default function Home() {
           priority
         />
 
-        <LargeButton text='Order now!' type='button' action={buttonClick}></LargeButton>
+        <Button text='Order now!' type='button' action={buttonClick}></Button>
 
         <h1>What We Do</h1>
         <p>This site makes ordering a boutonniere or corsage for yourself or your child an easy painless process. The choices for style, flower, and color choice have pictures to show what you will be getting, and you can pick how styles are arranged based on what is important to you. This site is only available at the florists and will not be available from other locations/wi-fi networks.</p>
