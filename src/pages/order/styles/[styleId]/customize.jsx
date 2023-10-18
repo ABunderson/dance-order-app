@@ -7,16 +7,8 @@ import { getSupplyByNameArray } from 'mongoDb/supplies'
 import CustomizeForm from 'components/orders/customize/CustomizeForm'
 
 
-// export default function Customize() {
-//     return <h1>Customize</h1>
-// }
 
 export default function Customize({ style, flower, supplies }) {
-    // style = style[0]
-    // console.log(style)
-    // only use below if you want to use fallback: true,
-    // console.log(flower)
-    // console.log(supplies)
 
     const router = useRouter()
 
@@ -32,15 +24,17 @@ export default function Customize({ style, flower, supplies }) {
     async function onSubmit(event) {
         console.log('submit')
         event.preventDefault()
+        router.push(`/order/styles/type/${style[0].type}/addons`)
 
-        const formData = new FormData(event.target),
-            convertedJSON = {};
+        // const formData = new FormData(event.target),
+        //     convertedJSON = {};
 
-        formData.forEach(function (value, key) {
-            convertedJSON[key] = value;
-        });
+        // formData.forEach(function (value, key) {
+        //     convertedJSON[key] = value;
+        // });
 
-        console.log(convertedJSON)
+        // console.log(convertedJSON)
+        // router.push(`/order/styles/type/${style[0].type}/addons`)
     }
 
     return (
@@ -48,7 +42,7 @@ export default function Customize({ style, flower, supplies }) {
 
             <Breadcrumbs path={[{ 'loc': '/', 'string': 'info' }, { 'loc': '/', 'string': 'order' }, { 'loc': '/', 'string': 'styles' }]}></Breadcrumbs>
 
-            <h1>Customize {style[0].name} {style[0].type}</h1>
+            <h1 style={{ textTransform: 'capitalize' }}>Customize {style[0].name} {style[0].type}</h1>
             <CustomizeForm backAction={goBack} forwardAction={onSubmit} flower={flower} supplies={supplies}></CustomizeForm>
 
 
@@ -71,11 +65,6 @@ export async function getStaticPaths() {
         // console.log(paths)
 
         return {
-            // paths: [
-            //     { params: { styleId: '651b048e36961e25c50377af'}},
-            //     { params: { styleId: '651b052636961e25c50377b0'}},
-            //     { params: { styleId: '651b052636961e25c50377b0'}},
-            // ],
             paths,
             fallback: true
         }

@@ -99,22 +99,22 @@ const Fieldset = ({ item, type }) => {
     }
 
     return (
-        <StyledFieldset>
+        <StyledFieldset key={item.name + 'Fieldset'}>
             <legend>{item.name} {type=== 'slap'? 'bracelet' : ''}</legend>
             <p>{desc}</p>
             <FlexDiv>
                 {type === 'ribbon' ? (
                     item.colors[0].map((color) => {
-                        return <>
+                        return <div key={color+item.name}>
                             <input type='radio' name={radioGroup} id={color} value={color} required />
                             <label htmlFor={color} className="ribbonColors">
                                 <p>{color}</p>
                             </label>
-                        </>
+                        </div>
                     })
                 ) : (
                     item.colors.map((color) => {
-                        return <>
+                        return <div key={color.colorName+item.name}>
                             <input type='radio' name={radioGroup} id={color.colorName} value={color.colorName} required />
                             <label htmlFor={color.colorName}>
                                 <p>{color.colorName}</p>
@@ -126,7 +126,7 @@ const Fieldset = ({ item, type }) => {
                                     height={250}
                                     priority />
                             </label>
-                        </>
+                        </div>
                     })
                 )}
 
