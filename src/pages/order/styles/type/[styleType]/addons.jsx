@@ -24,15 +24,35 @@ export default function GetStyles({ addons, ribbon }) {
         console.log('submit')
         event.preventDefault()
 
-        const formData = new FormData(event.target),
-            convertedJSON = {};
 
-        formData.forEach(function (value, key) {
-            convertedJSON[key] = value;
-        });
+        if (typeof window !== undefined) {
+            const formData = new FormData(event.target),
+                convertedJSON = {};
 
-        console.log(convertedJSON)
-        // router.push(`/order/styles/type/${style[0].type}/addons`)
+            formData.forEach(function (value, key) {
+                if (value === '0' || value === '') {
+                    console.log('eemplty')
+                } else {
+                    convertedJSON[key] = value;
+                }
+            });
+            // console.log(convertedJSON)
+
+            const orderId = window.sessionStorage.getItem('currentOrderId')
+
+
+            let res = await fetch(`/api/orders/${orderId}/update`, {
+                method: 'POST',
+                body: JSON.stringify(convertedJSON),
+            })
+            res = await res.json()
+            // console.log(res.result.ok)
+            // console.log(res._id)
+
+            if (res.result.ok === 1) {
+                router.push(`/order`)
+            }
+        }
     }
 
     return (

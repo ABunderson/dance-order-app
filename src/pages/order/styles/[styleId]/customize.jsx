@@ -24,17 +24,31 @@ export default function Customize({ style, flower, supplies }) {
     async function onSubmit(event) {
         console.log('submit')
         event.preventDefault()
-        router.push(`/order/styles/type/${style[0].type}/addons`)
 
-        // const formData = new FormData(event.target),
-        //     convertedJSON = {};
+        if (typeof window !== undefined) {
+            const formData = new FormData(event.target),
+                convertedJSON = {};
 
-        // formData.forEach(function (value, key) {
-        //     convertedJSON[key] = value;
-        // });
+            formData.forEach(function (value, key) {
+                convertedJSON[key] = value;
+            });
+            console.log(convertedJSON)
+            const orderId = window.sessionStorage.getItem('currentOrderId')
 
-        // console.log(convertedJSON)
-        // router.push(`/order/styles/type/${style[0].type}/addons`)
+
+            let res = await fetch(`/api/orders/${orderId}/update`, {
+                method: 'POST',
+                body: JSON.stringify(convertedJSON),
+            })
+            res = await res.json()
+            console.log(res.result.ok)
+            // console.log(res._id)
+            // window.sessionStorage.setItem('currentOrderId', res._id)
+            if (res.result.ok === 1) {
+                router.push(`/order/styles/type/${style[0].type}/addons`)
+            }
+        }
+
     }
 
     return (
@@ -43,7 +57,7 @@ export default function Customize({ style, flower, supplies }) {
             <Breadcrumbs path={[{ 'loc': '/', 'string': 'info' }, { 'loc': '/', 'string': 'order' }, { 'loc': '/', 'string': 'styles' }]}></Breadcrumbs>
 
             <h1 style={{ textTransform: 'capitalize' }}>Customize {style[0].name} {style[0].type}</h1>
-            <CustomizeForm backAction={goBack} forwardAction={onSubmit} flower={flower} supplies={supplies}></CustomizeForm>
+            <CustomizeForm backAction={goBack} forwardAction={onSubmit} flower={flower} supplies={supplies} styleId={style[0]._id}></CustomizeForm>
 
 
         </Layout>

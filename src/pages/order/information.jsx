@@ -6,7 +6,6 @@ import { useRouter } from 'next/router'
 export default function Information() {
 
     const router = useRouter();
-    
 
     async function onSubmit(event) {
         event.preventDefault()
@@ -23,14 +22,7 @@ export default function Information() {
 
         let res = await fetch('/api/orders', {
             method: 'POST',
-            body: JSON.stringify({
-                firstName: convertedJSON.firstName,
-                lastName: convertedJSON.lastName,
-                phoneOne: parseInt(convertedJSON.phoneOne),
-                phoneTwo: parseInt(convertedJSON.phoneTwo),
-                danceDate: convertedJSON.danceDate,
-                dressColor: convertedJSON.dressColor,
-            }),
+            body: JSON.stringify(convertedJSON),
         })
         res = await res.json()
         // console.log(res)
