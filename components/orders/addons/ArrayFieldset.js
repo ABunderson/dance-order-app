@@ -22,7 +22,7 @@ const ArrayFieldset = ({ item, keyValue }) => {
 
     let name = item.name
     name = name.split(" ").join('')
-    const radioGroup = name + 'Color'
+    const radioGroup = 'extra' + name + 'Color'
     let price = item.price
     let sign = '$'
 

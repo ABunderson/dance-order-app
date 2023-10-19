@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@react-pdf/renderer": "^3.1.13",
     "crypto-hash": "^2.0.1",
     "mongodb": "^3.7.4",
     "next": "latest",

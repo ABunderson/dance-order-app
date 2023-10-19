@@ -1,41 +1,96 @@
+import { Fragment } from "react"
 
+const AddonRows = ({ style, order }) => {
+    // console.log(style)
 
-const AddonRows = ({style, order}) => {
+    let newOrder = { ...order }
+
+    const handleObject = (newOrder) => {
+        delete newOrder._id
+        delete newOrder.firstName
+        delete newOrder.lastName
+        delete newOrder.phoneOne
+        delete newOrder.phoneTwo
+        delete newOrder.danceDate
+        delete newOrder.school
+        delete newOrder.dressColor
+        delete newOrder.flowerColor
+        delete newOrder.slapColor
+        delete newOrder.metalBackColor
+        delete newOrder.ribbonColor
+        delete newOrder.styleId
+    }
+
+    handleObject(newOrder)
+    // console.log(newOrder)
+    const orderArray = Object.entries(newOrder)
 
     return (
         <>
-            {order.flowerColor ?
-                <>
-                    <tr>
-                        <td>Flower:</td>
-                        <td>{style.flower}</td>
-                    </tr>
-                    <tr>
-                        <td>Flower Color:</td>
-                        <td>{order.flowerColor}</td>
-                    </tr>
-                </> : <></>}
-                {style.metalBack ?
-                <>
-                    <tr>
-                        <td>Metal Back Color:</td>
-                        <td>{order.metalBackColor}</td>
-                    </tr>
-                </> : <></>}
-                {style.wristlet === 'slap' && order.slapColor ?
-                <>
-                    <tr>
-                        <td>Slap Bracelet Color:</td>
-                        <td>{order.slapColor}</td>
-                    </tr>
-                </> : <></>}
-                {style.ribbon ?
-                <>
-                    <tr>
-                        <td>Ribbon Color:</td>
-                        <td>{order.ribbonColor}</td>
-                    </tr>
-                </> : <></>}
+            {orderArray.map((item) => {
+                // console.log(item[0])
+                if (item[0] === 'extrametalleafColor') {
+                    // console.log('has metal leaf')
+                    return <Fragment key={item[0] + 'addonRows'}>
+                        <tr className="addonHead">
+                            <td >Metal Leaf Color:</td>
+                            <td>{item[1]}</td>
+                        </tr>
+                        <tr>
+                            <td>Amount:</td>
+                            <td>{order.metalleafquantity}</td>
+                        </tr>
+                        <tr>
+                            <td>Price:</td>
+                            <td>ADD THIS IN</td>
+                        </tr>
+                    </Fragment>
+                }
+                if (item[0] === 'extrajewelstemColor') {
+                    // console.log('has metal leaf')
+                    return <Fragment key={item[0] + 'addonRows'}>
+                        <tr className="addonHead">
+                            <td >Jewel Stem Color:</td>
+                            <td>{item[1]}</td>
+                        </tr>
+                        <tr>
+                            <td>Amount:</td>
+                            <td>{order.jewelstemquantity}</td>
+                        </tr>
+                        <tr>
+                            <td>Price:</td>
+                            <td>ADD THIS IN</td>
+                        </tr>
+                    </Fragment>
+                }
+                if (item[0] === 'extraRibbonColor') {
+                    // console.log('has extra ribbon')
+                    return <Fragment key={item[0] + 'addonRows'}>
+                        <tr className="addonHead">
+                            <td>Extra Ribbon Color:</td>
+                            <td>{item[1]}</td>
+                        </tr>
+                        <tr>
+                            <td>Price:</td>
+                            <td>{style.type === 'corsage'? '$5' : '$1'}</td>
+                        </tr>
+                    </Fragment>
+                }
+                if (item[0] === 'bleachedaccents') {
+                    // console.log('has extra ribbon')
+                    return <Fragment key={item[0] + 'addonRows'}>
+                        <tr className="addonHead">
+                            <td>{item[1]}</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>Price:</td>
+                            <td>ADD THIS IN</td>
+                        </tr>
+                    </Fragment>
+                }
+
+            })}
         </>
     )
 }

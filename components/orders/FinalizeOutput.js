@@ -5,14 +5,11 @@ import AddonRows from "./AddonRows"
 const OutputDiv = styled.div`
     // display: flex;
     // gap: 15px;
-    border: 4px solid var(--main-green);
     width: 100%;
-    padding: 1rem;
-    border-radius: 15px;
+    
     table {
         width: 100%;
-        max-width: 400px;
-        border: 1px solid black;
+        border: 4px solid var(--main-green);
     }
     table, th, td {
         border-collapse: collapse;
@@ -34,6 +31,10 @@ const OutputDiv = styled.div`
         width: 50%;
     }
 
+    .addonHead {
+        background-color: lightgray;
+    }
+
     @media (max-width: 650px) {
         flex-wrap: wrap;
 
@@ -45,21 +46,18 @@ const OutputDiv = styled.div`
 
 
 const FinalizeOutput = ({ order, style }) => {
-    console.log(order)
-    console.log(style)
-
-
-
+    // console.log(order)
+    // console.log(style)
 
     return (
-        <OutputDiv>
+        <OutputDiv id='printArea'>
             <table>
                 <tbody>
                     <tr>
                         <th colSpan={2}>Personal Information</th>
                     </tr>
                     <tr>
-                        <td style={{ width: '45%' }}>First Name:</td>
+                        <td>First Name:</td>
                         <td>{order.firstName}</td>
                     </tr>
                     <tr>
@@ -89,8 +87,14 @@ const FinalizeOutput = ({ order, style }) => {
                         <td>Ordered:</td>
                         <td>{style.name} {style.type}</td>
                     </tr>
-                    <StyleRows order={order} style={style}></StyleRows>
-                    <AddonRows order={order} style={style}></AddonRows>
+                    <StyleRows order={order} style={style} key={'styleRows'}></StyleRows>
+                    <tr>
+                        <th colSpan={2}>Finishing Touches</th>
+                    </tr>
+                    <AddonRows order={order} style={style} key={'addonRows'}></AddonRows>
+                    <tr>
+                        <th colSpan={2}>Total Cost: FIND IT!!!</th>
+                    </tr>
                 </tbody>
             </table>
         </OutputDiv>

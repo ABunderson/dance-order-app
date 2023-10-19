@@ -66,8 +66,8 @@ const RibbonFieldset = ({ item, ribbon, keyValue }) => {
                         )
                 })}
             </FlexDiv>
-            <label htmlFor='ribbonColor' className="ribbonLabel">Ribbon Color: </label>
-            <input name='ribbonColor' type="text"/>
+            <label htmlFor='extraRibbonColor' className="ribbonLabel">Ribbon Color: </label>
+            <input name='extraRibbonColor' type="text"/>
          </StyledFieldset >
      )
 }
