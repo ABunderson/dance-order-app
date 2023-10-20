@@ -19,6 +19,6 @@
       "mongoDb/*": ["./lib/mongodb/*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "components/Alert.jsx"],
   "exclude": ["node_modules"]
 }

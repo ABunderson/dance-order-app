@@ -41,11 +41,14 @@ const SingleFieldset = ({ item, keyValue }) => {
             <legend>{item.name} {item.name === 'slap' || item.name === 'pearl' ? 'bracelet' : ''}</legend>
             <p>{item.description}</p>
             <p>{sign === '$' ? `${sign}${price}`: `${price}${sign} `}{item.limit ? '':' each'}</p>
+
             <FlexDiv key={keyValue + 'div'}>
+
                 <div key={item.name}>
                     <input type='checkbox' name={name} id={name} value={item.name}/>
                     <label htmlFor={name}>
                         <p>{item.name}</p>
+
                         <Image
                             src={item.mainImage}
                             alt={`${item.name}`}
@@ -53,12 +56,11 @@ const SingleFieldset = ({ item, keyValue }) => {
                             width={250}
                             height={250}
                             priority />
+
                     </label>
                 </div>
-
-
-
             </FlexDiv>
+            
          </StyledFieldset >
     )
 }

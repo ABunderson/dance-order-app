@@ -62,7 +62,7 @@ const ArrayFieldset = ({ item, keyValue }) => {
             {!item.limit ? (
                 <div key={keyValue + 'LimitDiv'}>
                     <label htmlFor={name + 'quantity'} className="ribbonLabel">Amount: </label>
-                    <input name={name + 'quantity'} type="number" defaultValue='0' />
+                    <input name={name + 'quantity'} type="number" defaultValue='0' min="0"/>
                 </div>
             ) : (
                 <></>

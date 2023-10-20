@@ -15,7 +15,7 @@ const LoginForm = ({ action }) => {
             <input type='text' name='userName' id='userName' onChange={e => setUserName(e.target.value)} value={userName} required />
             
             <label htmlFor='password'>Password: </label>
-            <input type='password' name='password' id='password' defaultValue={''} />
+            <input type='password' name='password' id='password' defaultValue={''} required/>
             
             <Button text='Login' type='submit'></Button>
         </StyledColumnForm>
