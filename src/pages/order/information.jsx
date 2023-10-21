@@ -1,5 +1,4 @@
 import Layout from 'components/Layout'
-import Breadcrumbs from 'components/Breadcrumbs'
 import InformationForm from 'components/orders/InformationForm'
 import { useRouter } from 'next/router'
 import { alertService } from '../../../services/alert.service'
@@ -8,6 +7,10 @@ import {Alert} from 'components/Alert'
 export default function Information() {
 
     const router = useRouter();
+
+    const path = window.location.pathname
+    const pathObj = [{order: 1, locName: 'Info', path: path}]
+    const pathString = JSON.stringify(pathObj)
 
     async function onSubmit(event) {
         event.preventDefault()
@@ -20,9 +23,9 @@ export default function Information() {
         formData.forEach(function (value, key) {
             convertedJSON[key] = value;
         });
-        console.log(convertedJSON)
+        // console.log(convertedJSON)
         convertedJSON.orderDate = new Date()
-        console.log(convertedJSON)
+        // console.log(convertedJSON)
 
         let date = new Date(convertedJSON.danceDate)
 
@@ -38,28 +41,33 @@ export default function Information() {
         }
         // console.log('past logic')
 
-        let res = await fetch('/api/orders', {
-            method: 'POST',
-            body: JSON.stringify(convertedJSON),
-        })
-        res = await res.json()
-        console.log(res)
-        console.log(res._id)
-        window.sessionStorage.setItem('currentOrderId', res._id)
+        // let res = await fetch('/api/orders', {
+        //     method: 'POST',
+        //     body: JSON.stringify(convertedJSON),
+        // })
+        // res = await res.json()
+        // console.log(res)
+        // console.log(res._id)
+        // window.sessionStorage.setItem('currentOrderId', res._id)
 
 
-        router.push('/order/styles/type')
+        router.push({
+            query: {
+                paths: pathString
+            },  
+            pathname: '/order/styles/type',
+        }, '/order/styles/type')
     }
-
-
 
     return (
         <Layout pageTitle='Personal Information'>
+
             <Alert />
-            <Breadcrumbs path={[{ 'loc': '/', 'string': 'info' }, { 'loc': '/', 'string': 'order' }, { 'loc': '/', 'string': 'styles' }]}></Breadcrumbs>
+            {/* <Breadcrumbs path={pathObj}></Breadcrumbs> */}
             <h1>Personal Information</h1>
 
             <InformationForm action={onSubmit}></InformationForm>
+            
 
         </Layout>
     )

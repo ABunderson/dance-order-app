@@ -10,6 +10,30 @@ export default function Finalize() {
     const [style, setStyle] = useState('')
     const router = useRouter()
 
+    const [breadcrumbs, setBreadcrumbs] = useState([])
+
+    const {
+        query: { paths }
+    } = router
+
+    const crumbs = { paths }
+
+    let pathString = 'empty'
+    let pathObj
+    console.log('on page')
+    console.log(crumbs)
+
+    if (crumbs && crumbs.paths !== 'empty' && typeof crumbs.paths !== 'undefined') {
+        pathObj = JSON.parse(crumbs.paths)
+
+        const path = window.location.pathname
+        pathObj.push({ order: 7, locName: 'Finalize', path: path })
+        // console.log('below is pathObj')
+        console.log(pathObj)
+
+        pathString = JSON.stringify(pathObj)
+    }
+
     useEffect(() => {
         async function getOrder() {
             const orderId = window.sessionStorage.getItem('currentOrderId')
@@ -32,7 +56,19 @@ export default function Finalize() {
         if (!order) {
             getOrder()
         }
-    }, [])
+        if(!router.isReady) {return}
+        else {
+        const {
+            query: { paths }
+        } = router
+    
+        const crumbs = { paths }
+        console.log(crumbs)
+        let pathObj = JSON.parse(crumbs.paths)
+
+        setBreadcrumbs(pathObj)
+        }
+    }, [router])
 
     function formatOrder(order) {
         order.phoneOne = `(${order.phoneOne.slice(0, 3)}) ${order.phoneOne.slice(3, 6)}-${order.phoneOne.slice(6, 10)}`
@@ -78,7 +114,7 @@ export default function Finalize() {
     }
 
     return (
-        <Fragment id='wholePage'>
+        <Fragment>
             <style jsx>
                 {`
                     @media print {
@@ -91,7 +127,7 @@ export default function Finalize() {
             </style>
             <Layout pageTitle='Finalize'>
 
-                <Breadcrumbs path={[{ 'loc': '/', 'string': 'info' }, { 'loc': '/', 'string': 'order' }, { 'loc': '/', 'string': 'styles' }]}></Breadcrumbs>
+            <Breadcrumbs path={breadcrumbs}></Breadcrumbs>
                 <h1>Finalize</h1>
                 <h2>You are not done yet! Please follow the steps below.</h2>
                 <p><b>First:</b> Check the information below to make sure it is correct. Fix anything that is wrong by going back to that page</p>

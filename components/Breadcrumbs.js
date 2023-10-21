@@ -1,12 +1,58 @@
+import styled from 'styled-components'
+import { useRouter } from 'next/router';
+import { useEffect, useState } from 'react';
 
+const StyledDiv = styled.div`
+text-transform: capitalize;
+cursor: pointer;
+`
 
-const Breadcrumbs = ({ path }) =>{
+const Breadcrumbs = ({ path }) => {
+    const router = useRouter()
+
+    // get rid of accidental duplicates caused by navigating with the path
+    path.map((item, index) => {
+
+        if (item.order === index) {
+
+            path = path.splice(index, 1)
+        }
+    })
+
+    const createCrumb = (item) => {
+        const path = item.path
+        const pathString = getPaths(item.order)
+        return <span key={item.locName} onClick={() => { navigate(pathString, path) }}>{`${item.locName} > `}</span>
+    }
+
+    const navigate = (pathString, path) => {
+        router.push({
+            query: {
+                paths: pathString
+            },
+            pathname: path,
+        }, path)
+    }
+
+    const getPaths = (number) => {
+        let output = JSON.parse(JSON.stringify(path))
+        for (let i = output.length; i >= number; i--) {
+            output.pop()
+        }
+        output = JSON.stringify(output)
+        return output
+    }
 
     return (
-        // <p>empty</p>
-        <p>{path.map((location, index) => (
-            <a href={location.loc} key={index}>{index+1 === path.length ?`${location.string}`: `${location.string} > `}</a>
-        ))}</p>
+        <>
+            <StyledDiv>
+                {
+                    path.map((item, index) => {
+                        return createCrumb(item, index)
+                    })
+                }
+            </StyledDiv>
+        </>
     )
 }
 

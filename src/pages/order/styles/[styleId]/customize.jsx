@@ -5,6 +5,7 @@ import { useRouter } from 'next/router'
 import { getFlowerByName } from 'mongoDb/flowers'
 import { getSupplyByNameArray } from 'mongoDb/supplies'
 import CustomizeForm from 'components/orders/customize/CustomizeForm'
+import { useState, useEffect } from 'react'
 
 
 
@@ -14,6 +15,46 @@ export default function Customize({ style, flower, supplies }) {
 
     if (router.isFallback) {
         return <h1>Loading. . .</h1>
+    }
+    const [breadcrumbs, setBreadcrumbs] = useState([])
+
+    useEffect(() => {
+
+        if(!router.isReady) {return}
+        else {
+        const {
+            query: { paths }
+        } = router
+    
+        const crumbs = { paths }
+        console.log(crumbs)
+        let pathObj = JSON.parse(crumbs.paths)
+
+        setBreadcrumbs(pathObj)
+        }
+
+    }, [router])
+
+    const {
+        query: { paths }
+    } = router
+
+    const crumbs = { paths }
+
+    let pathString = 'empty'
+    let pathObj
+    console.log('on page')
+    console.log(crumbs)
+
+    if (crumbs && crumbs.paths !== 'empty' && typeof crumbs.paths !== 'undefined') {
+        pathObj = JSON.parse(crumbs.paths)
+
+        const path = window.location.pathname
+        pathObj.push({ order: 5, locName: 'Customize', path: path })
+        // console.log('below is pathObj')
+        console.log(pathObj)
+
+        pathString = JSON.stringify(pathObj)
     }
 
     const goBack = () => {
@@ -45,7 +86,12 @@ export default function Customize({ style, flower, supplies }) {
             // console.log(res._id)
             // window.sessionStorage.setItem('currentOrderId', res._id)
             if (res.result.ok === 1) {
-                router.push(`/order/styles/type/${style[0].type}/addons`)
+                router.push({
+                    query: {
+                        paths: pathString
+                    },
+                    pathname: `/order/styles/type/${style[0].type}/addons`,
+                }, `/order/styles/type/${style[0].type}/addons`)
             }
         }
 
@@ -54,7 +100,7 @@ export default function Customize({ style, flower, supplies }) {
     return (
         <Layout pageTitle={`Customize ${style[0].name} ${style[0].type}`}>
 
-            <Breadcrumbs path={[{ 'loc': '/', 'string': 'info' }, { 'loc': '/', 'string': 'order' }, { 'loc': '/', 'string': 'styles' }]}></Breadcrumbs>
+<Breadcrumbs path={breadcrumbs}></Breadcrumbs>
 
             <h1 style={{ textTransform: 'capitalize' }}>Customize {style[0].name} {style[0].type}</h1>
             <CustomizeForm backAction={goBack} forwardAction={onSubmit} flower={flower} supplies={supplies} styleId={style[0]._id}></CustomizeForm>

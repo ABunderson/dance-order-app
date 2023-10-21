@@ -8,10 +8,10 @@ const InformationForm = ({ action }) => {
     return (
         <StyledColumnForm onSubmit={action}>
             <label htmlFor='firstName'>First Name: </label>
-            <input type='text' name='firstName' id='firstName' placeholder="John" required />
+            <input type='text' name='firstName' id='firstName' placeholder="John" required defaultValue={'john'}/>
 
             <label htmlFor='lastName'>Last Name: </label>
-            <input type='text' name='lastName' id='lastName' placeholder="Smith" required />
+            <input type='text' name='lastName' id='lastName' placeholder="Smith" required defaultValue={'smith'}/>
 
             <label htmlFor='phoneOne'>Phone 1: </label>
             <input type='text'
@@ -20,21 +20,22 @@ const InformationForm = ({ action }) => {
                 placeholder="8017638721"
                 pattern="[0-9]{10}"
                 title="Please put in 10 numbers with no other characters"
-                required />
+                required 
+                defaultValue={8886669512}/>
 
 
             <label htmlFor='phoneTwo'>Phone 2: </label>
-            <input type='text' name='phoneTwo' id='phoneTwo' placeholder="8017638721" pattern="[0-9]{10}" title="Please put in 10 numbers with no other characters" required />
+            <input type='text' name='phoneTwo' id='phoneTwo' placeholder="8017638721" pattern="[0-9]{10}" title="Please put in 10 numbers with no other characters" required defaultValue={2226669514}/>
 
             <label htmlFor='danceDate'>Dance Date: </label>
             <input type='date' name='danceDate' id='danceDate' required/>
             <span style={{fontSize: '1rem'}}>Please pick the Saturday of the week your dance is on and talk to a designer at the end if the dance is on a different day.</span>
 
             <label htmlFor='school'>School: </label>
-            <input type='text' name='school' id='school' placeholder="LP" required/>
+            <input type='text' name='school' id='school' placeholder="LP" required defaultValue={'lo'}/>
 
             <label htmlFor='dressColor'>Dress Color: </label>
-            <input type='text' name='dressColor' id='dressColor' placeholder="Black with multicolor flowers" required />
+            <input type='text' name='dressColor' id='dressColor' placeholder="Black with multicolor flowers" required defaultValue={'ff'}/>
 
             <Button type='submit' text='Continue'></Button>
         </StyledColumnForm>
