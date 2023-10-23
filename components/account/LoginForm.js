@@ -1,7 +1,6 @@
 import styled from 'styled-components'
 import { useState } from 'react'
 import { hashPassword} from 'components/account/Hashing'
-import Login from 'components/account/Login'
 import Button from 'components/Button'
 import { StyledColumnForm } from 'components/styles/FormStyles'
 

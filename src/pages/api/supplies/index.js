@@ -3,7 +3,7 @@ import { getSupplies } from "mongoDb/supplies"
 const handler = async (req, res) => {
     if (req.method === 'GET') {
         try {
-            const { supplies, error } = await getSupplies()
+            const { supplies, error } = await getSupplies(0)
             if (error) throw new Error(error)
             return res.status(200).json({ supplies })
         } catch (error){

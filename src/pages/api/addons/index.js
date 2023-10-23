@@ -3,7 +3,7 @@ import { getAddons } from "mongoDb/addons"
 const handler = async (req, res) => {
     if (req.method === 'GET') {
         try {
-            const { addons, error } = await getAddons()
+            const { addons, error } = await getAddons(0)
             if (error) throw new Error(error)
             return res.status(200).json({ addons })
         } catch (error){

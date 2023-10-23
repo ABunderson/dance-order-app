@@ -8,15 +8,8 @@ import { getSupplyByName } from 'mongoDb/supplies'
 import { useState, useEffect } from 'react'
 
 export default function GetStyles({ addons, ribbon }) {
-    console.log(addons)
-
+    const [breadcrumbs, setBreadcrumbs] = useState([]) 
     const router = useRouter()
-    // // const styleId = router.query.productId
-    if (router.isFallback) {
-        return <h1>Loading:</h1>
-    }
-
-    const [breadcrumbs, setBreadcrumbs] = useState([])
 
     useEffect(() => {
 
@@ -27,7 +20,7 @@ export default function GetStyles({ addons, ribbon }) {
         } = router
     
         const crumbs = { paths }
-        console.log(crumbs)
+        // console.log(crumbs)
         let pathObj = JSON.parse(crumbs.paths)
 
         setBreadcrumbs(pathObj)
@@ -35,27 +28,10 @@ export default function GetStyles({ addons, ribbon }) {
 
     }, [router])
 
-    const {
-        query: { paths }
-    } = router
-
-    const crumbs = { paths }
-
-    let pathString = 'empty'
-    let pathObj
-    console.log('on page')
-    console.log(crumbs)
-
-    if (crumbs && crumbs.paths !== 'empty' && typeof crumbs.paths !== 'undefined') {
-        pathObj = JSON.parse(crumbs.paths)
-
-        const path = window.location.pathname
-        pathObj.push({ order: 6, locName: 'Finishing Touches', path: path })
-        // console.log('below is pathObj')
-        console.log(pathObj)
-
-        pathString = JSON.stringify(pathObj)
+    if (router.isFallback) {
+        return <h1>Loading:</h1>
     }
+
 
     const goBack = () => {
         // console.log('want to go back')
@@ -63,7 +39,7 @@ export default function GetStyles({ addons, ribbon }) {
     }
 
     async function onSubmit(event) {
-        console.log('submit')
+        // console.log('submit')
         event.preventDefault()
 
 
@@ -73,7 +49,7 @@ export default function GetStyles({ addons, ribbon }) {
 
             formData.forEach(function (value, key) {
                 if (value === '0' || value === '') {
-                    console.log('eemplty')
+                    // console.log('eemplty')
                 } else {
                     convertedJSON[key] = value;
                 }
@@ -90,6 +66,24 @@ export default function GetStyles({ addons, ribbon }) {
             res = await res.json()
             // console.log(res.result.ok)
             // console.log(res._id)
+
+            const {
+                query: { paths }
+            } = router
+        
+            const crumbs = { paths }
+        
+            let pathString = 'empty'
+            let pathObj
+        
+            if (crumbs && crumbs.paths !== 'empty' && typeof crumbs.paths !== 'undefined') {
+                pathObj = JSON.parse(crumbs.paths)
+        
+                const path = window.location.pathname
+                pathObj.push({ order: 6, locName: 'Finishing Touches', path: path })
+        
+                pathString = JSON.stringify(pathObj)
+            }
 
             if (res.result.ok === 1) {
                 router.push({

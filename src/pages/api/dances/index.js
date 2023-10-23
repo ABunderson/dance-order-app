@@ -1,11 +1,11 @@
-import { getFlowers } from "mongoDb/flowers"
+import { getDances } from "mongoDb/dances"
 
 const handler = async (req, res) => {
     if (req.method === 'GET') {
         try {
-            const { flowers, error } = await getFlowers(0)
+            const { dances, error } = await getDances(0)
             if (error) throw new Error(error)
-            return res.status(200).json({ flowers })
+            return res.status(200).json({ dances })
         } catch (error){
             return res.status(500).json({ error: error.message })
         }

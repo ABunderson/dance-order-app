@@ -3,7 +3,7 @@ import { getStyles } from "mongoDb/styles"
 const handler = async (req, res) => {
     if (req.method === 'GET') {
         try {
-            const { styles, error } = await getStyles()
+            const { styles, error } = await getStyles(0)
             if (error) throw new Error(error)
             return res.status(200).json({ styles })
         } catch (error){

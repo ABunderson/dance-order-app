@@ -8,11 +8,12 @@ export default function Information() {
 
     const router = useRouter();
 
-    const path = window.location.pathname
-    const pathObj = [{order: 1, locName: 'Info', path: path}]
-    const pathString = JSON.stringify(pathObj)
-
     async function onSubmit(event) {
+
+        const path = window.location.pathname
+        const pathObj = [{order: 1, locName: 'Info', path: path}]
+        const pathString = JSON.stringify(pathObj)
+
         event.preventDefault()
         // const ISODate = require('mongodb').ISODate
         console.log('submit')  

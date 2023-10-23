@@ -68,7 +68,7 @@ export default function Finalize() {
 
         setBreadcrumbs(pathObj)
         }
-    }, [router])
+    }, [order, router])
 
     function formatOrder(order) {
         order.phoneOne = `(${order.phoneOne.slice(0, 3)}) ${order.phoneOne.slice(3, 6)}-${order.phoneOne.slice(6, 10)}`
@@ -132,7 +132,7 @@ export default function Finalize() {
                 <h2>You are not done yet! Please follow the steps below.</h2>
                 <p><b>First:</b> Check the information below to make sure it is correct. Fix anything that is wrong by going back to that page</p>
                 <p><b>Second:</b> Choose your pickup day at the bottom of the page.</p>
-                <p><b>Last:</b> Talk to an employee to pay and have the order confirmed. <b>If the order isn't confirmed it will not be made!</b></p>
+                <p><b>Last:</b> Talk to an employee to pay and have the order confirmed. <b>{`If the order isn't confirmed it will not be made!`}</b></p>
 
                 <FinalizeOutput order={order} style={style}></FinalizeOutput>
 

@@ -1,6 +1,7 @@
+'use client'
+
 import styled from 'styled-components'
 import { useRouter } from 'next/router';
-import { useEffect, useState } from 'react';
 
 const StyledDiv = styled.div`
 text-transform: capitalize;
@@ -42,14 +43,18 @@ const Breadcrumbs = ({ path }) => {
         output = JSON.stringify(output)
         return output
     }
-
+    console.log('in breadcrumb')
+    console.log(typeof path)
+    if (typeof path === 'object') console.log('is object')
     return (
         <>
             <StyledDiv>
-                {
+                { typeof path === 'object' ? 
+
                     path.map((item, index) => {
                         return createCrumb(item, index)
                     })
+                    : <></>
                 }
             </StyledDiv>
         </>

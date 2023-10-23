@@ -37,7 +37,9 @@ p {
     // padding: 0;
     border: none;
 }
+
 label {
+    
     display: block;
     border: 1px solid black;
     border-radius: 15px;

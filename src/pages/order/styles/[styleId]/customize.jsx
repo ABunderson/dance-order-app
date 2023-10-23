@@ -10,17 +10,12 @@ import { useState, useEffect } from 'react'
 
 
 export default function Customize({ style, flower, supplies }) {
-
-    const router = useRouter()
-
-    if (router.isFallback) {
-        return <h1>Loading. . .</h1>
-    }
     const [breadcrumbs, setBreadcrumbs] = useState([])
+     const router = useRouter()
 
     useEffect(() => {
 
-        if(!router.isReady) {return}
+        if(!router.isReady) return
         else {
         const {
             query: { paths }
@@ -35,35 +30,19 @@ export default function Customize({ style, flower, supplies }) {
 
     }, [router])
 
-    const {
-        query: { paths }
-    } = router
+   
 
-    const crumbs = { paths }
-
-    let pathString = 'empty'
-    let pathObj
-    console.log('on page')
-    console.log(crumbs)
-
-    if (crumbs && crumbs.paths !== 'empty' && typeof crumbs.paths !== 'undefined') {
-        pathObj = JSON.parse(crumbs.paths)
-
-        const path = window.location.pathname
-        pathObj.push({ order: 5, locName: 'Customize', path: path })
-        // console.log('below is pathObj')
-        console.log(pathObj)
-
-        pathString = JSON.stringify(pathObj)
+    if (router.isFallback) {
+        return <h1>Loading. . .</h1>
     }
-
+    
     const goBack = () => {
         // console.log('want to go back')
         router.back()
     }
 
     async function onSubmit(event) {
-        console.log('submit')
+        // console.log('submit')
         event.preventDefault()
 
         if (typeof window !== undefined) {
@@ -73,7 +52,7 @@ export default function Customize({ style, flower, supplies }) {
             formData.forEach(function (value, key) {
                 convertedJSON[key] = value;
             });
-            console.log(convertedJSON)
+            // console.log(convertedJSON)
             const orderId = window.sessionStorage.getItem('currentOrderId')
 
 
@@ -82,10 +61,33 @@ export default function Customize({ style, flower, supplies }) {
                 body: JSON.stringify(convertedJSON),
             })
             res = await res.json()
-            console.log(res.result.ok)
+            // console.log(res.result.ok)
             // console.log(res._id)
             // window.sessionStorage.setItem('currentOrderId', res._id)
             if (res.result.ok === 1) {
+
+                const {
+                    query: { paths }
+                } = router
+            
+                const crumbs = { paths }
+            
+                let pathString = 'empty'
+                let pathObj
+                // console.log('on page')
+                // console.log(crumbs)
+            
+                if (crumbs && crumbs.paths !== 'empty' && typeof crumbs.paths !== 'undefined') {
+                    pathObj = JSON.parse(crumbs.paths)
+            
+                    const path = window.location.pathname
+                    pathObj.push({ order: 5, locName: 'Customize', path: path })
+                    // console.log('below is pathObj')
+                    // console.log(pathObj)
+            
+                    pathString = JSON.stringify(pathObj)
+                }
+                
                 router.push({
                     query: {
                         paths: pathString
@@ -100,7 +102,7 @@ export default function Customize({ style, flower, supplies }) {
     return (
         <Layout pageTitle={`Customize ${style[0].name} ${style[0].type}`}>
 
-<Breadcrumbs path={breadcrumbs}></Breadcrumbs>
+{/* <Breadcrumbs path={breadcrumbs}></Breadcrumbs> */}
 
             <h1 style={{ textTransform: 'capitalize' }}>Customize {style[0].name} {style[0].type}</h1>
             <CustomizeForm backAction={goBack} forwardAction={onSubmit} flower={flower} supplies={supplies} styleId={style[0]._id}></CustomizeForm>
@@ -113,7 +115,7 @@ export default function Customize({ style, flower, supplies }) {
 
 export async function getStaticPaths() {
     try {
-        const { styles, error } = await getStyles()
+        const { styles, error } = await getStyles(0)
         // console.log(styles)
         if (error) throw new Error(error)
         let paths = []
