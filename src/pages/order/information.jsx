@@ -42,14 +42,14 @@ export default function Information() {
         }
         // console.log('past logic')
 
-        // let res = await fetch('/api/orders', {
-        //     method: 'POST',
-        //     body: JSON.stringify(convertedJSON),
-        // })
-        // res = await res.json()
+        let res = await fetch('/api/orders', {
+            method: 'POST',
+            body: JSON.stringify(convertedJSON),
+        })
+        res = await res.json()
         // console.log(res)
         // console.log(res._id)
-        // window.sessionStorage.setItem('currentOrderId', res._id)
+        window.sessionStorage.setItem('currentOrderId', res._id)
 
 
         router.push({
