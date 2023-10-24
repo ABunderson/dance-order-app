@@ -3,8 +3,8 @@ import Button from 'components/Button'
 import StyleFieldset from 'components/account/dances/StyleFieldset'
 import styled from "styled-components"
 import FlowerFieldset from "./FlowerFieldset"
-
-// return <ArrayFieldset item={item} key={keyName} keyValue={keyName}></ArrayFieldset>
+import { useRouter } from "next/router"
+import { FlexButton } from 'components/styles/ButtonStyles'
 
 const FormDiv = styled.div`
     display: flex;
@@ -28,33 +28,40 @@ const FormDiv = styled.div`
     } 
 `
 
-const DanceForm = ({ action, styles, flowers }) => {
+const DanceForm = ({ action, styles, flowers, dance }) => {
+    const router = useRouter()
+    // console.log(dance)
+
+    // dance ? console.log('is a dance') : console.log('is a create')
+
+    dance = dance[0]
 
 
     return (
         <StyledForm onSubmit={action}>
             <FormDiv>
                 <label htmlFor='name'>Name: </label>
-                <input type='text' name='name' id='name' placeholder="LP, Maser" required />
+                <input type='text' name='name' id='name' placeholder="LP, Maser" required defaultValue={dance ? dance.name : ''}/>
                 <span style={{ fontSize: '1rem' }}>You can put anything for the dance name. Date or schools seem useful</span>
 
                 <label htmlFor='danceDate'>Dance Date: </label>
-                <input type='date' name='danceDate' id='danceDate' required />
+                <input type='date' name='danceDate' id='danceDate' required defaultValue={dance ? dance.danceDate : ''}/>
                 <span style={{ fontSize: '1rem' }}>Please pick the Saturday of the week of the dance.</span>
 
                 <label htmlFor='schools'>Schools: </label>
-                <input type='text' name='schools' id='schools' placeholder="LP" />
+                <input type='text' name='schools' id='schools' placeholder="LP" defaultValue={dance ? dance.schools : ''}/>
                 <span style={{ fontSize: '1rem' }}>Put a list of schools seperated by commas.</span>
             </FormDiv>
-            <StyleFieldset styles={styles} key={`styles`}></StyleFieldset>
+            <StyleFieldset styles={styles} key={`styles`} dance={dance}></StyleFieldset>
 
             {flowers.map((flower) => {
-                return <FlowerFieldset flower={flower} key={flower.name}></FlowerFieldset>
+                return <FlowerFieldset flower={flower} key={flower.name} dance={dance}></FlowerFieldset>
             })}
 
 
-
-            <Button type='submit' text='Create'></Button>
+            <FlexButton>
+                <Button type='submit' text={dance ? 'Update' : 'Create'}></Button><Button text='Back' type='button' action={() => { router.back() }}></Button>
+            </FlexButton>
         </StyledForm>
     )
 }

@@ -37,19 +37,31 @@ const Fieldset = styled(StyledFieldset)`
     }
 `
 
-const FlowerFieldset = ({ flower }) => {
-    // console.log(flower)
-    // console.log(flower.name.split(' ').join(''))
+const FlowerFieldset = ({ flower, dance }) => {
+
+    const getDefualtColor = (color) => {
+        if (dance){
+            let colorArray = []
+            colorArray = dance.flowers.find(item => item.flowerName === flower.name)
+            return colorArray.colors.includes(color.colorName)
+
+        } else {
+            console.log(color)
+            return color.defaultColor
+        }
+
+    }
 
     return (
         <Fieldset key={flower.name + 'Fieldset'}>
             <legend>{flower.name}</legend>
-            <p>Pick the colors you want to be able to sell for the dance. Green boxes mean they are selected.</p>
+            <p>Pick the colors you want to be able to sell for the dance. {dance ? 'Prior selections for this dance start green' : 'Green boxes mean they are selected.'}</p>
             <FlexDiv>
                 {
                     flower.colors.map((color) => {
+                       
                         return <div key={color.colorName+flower.name}>
-                            <input type='checkbox' name={flower.name.split(' ').join('')} id={flower.name+color.colorName} value={color.colorName} defaultChecked={color.defaultColor} className={flower.name.split(' ').join('')}/>
+                            <input type='checkbox' name={flower.name.split(' ').join('')} id={flower.name+color.colorName} value={color.colorName} defaultChecked={getDefualtColor(color)} className={flower.name.split(' ').join('')}/>
                             <label htmlFor={flower.name+color.colorName}>
                                 <p>{color.colorName}</p>
                                 <Image

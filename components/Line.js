@@ -6,6 +6,12 @@ const StyledLine = styled.hr`
     background-color: var(--main-green);
     border: none;
 `
+const StyledSmallLine = styled.hr`
+    width: 100%;
+    height: 1px;
+    background-color: var(--main-green);
+    border: none;
+`
 
 const Line = () => {
     return (
@@ -15,6 +21,16 @@ const Line = () => {
     )
 }
 
+const SmallLine = () => {
+    return (
+        <StyledSmallLine>
+
+        </StyledSmallLine>
+    )
+}
+
 export default Line
+
+export { SmallLine }
 
 {/* <hr style={{width:'100%', height: '5px', color: var(--main-green)}}/> */}

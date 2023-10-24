@@ -1,5 +1,6 @@
 import { getStyles } from 'mongoDb/styles'
 import { getFlowers } from 'mongoDb/flowers'
+import { getDances, getDanceById } from 'mongoDb/dances'
 
 import { useRouter } from 'next/router'
 
@@ -9,7 +10,7 @@ import Layout from 'components/Layout'
 import DanceForm from 'components/account/dances/DanceForm'
 
 
-export default function CreateDance({ styles, flowers}) {
+export default function EditDance({ styles, flowers, dance}) {
 
     const router = useRouter();
 
@@ -18,14 +19,17 @@ export default function CreateDance({ styles, flowers}) {
     })
 
     const findChecked  = (className)=> {
+
         const checkboxes = document.querySelectorAll(`.${className}`)
         const returnArray = []
+
         checkboxes.forEach((checkbox) => {
 
             if (checkbox.checked) {
                 returnArray.push(checkbox.value)
             }
         })
+
         return returnArray
     }
 
@@ -33,12 +37,15 @@ export default function CreateDance({ styles, flowers}) {
         const flowers = []
 
         flowerTypes.map((flower) => {
+
             let name = flower
+
             if (flower === 'babiesbreath') {
                 name = 'babies breath'
             } else if (flower === 'fullrose') {
                 name = 'full rose'
             }
+
             let returnObj
             returnObj = { flowerName: name, colors: findChecked(flower)}
             flowers.push(returnObj)
@@ -81,32 +88,66 @@ export default function CreateDance({ styles, flowers}) {
             alertService.warn('Please pick a Saturday', { autoClose: false, keepAfterRouteChange: false })
             return
         }
-   
-        let res = await fetch('/api/dances', {
+
+
+
+        let res = await fetch(`/api/dances/${dance[0]._id}/update`, {
             method: 'POST',
             body: JSON.stringify(convertedJSON),
         })
-
         res = await res.json()
 
-        if (res._id){
-            alertService.warn('Succesfully added dance!', { autoClose: false, keepAfterRouteChange: true })
+        if (res.ok === 1){
+            alertService.warn('Succesfully edited dance!', { autoClose: false, keepAfterRouteChange: true })
             router.back()
         }
     }
 
     return (
-        <Layout pageTitle='Create Dance'>
+        <Layout pageTitle='Edit Dance'>
 
             <Alert />
-            <h1>Create Dance</h1>
+            <h1>Edit Dance</h1>
 
-            <DanceForm action={onSubmit} styles={styles} flowers={flowers} dance={false}></DanceForm>
+            <DanceForm action={onSubmit} styles={styles} flowers={flowers} dance={dance}></DanceForm>
 
         </Layout>
     )
 }
-export async function getStaticProps() {
+
+export async function getStaticPaths() {
+    try {
+        const { dances, error } = await getDances(0)
+        
+        if (error) throw new Error(error)
+        let paths = []
+        paths = dances.map((dance) => {
+            return {
+                params: { danceId: dance._id },
+            }
+        })
+
+        return {
+            paths,
+            fallback: true
+        }
+    } catch (error) {
+        console.log('Error:' + error.message)
+    }
+}
+
+export async function getStaticProps(context) {
+    const { params } = context
+
+    let dance
+    try {
+        const { dances, error } = await getDanceById(params.danceId)
+        if (error) throw new Error(error)
+        dance = dances
+    } catch (error) {
+        console.log('Error:' + error.message)
+    }
+
     let stylesReturn
     try {
         const { styles, error } = await getStyles(0)
@@ -129,6 +170,7 @@ export async function getStaticProps() {
         props: {
             styles: stylesReturn,
             flowers: flowersReturn,
+            dance: dance,
         }
     }
 }
