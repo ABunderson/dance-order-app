@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import { StyledLargeButton } from 'components/styles/ButtonStyles'
+import { StyledLargeButton, StyledButton } from 'components/styles/ButtonStyles'
 
 // const Button = ({ text }) => {
 //     return (
@@ -8,6 +8,15 @@ import { StyledLargeButton } from 'components/styles/ButtonStyles'
 //         </StyledButton>
 //     )
 // }
+
+const SmallButton = ({ text, type, action }) => {
+    return (
+        <StyledButton type={type} onClick={action}>
+            {text}
+        </StyledButton>
+    )
+}
+
 
 const Button = ({ text, type, action }) => {
     return (
@@ -18,3 +27,4 @@ const Button = ({ text, type, action }) => {
 }
 
 export default Button
+export { SmallButton }

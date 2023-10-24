@@ -11,7 +11,7 @@ export const StyledButton = styled.button`
     vertical-align: middle;
     padding: .375rem .75rem;
     border: 1px solid transparent;
-    font-size: 2rem;
+    font-size: 1.5rem;
     border-radius: .3rem;
     transition: background-color .15s ease-in-out, border-color .15s ease-in-out, box-shadow .15s ease-in-out;
     cursor: pointer;
@@ -25,6 +25,7 @@ export const StyledButton = styled.button`
 
 export const StyledLargeButton = styled(StyledButton)`
     padding: .5rem 3rem;
+    font-size: 2rem;
 
     @media (max-width: 550px) {
         width: 100%

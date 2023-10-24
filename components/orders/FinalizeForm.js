@@ -87,7 +87,7 @@ const FlexDiv = styled.div`
 `
 
 
-const FinalizeOutput = ({ submitAction }) => {
+const FinalizeForm = ({ submitAction }) => {
 
     return (
         <StyledFinalForm onSubmit={submitAction}>
@@ -127,4 +127,4 @@ const FinalizeOutput = ({ submitAction }) => {
     )
 }
 
-export default FinalizeOutput
+export default FinalizeForm

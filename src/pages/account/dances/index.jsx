@@ -29,8 +29,10 @@ export default function AllDances({ dances }) {
 
             <Line></Line>
 
-            <ShowList objects={dances}></ShowList>
+            <ShowList objects={dances} type={'dances'}></ShowList>
             <Line></Line>
+
+            <Button text='Back' type='button' action={() => {router.push('/account')}}></Button>
 
         </Layout>
 
@@ -44,7 +46,6 @@ export async function getStaticProps() {
         return {
             props: {
                 dances: dances,
-
             }
         }
     } catch (error) {

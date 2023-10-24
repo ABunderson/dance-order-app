@@ -8,7 +8,6 @@ const StyledMain = styled.main`
     flex-direction: column;
     align-items: flex-start;
     gap: 2rem;
-
     padding: 3rem;
     min-height: 85vh;
     max-width: var(--max-width);

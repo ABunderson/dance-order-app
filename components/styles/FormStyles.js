@@ -13,7 +13,6 @@ export const StyledForm = styled.form`
         background-color: gainsboro;
     }
 
-
     & button {
         margin-top: 10px;
     }

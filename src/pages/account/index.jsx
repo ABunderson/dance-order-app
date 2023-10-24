@@ -16,6 +16,8 @@ import { Alert } from 'components/Alert'
 export default function Account({ dances, styles, flowers, supplies, addons, dStyles }) {
     const router = useRouter()
 
+    
+
     return (
         <Layout pageTitle="Account">
 
@@ -26,7 +28,7 @@ export default function Account({ dances, styles, flowers, supplies, addons, dSt
 
             <Link href='/account/dances'><h2>Dances</h2></Link>
             <Button text='Add' type='button' action={() => {router.push('/account/dances/create')}}></Button>
-            <ShowList objects={dances}></ShowList>
+            <ShowList objects={dances} type='dances'></ShowList>
             <Line></Line>
 
             <Link href='account/styles'><h2>Styles</h2></Link>
@@ -56,6 +58,7 @@ export default function Account({ dances, styles, flowers, supplies, addons, dSt
 }
 
 export async function getStaticProps() {
+
    let dancesReturn
     try {
         const { dances, error } = await getDances(10)
