@@ -8,17 +8,24 @@ import Layout from 'components/Layout'
 import Line from 'components/Line'
 import ShowList from 'components/account/ShowList'
 import Link from 'next/link'
+import Button from 'components/Button'
+import { useRouter } from 'next/router'
+import { Alert } from 'components/Alert'
 
 
 export default function Account({ dances, styles, flowers, supplies, addons, dStyles }) {
-    console.log(dStyles)
+    const router = useRouter()
+
     return (
         <Layout pageTitle="Account">
+
+<Alert />   
             
             <h1>Welcome PLACEHOLDER</h1>
             <p>Here you can see, add, edit, or remove dances, styles, flowers, supplies, addons, and default styles. Each category only shows 10 items. To see all the items click on the category header</p>
 
             <Link href='/account/dances'><h2>Dances</h2></Link>
+            <Button text='Add' type='button' action={() => {router.push('/account/dances/create')}}></Button>
             <ShowList objects={dances}></ShowList>
             <Line></Line>
 

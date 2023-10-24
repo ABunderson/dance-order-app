@@ -2,23 +2,31 @@ import { StyledForm } from "components/styles/FormStyles"
 import Button from 'components/Button'
 import StyleFieldset from 'components/account/dances/StyleFieldset'
 import styled from "styled-components"
+import FlowerFieldset from "./FlowerFieldset"
 
 // return <ArrayFieldset item={item} key={keyName} keyValue={keyName}></ArrayFieldset>
 
-const FormDiv = styled(StyledForm)`
-max-width: 450px;
+const FormDiv = styled.div`
+    display: flex;
+    flex-wrap: wrap; 
+    row-gap: 15px;
+    font-size: 1.2em;
+    align-items: center;
 
-input {
-    flex-basis: 50%;
-}
+    max-width: 450px;
 
-& label {
-    flex-basis: 35%;
-}
+    input {
+        flex-basis: 50%;
+    }
 
-& button {
-    flex-basis: 92%;
-} `
+    & label {
+        flex-basis: 35%;
+    }
+
+    & button {
+        flex-basis: 92%;
+    } 
+`
 
 const DanceForm = ({ action, styles, flowers }) => {
 
@@ -39,6 +47,10 @@ const DanceForm = ({ action, styles, flowers }) => {
                 <span style={{ fontSize: '1rem' }}>Put a list of schools seperated by commas.</span>
             </FormDiv>
             <StyleFieldset styles={styles} key={`styles`}></StyleFieldset>
+
+            {flowers.map((flower) => {
+                return <FlowerFieldset flower={flower} key={flower.name}></FlowerFieldset>
+            })}
 
 
 

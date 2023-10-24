@@ -9,6 +9,7 @@ import ShowList from 'components/account/ShowList'
 
 import Button from 'components/Button'
 import { useRouter } from 'next/router'
+import { Alert } from 'components/Alert'
 
 
 export default function AllDances({ dances }) {
@@ -20,6 +21,7 @@ export default function AllDances({ dances }) {
 
     return (
         <Layout pageTitle="Dances">
+            <Alert />
             <h1>Dances</h1>
             <p>Here you can see, add, edit, or remove any dances</p>
 
@@ -28,6 +30,7 @@ export default function AllDances({ dances }) {
             <Line></Line>
 
             <ShowList objects={dances}></ShowList>
+            <Line></Line>
 
         </Layout>
 

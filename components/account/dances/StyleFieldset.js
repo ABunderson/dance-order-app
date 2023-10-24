@@ -40,7 +40,7 @@ const Fieldset = styled(StyledFieldset)`
 `
 
 const ArrayFieldset = ({ styles }) => {
-    console.log(styles)
+    // console.log(styles)
 
     return (
         // <p key={keyName}>ribbon</p>)
@@ -52,7 +52,7 @@ const ArrayFieldset = ({ styles }) => {
                     // console.log(style)
                     return (
                         <div key={style._id}>
-                            <input type='checkbox' name='styles' id={'styles ' + style._id} value={style._id} defaultChecked={style.defaultStyle}/>
+                            <input type='checkbox' className='styles' name='styles' id={'styles ' + style._id} value={style._id} defaultChecked={style.defaultStyle}/>
                             <label htmlFor={'styles ' + style._id}>
                                 <p>{style.name} {style.type}</p>
                                 <Image

@@ -13,11 +13,45 @@ export default function CreateDance({ styles, flowers}) {
 
     const router = useRouter();
 
+    const flowerTypes = flowers.map((flower) => {
+        return flower.name.split(" ").join('')
+    })
+
+    const findChecked  = (className)=> {
+        const checkboxes = document.querySelectorAll(`.${className}`)
+        const returnArray = []
+        checkboxes.forEach((checkbox) => {
+            // console.log(checkbox)
+            if (checkbox.checked) {
+                // console.log('is checked')
+                returnArray.push(checkbox.value)
+            }
+        })
+        return returnArray
+    }
+
+    const getFlowers = () => {
+        const flowers = []
+
+        flowerTypes.map((flower) => {
+            let name = flower
+            if (flower === 'babiesbreath') {
+                name = 'babies breath'
+            } else if (flower === 'fullrose') {
+                name = 'full rose'
+            }
+            let returnObj
+            returnObj = { flowerName: name, colors: findChecked(flower)}
+            flowers.push(returnObj)
+        })
+
+        return flowers
+    }
 
     async function onSubmit(event) {
         event.preventDefault()
         // const ISODate = require('mongodb').ISODate
-        console.log('submit')
+        // console.log('submit')
 
         const formData = new FormData(event.target),
             convertedJSON = {};
@@ -27,29 +61,51 @@ export default function CreateDance({ styles, flowers}) {
         });
         // console.log(convertedJSON)
         convertedJSON.editDate = new Date()
-        // console.log(convertedJSON)
-
+        
+        convertedJSON.schools = convertedJSON.schools.split(',')
+        convertedJSON.schools = convertedJSON.schools.map((school) => {
+            return school.trim()
+        })
         let date = new Date(convertedJSON.danceDate)
 
+
+
+        convertedJSON.styles = findChecked('styles')
+        convertedJSON.flowers = getFlowers()
+
+        // deleteExtra(convertedjSON)
+        delete convertedJSON.rose
+        delete convertedJSON.babiesbreath
+        delete convertedJSON.carnation
+        delete convertedJSON.daisy
+        delete convertedJSON.freesia
+        delete convertedJSON.ranunculus
+        delete convertedJSON.succulent
+        delete convertedJSON.fullrose
+        
+
+        // console.log(convertedJSON)
+
         if (date.getDay() !== 5) {
-            console.log(date.getDay())
+            // console.log(date.getDay())
             alertService.warn('Please pick a Saturday', { autoClose: false, keepAfterRouteChange: false })
             return
         }
+   
 
-        // console.log('past logic')
+        let res = await fetch('/api/dances', {
+            method: 'POST',
+            body: JSON.stringify(convertedJSON),
+        })
 
-        // let res = await fetch('/api/orders', {
-        //     method: 'POST',
-        //     body: JSON.stringify(convertedJSON),
-        // })
-        // res = await res.json()
+        res = await res.json()
         // console.log(res)
         // console.log(res._id)
-        // window.sessionStorage.setItem('currentOrderId', res._id)
 
-
-        router.push('/account/dances')
+        if (res._id){
+            alertService.warn('Succesfully added dance!', { autoClose: false, keepAfterRouteChange: true })
+            router.back()
+        }
     }
 
     return (
