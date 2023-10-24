@@ -20,8 +20,8 @@ export default function Finalize() {
 
     let pathString = 'empty'
     let pathObj
-    console.log('on page')
-    console.log(crumbs)
+    // console.log('on page')
+    // console.log(crumbs)
 
     if (crumbs && crumbs.paths !== 'empty' && typeof crumbs.paths !== 'undefined') {
         pathObj = JSON.parse(crumbs.paths)
@@ -29,7 +29,7 @@ export default function Finalize() {
         const path = window.location.pathname
         pathObj.push({ order: 7, locName: 'Finalize', path: path })
         // console.log('below is pathObj')
-        console.log(pathObj)
+        // console.log(pathObj)
 
         pathString = JSON.stringify(pathObj)
     }
@@ -63,7 +63,7 @@ export default function Finalize() {
         } = router
     
         const crumbs = { paths }
-        console.log(crumbs)
+        // console.log(crumbs)
         let pathObj = JSON.parse(crumbs.paths)
 
         setBreadcrumbs(pathObj)
@@ -84,7 +84,7 @@ export default function Finalize() {
 
     async function onSubmit(event) {
         event.preventDefault()
-        console.log('submit')
+        // console.log('submit')
 
         const formData = new FormData(event.target),
             convertedJSON = {};
@@ -92,7 +92,7 @@ export default function Finalize() {
         formData.forEach(function (value, key) {
             convertedJSON[key] = value;
         });
-        console.log(convertedJSON)
+        // console.log(convertedJSON)
 
         if (convertedJSON.finishType === 'print'){
             print()

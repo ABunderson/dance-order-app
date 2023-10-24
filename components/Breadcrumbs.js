@@ -43,18 +43,16 @@ const Breadcrumbs = ({ path }) => {
         output = JSON.stringify(output)
         return output
     }
-    console.log('in breadcrumb')
-    console.log(typeof path)
-    if (typeof path === 'object') console.log('is object')
+    // console.log('in breadcrumb')
+    // console.log(typeof path)
+    // if (typeof path === 'object') console.log('is object')
     return (
         <>
             <StyledDiv>
-                { typeof path === 'object' ? 
-
-                    path.map((item, index) => {
+                {
+                    path?.map((item, index) => {
                         return createCrumb(item, index)
                     })
-                    : <></>
                 }
             </StyledDiv>
         </>

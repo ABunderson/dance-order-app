@@ -46,7 +46,7 @@ const FlowerFieldset = ({ flower, dance }) => {
             return colorArray.colors.includes(color.colorName)
 
         } else {
-            console.log(color)
+            // console.log(color)
             return color.defaultColor
         }
 

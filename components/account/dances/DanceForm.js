@@ -34,7 +34,9 @@ const DanceForm = ({ action, styles, flowers, dance }) => {
 
     // dance ? console.log('is a dance') : console.log('is a create')
 
+   if(dance){
     dance = dance[0]
+   }
 
 
     return (
@@ -52,9 +54,9 @@ const DanceForm = ({ action, styles, flowers, dance }) => {
                 <input type='text' name='schools' id='schools' placeholder="LP" defaultValue={dance ? dance.schools : ''}/>
                 <span style={{ fontSize: '1rem' }}>Put a list of schools seperated by commas.</span>
             </FormDiv>
-            <StyleFieldset styles={styles} key={`styles`} dance={dance}></StyleFieldset>
+            <StyleFieldset styles={styles} dance={dance} key={'styles'} ></StyleFieldset>
 
-            {flowers.map((flower) => {
+            {flowers?.map((flower) => {
                 return <FlowerFieldset flower={flower} key={flower.name} dance={dance}></FlowerFieldset>
             })}
 

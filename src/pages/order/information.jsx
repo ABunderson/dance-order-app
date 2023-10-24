@@ -16,7 +16,7 @@ export default function Information() {
 
         event.preventDefault()
         // const ISODate = require('mongodb').ISODate
-        console.log('submit')  
+        // console.log('submit')  
 
         const formData = new FormData(event.target),
             convertedJSON = {};
@@ -31,7 +31,7 @@ export default function Information() {
         let date = new Date(convertedJSON.danceDate)
 
         if ( date.getDay() !== 5){
-            console.log(date.getDay())
+            // console.log(date.getDay())
             alertService.warn('Please pick a Saturday', {autoClose: false, keepAfterRouteChange: false})
             return
         }

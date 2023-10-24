@@ -7,7 +7,7 @@ import { alertService } from '../../../services/alert.service'
 
 export default function LoginPage() {
     const router = useRouter()
-    console.log(router)
+    // console.log(router)
 
     async function onSubmit(event) {
         event.preventDefault()
@@ -34,7 +34,7 @@ export default function LoginPage() {
 
     async function Login(userArray) {
         const status = await fetchUser(userArray.userName, userArray.password)
-        console.log('status = ' + status)
+        // console.log('status = ' + status)
         return status
     }
     

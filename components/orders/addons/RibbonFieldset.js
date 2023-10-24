@@ -40,7 +40,7 @@ const RibbonFieldset = ({ item, ribbon, keyValue }) => {
     if (item.price < 1) {
         price = item.price * 100
         sign = '￠'
-        console.log(item.price * 100)
+        // console.log(item.price * 100)
     }
 
     return (

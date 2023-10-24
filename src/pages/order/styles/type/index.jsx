@@ -19,7 +19,7 @@ export default function ChooseType() {
         } = router
     
         const crumbs = { paths }
-        console.log(crumbs)
+        // console.log(crumbs)
         let pathObj = JSON.parse(crumbs.paths)
 
         setBreadcrumbs(pathObj)
@@ -27,8 +27,8 @@ export default function ChooseType() {
 
     }, [router])
 
-    console.log('try to get breadcrumbs')
-    console.log(breadcrumbs)
+    // console.log('try to get breadcrumbs')
+    // console.log(breadcrumbs)
 
     const {
         query: { paths }
@@ -38,8 +38,8 @@ export default function ChooseType() {
 
     let pathString = 'empty'
     let pathObj
-    console.log('on page')
-    console.log(crumbs)
+    // console.log('on page')
+    // console.log(crumbs)
 
     if (crumbs && crumbs.paths !== 'empty' && typeof crumbs.paths !== 'undefined') {
         pathObj = JSON.parse(crumbs.paths)
@@ -47,7 +47,7 @@ export default function ChooseType() {
         const path = window.location.pathname
         pathObj.push({ order: 2, locName: 'Type', path: path })
         // console.log('below is pathObj')
-        console.log(pathObj)
+        // console.log(pathObj)
 
         pathString = JSON.stringify(pathObj)
     }

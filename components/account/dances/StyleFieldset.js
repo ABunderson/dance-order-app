@@ -44,12 +44,11 @@ const ArrayFieldset = ({ styles, dance }) => {
     // console.log(dance)
 
     return (
-        // <p key={keyName}>ribbon</p>)
         <Fieldset>
             <legend>Styles</legend>
             <p>Green boxes mean the style is selected. {dance ? 'Prior selections for this dance start green.': 'Default styles start out selected.'}</p>
             <FlexDiv>
-                {styles.map((style) => {
+                {styles?.map((style) => {
                     // console.log(style)
                     return (
                         <div key={style._id}>

@@ -10,33 +10,14 @@ import Layout from 'components/Layout'
 import DanceForm from 'components/account/dances/DanceForm'
 
 
-export default function EditDance({ styles, flowers, dance}) {
+export default function EditDance({ styles, flowers, dance }) {
 
     const router = useRouter();
-
-    const flowerTypes = flowers.map((flower) => {
-        return flower.name.split(" ").join('')
-    })
-
-    const findChecked  = (className)=> {
-
-        const checkboxes = document.querySelectorAll(`.${className}`)
-        const returnArray = []
-
-        checkboxes.forEach((checkbox) => {
-
-            if (checkbox.checked) {
-                returnArray.push(checkbox.value)
-            }
-        })
-
-        return returnArray
-    }
 
     const getFlowers = () => {
         const flowers = []
 
-        flowerTypes.map((flower) => {
+        flowerTypes?.map((flower) => {
 
             let name = flower
 
@@ -47,11 +28,26 @@ export default function EditDance({ styles, flowers, dance}) {
             }
 
             let returnObj
-            returnObj = { flowerName: name, colors: findChecked(flower)}
+            returnObj = { flowerName: name, colors: findChecked(flower) }
             flowers.push(returnObj)
         })
-
         return flowers
+    }
+
+    const flowerTypes = flowers?.map((flower) => {
+        return flower.name.split(" ").join('')
+    })
+
+    const findChecked = (className) => {
+        const checkboxes = document.querySelectorAll(`.${className}`)
+        const returnArray = []
+        checkboxes.forEach((checkbox) => {
+
+            if (checkbox.checked) {
+                returnArray.push(checkbox.value)
+            }
+        })
+        return returnArray
     }
 
     async function onSubmit(event) {
@@ -65,7 +61,7 @@ export default function EditDance({ styles, flowers, dance}) {
         });
 
         convertedJSON.editDate = new Date()
-        
+
         convertedJSON.schools = convertedJSON.schools.split(',')
         convertedJSON.schools = convertedJSON.schools.map((school) => {
             return school.trim()
@@ -97,7 +93,7 @@ export default function EditDance({ styles, flowers, dance}) {
         })
         res = await res.json()
 
-        if (res.ok === 1){
+        if (res.ok === 1) {
             alertService.warn('Succesfully edited dance!', { autoClose: false, keepAfterRouteChange: true })
             router.back()
         }
@@ -118,7 +114,7 @@ export default function EditDance({ styles, flowers, dance}) {
 export async function getStaticPaths() {
     try {
         const { dances, error } = await getDances(0)
-        
+
         if (error) throw new Error(error)
         let paths = []
         paths = dances.map((dance) => {
@@ -126,7 +122,6 @@ export async function getStaticPaths() {
                 params: { danceId: dance._id },
             }
         })
-
         return {
             paths,
             fallback: true

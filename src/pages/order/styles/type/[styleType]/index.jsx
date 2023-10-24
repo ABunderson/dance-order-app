@@ -21,7 +21,7 @@ export default function GetStyles({ styles }) {
         } = router
     
         const crumbs = { paths }
-        console.log(crumbs)
+        // console.log(crumbs)
         let pathObj = JSON.parse(crumbs.paths)
 
         setBreadcrumbs(pathObj)
@@ -29,8 +29,8 @@ export default function GetStyles({ styles }) {
 
     }, [router])
 
-    console.log('try to get breadcrumbs')
-    console.log(breadcrumbs)
+    // console.log('try to get breadcrumbs')
+    // console.log(breadcrumbs)
     // // const styleId = router.query.productId
     if (router.isFallback) {
         return <h1>Loading:</h1>
@@ -44,8 +44,8 @@ export default function GetStyles({ styles }) {
 
     let pathString = 'empty'
     let pathObj
-    console.log('on page')
-    console.log(crumbs)
+    // console.log('on page')
+    // console.log(crumbs)
 
     if (crumbs && crumbs.paths !== 'empty' && typeof crumbs.paths !== 'undefined') {
         pathObj = JSON.parse(crumbs.paths)

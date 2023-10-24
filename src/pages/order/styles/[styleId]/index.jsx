@@ -21,7 +21,7 @@ export default function Style({ style }) {
         } = router
     
         const crumbs = { paths }
-        console.log(crumbs)
+        // console.log(crumbs)
         let pathObj = JSON.parse(crumbs.paths)
 
         setBreadcrumbs(pathObj)

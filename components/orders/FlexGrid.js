@@ -24,13 +24,6 @@ const FlexGrid = ({ children }) => {
 
     return (
         <FlexDiv>
-            {/* {Children.map(children, child => {
-                {console.log(child)}
-                <FlexItem>
-                {child}
-                </FlexItem>
-            })} */}
-
             {children}
         </FlexDiv>
     )
