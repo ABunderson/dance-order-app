@@ -1,13 +1,27 @@
 
 import { getStyles } from 'mongoDb/styles'
 
+import UserContext from 'components/UserContext'
+import { useContext, useEffect } from 'react'
+
 import Layout from 'components/Layout'
 import Line from 'components/Line'
 import ShowList from 'components/account/ShowList'
 import Link from 'next/link'
+import { useRouter } from 'next/router'
 
 
 export default function AllStyles({ styles }) {
+    const router = useRouter()
+
+    const user = useContext(UserContext)
+
+    useEffect(() => {
+        if (user.userName === 'default') {
+            router.push('/account/login')
+        }
+    }, [])
+    
     return (
         <Layout pageTitle="Styles">
 

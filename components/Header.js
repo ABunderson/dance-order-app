@@ -1,6 +1,8 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import styled from 'styled-components'
+import UserContext from './UserContext';
+import { useContext } from 'react'
 
 const StyledHeader = styled.header`
     background-color: var(--main-green);
@@ -26,6 +28,8 @@ const StyledHeader = styled.header`
 `;
 
 const Header = () => {
+
+    const user = useContext(UserContext)
     return (
         <StyledHeader>
             <div className='headerDiv'>
@@ -41,7 +45,7 @@ const Header = () => {
                     />
                 </Link>
                 
-                <Link href="/account/login">
+                <Link href={user.userName !== 'default' ? '/account' : "/account/login"}>
                     <Image
                         src="/icons/account.png"
                         alt="An Account icon. Icon from Icons8"

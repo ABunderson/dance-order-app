@@ -4,6 +4,8 @@
 import { getDances } from 'mongoDb/dances'
 
 import { useRouter } from 'next/router'
+import UserContext from 'components/UserContext'
+import { useContext, useEffect } from 'react'
 
 import Layout from 'components/Layout'
 import Line from 'components/Line'
@@ -12,8 +14,17 @@ import Button from 'components/Button'
 import { Alert } from 'components/Alert'
 
 
+
 export default function AllDances({ dances }) {
     const router = useRouter()
+
+    const user = useContext(UserContext)
+
+    useEffect(() => {
+        if (user.userName === 'default') {
+            router.push('/account/login')
+        }
+    }, [])
 
     const addDance = () => {
         router.push('/account/dances/create')

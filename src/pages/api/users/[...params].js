@@ -2,7 +2,7 @@ import { getUser } from "mongoDb/users"
 
 const handler = async (req, res) => {
     const params = req.query.params
-    console.log(params)
+    // console.log(params)
     if (req.method === 'GET') {
         try {
             const { users, error } = await getUser(params[0], params[1])

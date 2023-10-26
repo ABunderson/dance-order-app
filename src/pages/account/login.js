@@ -5,9 +5,13 @@ import { useRouter } from 'next/router'
 import { Alert } from 'components/Alert'
 import { alertService } from '../../../services/alert.service'
 
+import UserContext from 'components/UserContext'
+import { useContext } from 'react'
+
 export default function LoginPage() {
     const router = useRouter()
     // console.log(router)
+    const user = useContext(UserContext)
 
     async function onSubmit(event) {
         event.preventDefault()
@@ -24,6 +28,7 @@ export default function LoginPage() {
         const check = await Login(convertedJSON)
 
         if (check === true) {
+            user.setUserName(convertedJSON.userName)
             router.push('/account')
         } else {
             alertService.warn('Password or Username is incorrect. Please try again', {autoClose: true, keepAfterRouteChange: false})

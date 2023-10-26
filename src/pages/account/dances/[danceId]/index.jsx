@@ -2,6 +2,8 @@ import { getStyles } from 'mongoDb/styles'
 import { getDances, getDanceById } from 'mongoDb/dances'
 
 import { useRouter } from 'next/router'
+import UserContext from 'components/UserContext'
+import { useContext, useEffect } from 'react'
 
 import Layout from 'components/Layout'
 import DanceView from 'components/account/dances/DanceView'
@@ -13,6 +15,14 @@ import Button from 'components/Button'
 export default function ViewDance({ styles, dance }) {
 
     const router = useRouter();
+
+    const user = useContext(UserContext)
+
+    useEffect(() => {
+        if (user.userName === 'default') {
+            router.push('/account/login')
+        }
+    }, [])
 
     if(router.isFallback){
         return <h1>The style is loading</h1>

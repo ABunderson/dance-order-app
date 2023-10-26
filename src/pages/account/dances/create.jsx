@@ -2,6 +2,8 @@ import { getStyles } from 'mongoDb/styles'
 import { getFlowers } from 'mongoDb/flowers'
 
 import { useRouter } from 'next/router'
+import UserContext from 'components/UserContext'
+import { useContext, useEffect } from 'react'
 
 import { alertService } from 'services/alert.service'
 import { Alert } from 'components/Alert'
@@ -9,9 +11,18 @@ import Layout from 'components/Layout'
 import DanceForm from 'components/account/dances/DanceForm'
 
 
+
 export default function CreateDance({ styles, flowers}) {
 
     const router = useRouter();
+
+    const user = useContext(UserContext)
+
+    useEffect(() => {
+        if (user.userName === 'default') {
+            router.push('/account/login')
+        }
+    }, [])
 
     const flowerTypes = flowers.map((flower) => {
         return flower.name.split(" ").join('')

@@ -2,6 +2,8 @@ import { getStyles } from 'mongoDb/styles'
 import { getDances, getDanceById } from 'mongoDb/dances'
 
 import { useRouter } from 'next/router'
+import UserContext from 'components/UserContext'
+import { useContext, useEffect } from 'react'
 
 import { alertService } from 'services/alert.service'
 import { Alert } from 'components/Alert'
@@ -16,6 +18,14 @@ import Line from 'components/Line'
 export default function DeleteDance({ styles, dance }) {
 
     const router = useRouter();
+
+    const user = useContext(UserContext)
+
+    useEffect(() => {
+        if (user.userName === 'default') {
+            router.push('/account/login')
+        }
+    }, [])
 
     if(router.isFallback){
         return <h1>The style is loading</h1>
