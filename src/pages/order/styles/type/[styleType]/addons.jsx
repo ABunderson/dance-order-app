@@ -5,11 +5,13 @@ import { useRouter } from 'next/router'
 import { getAddonsByType } from 'mongoDb/addons'
 import AddonForm from 'components/orders/addons/AddonForm'
 import { getSupplyByName } from 'mongoDb/supplies'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useContext } from 'react'
+import OrderContext from 'components/OrderContext'
 
 export default function GetStyles({ addons, ribbon }) {
     const [breadcrumbs, setBreadcrumbs] = useState([]) 
     const router = useRouter()
+    const order = useContext(OrderContext)
 
     useEffect(() => {
 
@@ -56,7 +58,7 @@ export default function GetStyles({ addons, ribbon }) {
             });
             // console.log(convertedJSON)
 
-            const orderId = window.sessionStorage.getItem('currentOrderId')
+            const orderId = order.orderNumber
 
 
             let res = await fetch(`/api/orders/${orderId}/update`, {

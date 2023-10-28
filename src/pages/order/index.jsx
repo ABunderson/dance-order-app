@@ -3,12 +3,16 @@ import Breadcrumbs from 'components/Breadcrumbs'
 import { useRouter } from 'next/router'
 import FinalizeOutput from 'components/orders/FinalizeOutput'
 import FinalizeForm from 'components/orders/FinalizeForm'
-import { Fragment, useEffect, useState } from 'react'
+import { Fragment, useContext, useEffect, useState } from 'react'
+import OrderContext from 'components/OrderContext'
+import DanceContext from 'components/DanceContext'
 
 export default function Finalize() {
     const [order, setOrder] = useState('')
     const [style, setStyle] = useState('')
     const router = useRouter()
+    const orderNum = useContext(OrderContext)
+    const dance = useContext(DanceContext)
 
     const [breadcrumbs, setBreadcrumbs] = useState([])
 
@@ -36,7 +40,7 @@ export default function Finalize() {
 
     useEffect(() => {
         async function getOrder() {
-            const orderId = window.sessionStorage.getItem('currentOrderId')
+            const orderId = orderNum.orderNumber
 
             const response = await fetch(`/api/orders/${orderId}`)
             const data = await response.json()
@@ -97,6 +101,11 @@ export default function Finalize() {
         if (convertedJSON.finishType === 'print'){
             print()
         }
+
+        // unset context
+        orderNum.setOrderNumber('default')
+        dance.setDanceNumber('default')
+
         router.push('/')
         // emailSomething()
         // if(email) {

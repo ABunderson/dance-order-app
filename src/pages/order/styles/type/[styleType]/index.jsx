@@ -5,12 +5,15 @@ import { getStylesByType } from 'mongoDb/styles'
 import { useRouter } from 'next/router'
 import StyleCard from 'components/orders/StyleCard'
 import FlexGrid from 'components/orders/FlexGrid'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useContext } from 'react'
+import DanceContext from 'components/DanceContext'
 
 export default function GetStyles({ styles }) {
 
     const router = useRouter()
     const [breadcrumbs, setBreadcrumbs] = useState([])
+    const dance = useContext(DanceContext)
+    const [shownStyles, setShownStyles] = useState([])
 
     useEffect(() => {
 
@@ -27,11 +30,36 @@ export default function GetStyles({ styles }) {
         setBreadcrumbs(pathObj)
         }
 
-    }, [router])
+        if(shownStyles.length === 0){
+            getOutputStyles()
+        }
 
-    // console.log('try to get breadcrumbs')
-    // console.log(breadcrumbs)
-    // // const styleId = router.query.productId
+        async function getOutputStyles() {
+            
+
+            if (dance.danceNumber !== 'default'){
+    
+                const response = await fetch(`/api/dances/${dance.danceNumber}`)
+                const data = await response.json()
+                const danceInfo= data.dances[0]
+    
+                let danceStyles = styles.filter((item) => {
+                    return danceInfo.styles.includes(item._id)
+                })
+
+                setShownStyles(danceStyles)
+                
+            } else {
+                let defaultStyles = styles.filter((item) => {
+                    return item.defaultStyle === true
+                })
+            
+                setShownStyles(defaultStyles)
+            }
+        }
+
+    }, [router, dance])
+
     if (router.isFallback) {
         return <h1>Loading:</h1>
     }
@@ -44,24 +72,17 @@ export default function GetStyles({ styles }) {
 
     let pathString = 'empty'
     let pathObj
-    // console.log('on page')
-    // console.log(crumbs)
 
     if (crumbs && crumbs.paths !== 'empty' && typeof crumbs.paths !== 'undefined') {
         pathObj = JSON.parse(crumbs.paths)
 
         const path = window.location.pathname
         pathObj.push({ order: 3, locName: styles[0].type, path: path })
-        // console.log('below is pathObj')
-        // console.log(pathObj)
 
         pathString = JSON.stringify(pathObj)
     }
 
-
     const chooseStyle = (style) => {
-        // console.log(`clicked ${style.name}`)
-        // router.push(`/order/styles/${style._id}`)
         router.push({
             query: {
                 paths: pathString
@@ -77,7 +98,7 @@ export default function GetStyles({ styles }) {
             <h1 style={{ textTransform: 'capitalize' }}>Pick {styles[0].type} Style</h1>
 
             <FlexGrid>
-                {styles.map((style) => {
+                {shownStyles.map((style) => {
                     return <StyleCard style={style} key={style._id} action={chooseStyle}></StyleCard>
                 })}
             </FlexGrid>

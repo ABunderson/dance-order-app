@@ -106,7 +106,7 @@ const Fieldset = ({ item, type }) => {
                 {type === 'ribbon' ? (
                     item.colors[0].map((color) => {
                         return <div key={color+item.name}>
-                            <input type='radio' name={radioGroup} id={color} value={color} required />
+                            <input type='radio' name={radioGroup} id={item.name+color} value={color} required />
                             <label htmlFor={color} className="ribbonColors">
                                 <p>{color}</p>
                             </label>

@@ -1,12 +1,19 @@
+import { getDances } from 'mongoDb/dances'
+
 import Layout from 'components/Layout'
 import InformationForm from 'components/orders/InformationForm'
 import { useRouter } from 'next/router'
 import { alertService } from '../../../services/alert.service'
 import {Alert} from 'components/Alert'
 
-export default function Information() {
+import OrderContext from 'components/OrderContext'
+import DanceContext from 'components/DanceContext'
+import { useContext, useEffect } from 'react'
 
-    const router = useRouter();
+export default function Information({ dances }) {
+    const router = useRouter()
+    const order = useContext(OrderContext)
+    const dance = useContext(DanceContext)
 
     async function onSubmit(event) {
 
@@ -15,8 +22,6 @@ export default function Information() {
         const pathString = JSON.stringify(pathObj)
 
         event.preventDefault()
-        // const ISODate = require('mongodb').ISODate
-        // console.log('submit')  
 
         const formData = new FormData(event.target),
             convertedJSON = {};
@@ -40,7 +45,18 @@ export default function Information() {
             alertService.warn('Phone numbers cannot match', {autoClose: false, keepAfterRouteChange: false})
             return
         }
-        // console.log('past logic')
+
+        // check for a dance
+        let match = dances.filter((item) =>{
+            return convertedJSON.danceDate === item.danceDate
+        })
+
+        if (match.length === 1){
+            dance.setDanceNumber(match[0]._id)
+        } else {
+            dance.setDanceNumber('default')   
+        }
+
 
         let res = await fetch('/api/orders', {
             method: 'POST',
@@ -49,7 +65,7 @@ export default function Information() {
         res = await res.json()
         // console.log(res)
         // console.log(res._id)
-        window.sessionStorage.setItem('currentOrderId', res._id)
+        order.setOrderNumber(res._id)
 
 
         router.push({
@@ -64,7 +80,7 @@ export default function Information() {
         <Layout pageTitle='Personal Information'>
 
             <Alert />
-            {/* <Breadcrumbs path={pathObj}></Breadcrumbs> */}
+
             <h1>Personal Information</h1>
 
             <InformationForm action={onSubmit}></InformationForm>
@@ -72,4 +88,18 @@ export default function Information() {
 
         </Layout>
     )
+}
+
+export async function getStaticProps() {
+    try {
+        const { dances, error } = await getDances(0)
+        if (error) throw new Error(error)
+        return {
+            props: {
+                dances: dances,
+            }
+        }
+    } catch (error) {
+        console.log('Error:' + error.message)
+    }
 }
