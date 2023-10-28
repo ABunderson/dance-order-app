@@ -6,7 +6,7 @@ import { useRouter } from 'next/router'
 import StyleCard from 'components/orders/StyleCard'
 import FlexGrid from 'components/orders/FlexGrid'
 import { useState, useEffect, useContext } from 'react'
-import DanceContext from 'components/DanceContext'
+import DanceContext from 'context/DanceContext'
 
 export default function GetStyles({ styles }) {
 

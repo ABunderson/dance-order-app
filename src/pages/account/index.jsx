@@ -11,7 +11,7 @@ import Link from 'next/link'
 import Button from 'components/Button'
 import { useRouter } from 'next/router'
 import { Alert } from 'components/Alert'
-import UserContext from 'components/UserContext'
+import UserContext from 'context/UserContext'
 import { useContext, useEffect } from 'react'
 
 

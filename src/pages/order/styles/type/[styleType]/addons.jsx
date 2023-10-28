@@ -6,7 +6,7 @@ import { getAddonsByType } from 'mongoDb/addons'
 import AddonForm from 'components/orders/addons/AddonForm'
 import { getSupplyByName } from 'mongoDb/supplies'
 import { useState, useEffect, useContext } from 'react'
-import OrderContext from 'components/OrderContext'
+import OrderContext from 'context/OrderContext'
 
 export default function GetStyles({ addons, ribbon }) {
     const [breadcrumbs, setBreadcrumbs] = useState([]) 

@@ -5,7 +5,7 @@ import { useRouter } from 'next/router'
 import { Alert } from 'components/Alert'
 import { alertService } from '../../../services/alert.service'
 
-import UserContext from 'components/UserContext'
+import UserContext from 'context/UserContext'
 import { useContext } from 'react'
 
 export default function LoginPage() {

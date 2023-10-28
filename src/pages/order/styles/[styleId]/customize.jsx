@@ -5,8 +5,8 @@ import { useRouter } from 'next/router'
 import { getFlowerByName } from 'mongoDb/flowers'
 import { getSupplyByNameArray } from 'mongoDb/supplies'
 import CustomizeForm from 'components/orders/customize/CustomizeForm'
-import OrderContext from 'components/OrderContext'
-import DanceContext from 'components/DanceContext'
+import OrderContext from 'context/OrderContext'
+import DanceContext from 'context/DanceContext'
 import { useState, useEffect, useContext } from 'react'
 
 

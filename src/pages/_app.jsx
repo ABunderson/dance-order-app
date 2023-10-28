@@ -1,9 +1,9 @@
 import { useState, createContext } from 'react'
 import '@/styles/globals.css'
 // import type { AppProps } from 'next/app'
-import UserContext from 'components/UserContext'
-import OrderContext from 'components/OrderContext'
-import DanceContext from 'components/DanceContext'
+import UserContext from 'context/UserContext'
+import OrderContext from 'context/OrderContext'
+import DanceContext from 'context/DanceContext'
 
 // export const UserContext = createContext('not set')
 

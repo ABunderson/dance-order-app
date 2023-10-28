@@ -2,7 +2,7 @@ import { getStyles } from 'mongoDb/styles'
 import { getFlowers } from 'mongoDb/flowers'
 
 import { useRouter } from 'next/router'
-import UserContext from 'components/UserContext'
+import UserContext from 'context/UserContext'
 import { useContext, useEffect } from 'react'
 
 import { alertService } from 'services/alert.service'

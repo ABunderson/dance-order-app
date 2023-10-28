@@ -2,7 +2,7 @@ import { getStyles } from 'mongoDb/styles'
 import { getDances, getDanceById } from 'mongoDb/dances'
 
 import { useRouter } from 'next/router'
-import UserContext from 'components/UserContext'
+import UserContext from 'context/UserContext'
 import { useContext, useEffect } from 'react'
 
 import Layout from 'components/Layout'

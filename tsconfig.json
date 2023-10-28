@@ -17,7 +17,8 @@
       "@/*": ["./src/*"],
       "components/*": ["./components/*"],
       "mongoDb/*": ["./lib/mongodb/*"],
-      "services/*": ["./services/*"]
+      "services/*": ["./services/*"],
+      "context/*": ["./context/*"],
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "components/Alert.jsx", "src/pages/_app.jsx"],

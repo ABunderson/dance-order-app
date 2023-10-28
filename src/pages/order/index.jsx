@@ -4,8 +4,8 @@ import { useRouter } from 'next/router'
 import FinalizeOutput from 'components/orders/FinalizeOutput'
 import FinalizeForm from 'components/orders/FinalizeForm'
 import { Fragment, useContext, useEffect, useState } from 'react'
-import OrderContext from 'components/OrderContext'
-import DanceContext from 'components/DanceContext'
+import OrderContext from 'context/OrderContext'
+import DanceContext from 'context/DanceContext'
 
 export default function Finalize() {
     const [order, setOrder] = useState('')

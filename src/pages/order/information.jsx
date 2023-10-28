@@ -6,8 +6,8 @@ import { useRouter } from 'next/router'
 import { alertService } from '../../../services/alert.service'
 import {Alert} from 'components/Alert'
 
-import OrderContext from 'components/OrderContext'
-import DanceContext from 'components/DanceContext'
+import OrderContext from 'context/OrderContext'
+import DanceContext from 'context/DanceContext'
 import { useContext, useEffect } from 'react'
 
 export default function Information({ dances }) {
