@@ -1,6 +1,6 @@
 import { useState, createContext } from 'react'
 import '@/styles/globals.css'
-// import type { AppProps } from 'next/app'
+import type { AppProps } from 'next/app'
 import UserContext from 'context/UserContext'
 import OrderContext from 'context/OrderContext'
 import DanceContext from 'context/DanceContext'
@@ -9,9 +9,9 @@ import DanceContext from 'context/DanceContext'
 
 
 
-// export default function App({ Component, pageProps }: AppProps) {
+export default function App({ Component, pageProps }: AppProps) {
   
-export default function App({ Component, pageProps }) {
+// export default function App({ Component, pageProps }) {
   const [userName, setUserName] = useState('default')
   const [orderNumber, setOrderNumber] = useState('default')
   const [danceNumber, setDanceNumber] = useState('default')
