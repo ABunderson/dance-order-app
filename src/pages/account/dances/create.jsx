@@ -22,7 +22,7 @@ export default function CreateDance({ styles, flowers}) {
         if (user.userName === 'default') {
             router.push('/account/login')
         }
-    }, [])
+    }, )
 
     const flowerTypes = flowers.map((flower) => {
         return flower.name.split(" ").join('')

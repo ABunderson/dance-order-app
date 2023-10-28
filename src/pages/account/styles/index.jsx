@@ -20,8 +20,8 @@ export default function AllStyles({ styles }) {
         if (user.userName === 'default') {
             router.push('/account/login')
         }
-    }, [])
-    
+    }, [router, user.userName])
+
     return (
         <Layout pageTitle="Styles">
 

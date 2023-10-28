@@ -58,7 +58,7 @@ export default function GetStyles({ styles }) {
             }
         }
 
-    }, [router, dance])
+    }, [router, dance, shownStyles, styles])
 
     if (router.isFallback) {
         return <h1>Loading:</h1>
@@ -98,7 +98,7 @@ export default function GetStyles({ styles }) {
             <h1 style={{ textTransform: 'capitalize' }}>Pick {styles[0].type} Style</h1>
 
             <FlexGrid>
-                {shownStyles.map((style) => {
+                {shownStyles?.map((style) => {
                     return <StyleCard style={style} key={style._id} action={chooseStyle}></StyleCard>
                 })}
             </FlexGrid>

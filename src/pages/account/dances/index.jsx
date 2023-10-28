@@ -17,14 +17,13 @@ import { Alert } from 'components/Alert'
 
 export default function AllDances({ dances }) {
     const router = useRouter()
-
     const user = useContext(UserContext)
 
     useEffect(() => {
         if (user.userName === 'default') {
             router.push('/account/login')
         }
-    }, [])
+    }, )
 
     const addDance = () => {
         router.push('/account/dances/create')

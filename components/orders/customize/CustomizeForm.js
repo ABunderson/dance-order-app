@@ -10,7 +10,7 @@ const CustomizeForm = ({ backAction, forwardAction, flower, supplies, styleId, f
 
     if (flowerColors.length === 0) {
 
-        let defaultColors = flower[0].colors.filter((item) => {
+        let defaultColors = flower[0]?.colors?.filter((item) => {
             return item.defaultColor === true
         })
 
@@ -18,8 +18,8 @@ const CustomizeForm = ({ backAction, forwardAction, flower, supplies, styleId, f
 
     } else {
 
-        let defaultColors = flower[0].colors.filter((item) => {
-             return flowerColors[0].colors.includes(item.colorName)
+        let defaultColors = flower[0]?.colors?.filter((item) => {
+             return flowerColors[0].colors?.includes(item.colorName)
         })
 
         defaultFlower.colors = defaultColors

@@ -22,7 +22,7 @@ export default function EditDance({ styles, flowers, dance }) {
         if (user.userName === 'default') {
             router.push('/account/login')
         }
-    }, [])
+    }, )
 
     const getFlowers = () => {
         const flowers = []

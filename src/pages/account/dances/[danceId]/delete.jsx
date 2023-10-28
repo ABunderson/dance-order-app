@@ -25,7 +25,7 @@ export default function DeleteDance({ styles, dance }) {
         if (user.userName === 'default') {
             router.push('/account/login')
         }
-    }, [])
+    }, )
 
     if(router.isFallback){
         return <h1>The style is loading</h1>

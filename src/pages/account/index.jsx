@@ -25,7 +25,7 @@ export default function Account({ dances, styles, flowers, supplies, addons }) {
         if (user.userName === 'default') {
             router.push('/account/login')
         }
-    }, [])
+    }, [router, user.userName])
 
     const logOut = () => {
         user.setUserName('default')

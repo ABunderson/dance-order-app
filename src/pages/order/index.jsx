@@ -16,28 +16,6 @@ export default function Finalize() {
 
     const [breadcrumbs, setBreadcrumbs] = useState([])
 
-    const {
-        query: { paths }
-    } = router
-
-    const crumbs = { paths }
-
-    let pathString = 'empty'
-    let pathObj
-    // console.log('on page')
-    // console.log(crumbs)
-
-    if (crumbs && crumbs.paths !== 'empty' && typeof crumbs.paths !== 'undefined') {
-        pathObj = JSON.parse(crumbs.paths)
-
-        const path = window.location.pathname
-        pathObj.push({ order: 7, locName: 'Finalize', path: path })
-        // console.log('below is pathObj')
-        // console.log(pathObj)
-
-        pathString = JSON.stringify(pathObj)
-    }
-
     useEffect(() => {
         async function getOrder() {
             const orderId = orderNum.orderNumber
@@ -72,7 +50,29 @@ export default function Finalize() {
 
         setBreadcrumbs(pathObj)
         }
-    }, [order, router])
+    }, [order, router, orderNum.orderNumber])
+
+    const {
+        query: { paths }
+    } = router
+
+    const crumbs = { paths }
+
+    let pathString = 'empty'
+    let pathObj
+    // console.log('on page')
+    // console.log(crumbs)
+
+    if (crumbs && crumbs.paths !== 'empty' && typeof crumbs.paths !== 'undefined') {
+        pathObj = JSON.parse(crumbs.paths)
+
+        const path = window.location.pathname
+        pathObj.push({ order: 7, locName: 'Finalize', path: path })
+        // console.log('below is pathObj')
+        // console.log(pathObj)
+
+        pathString = JSON.stringify(pathObj)
+    }
 
     function formatOrder(order) {
         order.phoneOne = `(${order.phoneOne.slice(0, 3)}) ${order.phoneOne.slice(3, 6)}-${order.phoneOne.slice(6, 10)}`

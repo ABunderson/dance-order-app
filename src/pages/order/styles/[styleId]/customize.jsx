@@ -51,7 +51,7 @@ export default function Customize({ style, flower, supplies }) {
             setDanceColors(flowerInfo)
         }
 
-    }, [router, dance])
+    }, [router, dance.danceNumber, danceColors.length, flower])
 
 
     if (router.isFallback) {

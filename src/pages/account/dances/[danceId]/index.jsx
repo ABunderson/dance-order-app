@@ -22,7 +22,7 @@ export default function ViewDance({ styles, dance }) {
         if (user.userName === 'default') {
             router.push('/account/login')
         }
-    }, [])
+    }, )
 
     if(router.isFallback){
         return <h1>The style is loading</h1>
