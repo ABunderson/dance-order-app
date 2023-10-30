@@ -5,20 +5,11 @@ import UserContext from 'context/UserContext'
 import OrderContext from 'context/OrderContext'
 import DanceContext from 'context/DanceContext'
 
-// export const UserContext = createContext('not set')
-
-
-
 export default function App({ Component, pageProps }: AppProps) {
-  
-// export default function App({ Component, pageProps }) {
+
   const [userName, setUserName] = useState('default')
   const [orderNumber, setOrderNumber] = useState('default')
   const [danceNumber, setDanceNumber] = useState('default')
-
-  // const OrderContext = createContext({ orderNumber, setOrderNumber })
-  // const DanceContext = createContext({ danceNumber, setDanceNumber })
-  // const UserContext = createContext({ userName, setUserName })
 
   return (<>
     <UserContext.Provider value={{ userName, setUserName }}>

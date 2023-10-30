@@ -21,20 +21,31 @@ input[type='radio'] {
 input[type='radio']:checked+label{
    background-color: var(--main-green);
 }
+
 p {
     margin-bottom: 10px;
 }
 
 .ribbonColors {
-    height: 100px;
+    height: 150px;
     width: 150px;
 }
+
 .ribbonLabel {
     display: inline-block;
     border-radius: 0;
-    // padding: 0;
     border: none;
 }
+
+.colorDiv {
+    background-color: peach;
+    height: 50px;
+    width: 50px;
+    margin-left: auto;
+    margin-right: auto;
+    border: 1px solid black;
+}
+
 label {
     display: block;
     border: 1px solid black;
@@ -42,6 +53,7 @@ label {
     height: auto;
     padding: 1rem;
     width: auto;
+    cursor: pointer;
 
     p {
         text-align: center;
@@ -98,25 +110,42 @@ const Fieldset = ({ item, type }) => {
             break;
     }
 
+    // (
+    //     <div key={keyName}>
+    //         <input type='radio' name={radioGroup} id={color} value={color} />
+    //         <label htmlFor={color} className="ribbonColors">
+    //             <p>{color}</p>
+    //             <section className="colorDiv" style={{ background: `${color === "peach" ? "peachpuff" : color.split(" ").join('')}` }}>
+
+    //             </section>
+    //         </label>
+    //     </div>
+    //     )
+
     return (
         <StyledFieldset key={item.name + 'Fieldset'}>
-            <legend>{item.name} {type=== 'slap'? 'bracelet' : ''}</legend>
+            <legend>{item.name} {type === 'slap' ? 'bracelet' : ''}</legend>
             <p>{desc}</p>
             <FlexDiv>
                 {type === 'ribbon' ? (
                     item.colors[0].map((color) => {
-                        return <div key={color+item.name}>
-                            <input type='radio' name={radioGroup} id={item.name+color} value={color} required />
-                            <label htmlFor={color} className="ribbonColors">
-                                <p>{color}</p>
-                            </label>
-                        </div>
+                        return (
+                            <div key={color + item.name}>
+                                <input type='radio' name={radioGroup} id={item.name + color} value={color} required />
+                                <label htmlFor={item.name + color} className="ribbonColors">
+                                    <p>{color}</p>
+                                    <section className="colorDiv" style={{ background: `${color === "peach" ? "peachpuff" : color.split(" ").join('')}` }}>
+
+                                    </section>
+                                </label>
+                            </div>
+                        )
                     })
                 ) : (
                     item.colors.map((color) => {
-                        return <div key={color.colorName+item.name}>
-                            <input type='radio' name={radioGroup} id={color.colorName} value={color.colorName} required />
-                            <label htmlFor={color.colorName}>
+                        return <div key={color.colorName + item.name}>
+                            <input type='radio' name={radioGroup} id={item.name + color.colorName} value={color.colorName} required />
+                            <label htmlFor={item.name + color.colorName}>
                                 <p>{color.colorName}</p>
                                 <Image
                                     src={color.colorImage}

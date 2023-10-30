@@ -9,12 +9,14 @@ const StyledStyleCard = styled(StyledCard)`
 
     img {
         max-width: 450px;
+        height: auto;
     }
 
     @media (max-width: 650px) {
         padding: 1rem;
         width: 100%;
         max-width: 450px;
+        height: auto;
     }
 `;
 
