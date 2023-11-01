@@ -4,6 +4,7 @@ import { useState } from 'react'
 // import { FlexDiv } from "../FlexGrid"
 
 const StyledFieldset = styled.fieldset`
+cursor: pointer;
 width: 100%;
 border: 4px solid var(--main-green);
 border-radius: 15px;
@@ -136,18 +137,21 @@ const Fieldset = ({ item, type }) => {
                                     <p>{color.colorName}</p>
                                     <Image
                                         src={color.colorImage}
+                                        // src={'/flowers/no-image.jpg'}
                                         alt={`A ${color.colorName} ${item.name}`}
                                         title={`Click to select ${color.colorName} ${item.name}`}
                                         width={250}
                                         height={250}
                                         priority
                                         onError={(e) => {
+                                            console.log(e.target.src)
+
                                             if (e.target.src.includes('no')) {
-                                                e.target.onError = null
+                                                e.target.onError = null 
                                             } else {
-                                                color.colorImage = '/flowers/no-image.jpg'
-                                                e.target.alt = 'A placeholder image'
-                                                e.target.src = '/flowers/no-image.jpg'
+                                                color.colorImage = '/flowers/no-image.jpg' 
+                                                e.target.alt = 'A placeholder image' 
+                                                e.target.src='/no-image.jpg'  
                                             }
                                         }}
                                     />

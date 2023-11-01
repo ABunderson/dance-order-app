@@ -9,6 +9,7 @@ const StyledStyleCard = styled(StyledCard)`
 
     img {
         max-width: 450px;
+        height: auto;
     }
 
     @media (max-width: 650px) {
@@ -36,7 +37,7 @@ const StyleCard = ({ style, action }) => {
                     } else {
                         style.image = '/styles/no-image.svg'
                         e.target.alt = 'A placeholder image'
-                        e.target.src = '/styles/no-image.svg'
+                        e.target.src = '/styles/no-image.svg' 
                     }
                 }}
             />

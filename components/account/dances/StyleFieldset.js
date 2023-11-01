@@ -20,7 +20,7 @@ const FlexDiv = styled.div`
             
         }
     }
-`
+` 
 const Fieldset = styled(StyledFieldset)`
     label {
         height: 100%;
@@ -28,12 +28,14 @@ const Fieldset = styled(StyledFieldset)`
             text-align: center;
             max-width: 250px;
             width: 100%;
+            height: auto;
         }
     }
     @media (max-width: 650px) {
         label {
             img {
                 max-width: 100%;
+                height: auto;
             }
         }
     }
@@ -46,16 +48,27 @@ const ArrayFieldset = ({ styles, dance }) => {
     return (
         <Fieldset>
             <legend>Styles</legend>
-            <p>Green boxes mean the style is selected. {dance ? 'Prior selections for this dance start green.': 'Default styles start out selected.'}</p>
+            <p>Green boxes mean the style is selected. {dance ? 'Prior selections for this dance start green.' : 'Default styles start out selected.'}</p>
             <FlexDiv>
                 {styles?.map((style) => {
                     // console.log(style)
                     return (
                         <div key={style._id}>
-                            <input type='checkbox' className='styles' name='styles' id={'styles ' + style._id} value={style._id} defaultChecked={dance ? dance.styles.includes(style._id): style.defaultStyle}/>
+                            <input type='checkbox' className='styles' name='styles' id={'styles ' + style._id} value={style._id} defaultChecked={dance ? dance.styles.includes(style._id) : style.defaultStyle} />
                             <label htmlFor={'styles ' + style._id}>
                                 <p>{style.name} {style.type}</p>
                                 <Image
+                                    onError={(e) => {
+                                        console.log(e.target.src)
+
+                                        if (e.target.src.includes('no')) {
+                                            e.target.onError = null
+                                        } else {
+                                            style.image = '/flowers/no-image.jpg'
+                                            e.target.alt = 'A placeholder image'
+                                            e.target.src = '/no-image.jpg'
+                                        }
+                                    }}
                                     src={style.image}
                                     alt={`${style.name} ${style.type}`}
                                     title={`Click to select ${style.name} ${style.type}`}

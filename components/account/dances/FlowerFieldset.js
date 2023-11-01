@@ -40,7 +40,7 @@ const Fieldset = styled(StyledFieldset)`
 const FlowerFieldset = ({ flower, dance }) => {
 
     const getDefualtColor = (color) => {
-        if (dance){
+        if (dance) {
             let colorArray = []
             colorArray = dance.flowers.find(item => item.flowerName === flower.name)
             return colorArray.colors.includes(color.colorName)
@@ -49,8 +49,9 @@ const FlowerFieldset = ({ flower, dance }) => {
             // console.log(color)
             return color.defaultColor
         }
-
     }
+
+    let imagePath = ''
 
     return (
         <Fieldset key={flower.name + 'Fieldset'}>
@@ -58,19 +59,39 @@ const FlowerFieldset = ({ flower, dance }) => {
             <p>Pick the colors you want to be able to sell for the dance. {dance ? 'Prior selections for this dance start green' : 'Green boxes mean they are selected.'}</p>
             <FlexDiv>
                 {
+                    
+
                     flower.colors.map((color) => {
-                       
-                        return <div key={color.colorName+flower.name}>
-                            <input type='checkbox' name={flower.name.split(' ').join('')} id={flower.name+color.colorName} value={color.colorName} defaultChecked={getDefualtColor(color)} className={flower.name.split(' ').join('')}/>
-                            <label htmlFor={flower.name+color.colorName}>
+                        imagePath = color.colorImage
+                        const setSrc = (url) => {
+                            // console.log('reset source')
+                            color.colorImage = url
+                        }
+
+                        return <div key={color.colorName + flower.name}>
+                            <input type='checkbox' name={flower.name.split(' ').join('')} id={flower.name + color.colorName} value={color.colorName} defaultChecked={getDefualtColor(color)} className={flower.name.split(' ').join('')} />
+                            <label htmlFor={flower.name + color.colorName}>
                                 <p>{color.colorName}</p>
                                 <Image
+                                    onError={(e) => {
+            
+                                            if (e.target.src.includes('no')) {
+                                                e.target.onError = null
+                                            } else {
+                                                color.colorImage = '/flowers/no-image.jpg'
+                                                e.target.alt = 'A placeholder image'
+                                                e.target.srcset = ''  
+                                                e.target.src = '/no-image.jpg' 
+                                            }
+                                        }
+                                    }
                                     src={color.colorImage}
                                     alt={`${color.colorName} ${flower.name}`}
                                     title={`Click to select ${color.colorName} ${flower.name}`}
                                     width={250}
                                     height={250}
-                                    priority />
+                                    priority 
+                                    />
                             </label>
                         </div>
                     })
