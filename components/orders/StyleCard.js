@@ -24,12 +24,21 @@ const StyleCard = ({ style, action }) => {
             
             <h2>{style.name}</h2>
             <Image
-                src={style.image ? style.image : '/styles/no-image.svg'}
+                src={style.image}
                 alt={`A ${style.name} ${style.type}`}
                 title={`A ${style.name} ${style.type}`}
                 width={500}
                 height={500}
                 priority
+                onError={(e) => {
+                    if (e.target.src.includes('no')) {
+                        e.target.onError = null
+                    } else {
+                        style.image = '/styles/no-image.svg'
+                        e.target.alt = 'A placeholder image'
+                        e.target.src = '/styles/no-image.svg'
+                    }
+                }}
             />
             <p>${style.price}</p>
 

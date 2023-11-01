@@ -26,7 +26,7 @@ p {
 }
 
 .ribbonColors {
-    height: 100px;
+    height: 150px;
     width: 150px;
 }
 .ribbonLabel {
@@ -35,6 +35,16 @@ p {
     // padding: 0;
     border: none;
 }
+
+.colorDiv {
+    background-color: peach;
+    height: 50px;
+    width: 50px;
+    margin-left: auto;
+    margin-right: auto;
+    border: 1px solid black;
+}
+
 label {
     display: block;
     border: 1px solid black;
@@ -98,83 +108,55 @@ const Fieldset = ({ item, type }) => {
             break;
     }
 
-   
-    const imageExists = (url) => {
-        // let http = new XMLHttpRequest();
 
-        // http.open('Head' , url, false)
-        // http.send();
-        // return http.status != 404
-        // console.log(RNFS.exists(url))
-        // try {
-        //     console.log('try')
-        //     console.log(`${url}`)
-        //     console.log(require(url))
-            
-        // } catch (err){
-        //     console.log('false')
-        // }
-        // console.log(url.exists())
 
-    }
-    //  console.log(imageExists(item.colors[0].colorImage))
     return (
         <StyledFieldset key={item.name + 'Fieldset'}>
-            <legend>{item.name} {type=== 'slap'? 'bracelet' : ''}</legend>
+            <legend>{item.name} {type === 'slap' ? 'bracelet' : ''}</legend>
             <p>{desc}</p>
             <FlexDiv>
                 {type === 'ribbon' ? (
                     item.colors[0].map((color) => {
-                        return <div key={color+item.name}>
-                            <input type='radio' name={radioGroup} id={item.name+color} value={color} required />
-                            <label htmlFor={color} className="ribbonColors">
+                        return <div key={color + item.name}>
+                            <input type='radio' name={radioGroup} id={item.name + color} value={color} required />
+                            <label htmlFor={item.name + color} className="ribbonColors">
                                 <p>{color}</p>
+                                <section className="colorDiv" style={{ background: `${color === "peach" ? "peachpuff" : color.split(" ").join('')}` }}>
+
+                                </section>
                             </label>
                         </div>
                     })
                 ) : (
                     item.colors.map((color) => {
-                        return <div key={color.colorName+item.name}>
-                            <input type='radio' name={radioGroup} id={color.colorName} value={color.colorName} required />
-                            <label htmlFor={color.colorName}>
-                                <p>{color.colorName}</p>
-
-                                
-                                <Image
-                                    key={item.name+'image'+color.colorName}
-                                    // src={imageExists(color.colorImage) ? color.colorImage : '/flowers/no-image.jpg'}
-                                    src={color.colorImage}
-                                    // src={'/flowers/no-image.jpg'}
-                                    alt={`${color.colorName} ${item.name}`}
-                                    title={`Click to select ${color.colorName} ${item.name}`}
-                                    width={250}
-                                    height={250}
-                                    priority 
-                                    // onErrorCapture={(e) => {e.target.onErrorCapture = null; e.target.src='/flowers/no-image.jpg'}}
-                                    // onError={(e)=>{e.target.onError = null; e.target.src='/flowers/no-image.jpg'}}
-                                    onErrorCapture={(e)=> {
-                                        console.log(e.target.src) 
-                                        e.target.onErrorCapture = null
-                                        e.target.reload
-                                        const current = e.target.src
-                                        let splitUrl = current.split('=')
-                                        console.log(current.split('='))
-                                        splitUrl[1] = '%2Fflowers%2Fno-image.jpg&w' 
-                                        const newUrl = splitUrl.join('=')
-                                        console.log(newUrl)
-                                        e.target.src = newUrl 
-                                        color.colorImage = '/flowers/no-image.jpg'                                        
-                                    }
-                                        
-                                    }
+                        return (
+                            <div key={color.colorName + item.name}>
+                                <input type='radio' name={radioGroup} id={item.name+color.colorName} value={color.colorName} required />
+                                <label htmlFor={item.name+color.colorName}>
+                                    <p>{color.colorName}</p>
+                                    <Image
+                                        src={color.colorImage}
+                                        alt={`A ${color.colorName} ${item.name}`}
+                                        title={`Click to select ${color.colorName} ${item.name}`}
+                                        width={250}
+                                        height={250}
+                                        priority
+                                        onError={(e) => {
+                                            if (e.target.src.includes('no')) {
+                                                e.target.onError = null
+                                            } else {
+                                                color.colorImage = '/flowers/no-image.jpg'
+                                                e.target.alt = 'A placeholder image'
+                                                e.target.src = '/flowers/no-image.jpg'
+                                            }
+                                        }}
                                     />
-                            </label>
-                        </div>
+                                </label>
+                            </div>
+                        )
+
                     })
                 )}
-
-                {/*  */}
-
 
             </FlexDiv>
 
