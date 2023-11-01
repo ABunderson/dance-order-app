@@ -20,7 +20,7 @@ const FlexDiv = styled.div`
             
         }
     }
-` 
+`
 const Fieldset = styled(StyledFieldset)`
     label {
         height: 100%;
@@ -58,23 +58,24 @@ const ArrayFieldset = ({ styles, dance }) => {
                             <label htmlFor={'styles ' + style._id}>
                                 <p>{style.name} {style.type}</p>
                                 <Image
-                                    onError={(e) => {
-                                        console.log(e.target.src)
 
-                                        if (e.target.src.includes('no')) {
-                                            e.target.onError = null
-                                        } else {
-                                            style.image = '/flowers/no-image.jpg'
-                                            e.target.alt = 'A placeholder image'
-                                            e.target.src = '/no-image.jpg'
-                                        }
-                                    }}
                                     src={style.image}
                                     alt={`${style.name} ${style.type}`}
                                     title={`Click to select ${style.name} ${style.type}`}
                                     width={250}
                                     height={250}
-                                    priority />
+                                    priority
+                                    onError={(e) => {
+                                        if (e.target.src.includes('no-image')) {
+                                            e.target.onError = null
+                                        } else {
+                                            style.image = '/no-image.jpg'
+                                            e.target.alt = 'A placeholder image'
+                                            e.target.srcset = ''
+                                            e.target.src = '/no-image.jpg'
+                                        }
+                                    }}
+                                />
                             </label>
                         </div>
                     )

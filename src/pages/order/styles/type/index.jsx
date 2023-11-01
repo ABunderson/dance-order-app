@@ -82,19 +82,19 @@ export default function ChooseType() {
                 <Card
                     action={boutClick}
                     title='Boutonniere'
-                    src='/styles/no-image.svg'
+                    src='/styles/boutonniere/full-rose.jpg'
                     alt='A boutonniere'
                     imageTitle='Boutonniere'
-                    description='A boutonniere is what a female traditionally buys for a male'>
+                    description='A boutonniere is what a female traditionally buys for a male'
+                    >
                 </Card>
                 <Card
                     action={corClick}
                     title='Corsage'
-                    src='/styles/no-image.svg'
+                    src='/styles/corsage/rose.jpg'
                     alt='A corsage'
                     imageTitle='Corsage'
                     description='A corsage is what a male traditionally buys for a female'>
-
                 </Card>
             </FlexRow>
         </Layout>

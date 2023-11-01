@@ -40,12 +40,12 @@ const SingleFieldset = ({ item, keyValue }) => {
         <StyledFieldset>
             <legend>{item.name} {item.name === 'slap' || item.name === 'pearl' ? 'bracelet' : ''}</legend>
             <p>{item.description}</p>
-            <p>{sign === '$' ? `${sign}${price}`: `${price}${sign} `}{item.limit ? '':' each'}</p>
+            <p>{sign === '$' ? `${sign}${price}` : `${price}${sign} `}{item.limit ? '' : ' each'}</p>
 
             <FlexDiv key={keyValue + 'div'}>
 
                 <div key={item.name}>
-                    <input type='checkbox' name={name} id={name} value={item.name}/>
+                    <input type='checkbox' name={name} id={name} value={item.name} />
                     <label htmlFor={name}>
                         <p>{item.name}</p>
 
@@ -55,13 +55,24 @@ const SingleFieldset = ({ item, keyValue }) => {
                             title={`Click to add ${item.name}`}
                             width={250}
                             height={250}
-                            priority />
+                            priority
+                            onError={(e) => {
+                                if (e.target.src.includes('no-image')) {
+                                    e.target.onError = null
+                                } else {
+                                    item.mainImage = '/no-image.jpg'
+                                    e.target.alt = 'A placeholder image'
+                                    e.target.srcset = ''
+                                    e.target.src = '/no-image.jpg'
+                                }
+                            }}
+                        />
 
                     </label>
                 </div>
             </FlexDiv>
-            
-         </StyledFieldset >
+
+        </StyledFieldset >
     )
 }
 

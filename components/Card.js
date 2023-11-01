@@ -38,6 +38,17 @@ const Card = ({ title, src, alt, imageTitle, description, action }) => {
                 width={500}
                 height={500}
                 priority
+                onError={(e) => {
+                    if (e.target.src.includes('no-image')) {
+                        e.target.onError = null
+                    } else {
+                        src = '/no-image.jpg'
+                        e.target.alt = 'A placeholder image'
+                        e.target.srcset = ''
+                        e.target.src = '/no-image.jpg'
+                    }
+                }
+                }
             />
             <p>{description}</p>
         </StyledCard>

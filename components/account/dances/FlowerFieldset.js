@@ -51,49 +51,40 @@ const FlowerFieldset = ({ flower, dance }) => {
         }
     }
 
-    let imagePath = ''
-
     return (
         <Fieldset key={flower.name + 'Fieldset'}>
             <legend>{flower.name}</legend>
             <p>Pick the colors you want to be able to sell for the dance. {dance ? 'Prior selections for this dance start green' : 'Green boxes mean they are selected.'}</p>
             <FlexDiv>
                 {
-                    
-
                     flower.colors.map((color) => {
-                        imagePath = color.colorImage
-                        const setSrc = (url) => {
-                            // console.log('reset source')
-                            color.colorImage = url
-                        }
 
-                        return <div key={color.colorName + flower.name}>
-                            <input type='checkbox' name={flower.name.split(' ').join('')} id={flower.name + color.colorName} value={color.colorName} defaultChecked={getDefualtColor(color)} className={flower.name.split(' ').join('')} />
-                            <label htmlFor={flower.name + color.colorName}>
-                                <p>{color.colorName}</p>
-                                <Image
-                                    onError={(e) => {
-            
-                                            if (e.target.src.includes('no')) {
+                        return (
+                            <div key={color.colorName + flower.name}>
+                                <input type='checkbox' name={flower.name.split(' ').join('')} id={flower.name + color.colorName} value={color.colorName} defaultChecked={getDefualtColor(color)} className={flower.name.split(' ').join('')} />
+                                <label htmlFor={flower.name + color.colorName}>
+                                    <p>{color.colorName}</p>
+                                    <Image
+                                        src={color.colorImage}
+                                        alt={`${color.colorName} ${flower.name}`}
+                                        title={`Click to select ${color.colorName} ${flower.name}`}
+                                        width={250}
+                                        height={250}
+                                        priority
+                                        onError={(e) => {
+                                            if (e.target.src.includes('no-image')) {
                                                 e.target.onError = null
                                             } else {
-                                                color.colorImage = '/flowers/no-image.jpg'
+                                                color.colorImage = '/no-image.jpg'
                                                 e.target.alt = 'A placeholder image'
-                                                e.target.srcset = ''  
-                                                e.target.src = '/no-image.jpg' 
+                                                e.target.srcset = ''
+                                                e.target.src = '/no-image.jpg'
                                             }
-                                        }
-                                    }
-                                    src={color.colorImage}
-                                    alt={`${color.colorName} ${flower.name}`}
-                                    title={`Click to select ${color.colorName} ${flower.name}`}
-                                    width={250}
-                                    height={250}
-                                    priority 
+                                        }}
                                     />
-                            </label>
-                        </div>
+                                </label>
+                            </div>
+                        )
                     })
                 }
 

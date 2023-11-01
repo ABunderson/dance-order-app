@@ -22,6 +22,7 @@ input[type='radio'] {
 input[type='radio']:checked+label{
    background-color: var(--main-green);
 }
+
 p {
     margin-bottom: 10px;
 }
@@ -30,6 +31,7 @@ p {
     height: 150px;
     width: 150px;
 }
+
 .ribbonLabel {
     display: inline-block;
     border-radius: 0;
@@ -61,9 +63,17 @@ label {
 
     img {
         width: 100%;
-        height: auto;
-        max-width: 100%;
+        height: auto; 
+        max-width: 256px;
         min-width: 150px;
+    }
+}
+
+@media (max-width: 650px){
+    label {
+        img {
+            max-width: 100%;
+        }
     }
 }
 
@@ -137,23 +147,26 @@ const Fieldset = ({ item, type }) => {
                                     <p>{color.colorName}</p>
                                     <Image
                                         src={color.colorImage}
-                                        // src={'/flowers/no-image.jpg'}
                                         alt={`A ${color.colorName} ${item.name}`}
                                         title={`Click to select ${color.colorName} ${item.name}`}
                                         width={250}
                                         height={250}
                                         priority
-                                        onError={(e) => {
-                                            console.log(e.target.src)
-
-                                            if (e.target.src.includes('no')) {
-                                                e.target.onError = null 
+                                        onError={(e) => {            
+                                            if (e.target.src.includes('no-image')) {
+                                                e.target.onError = null
                                             } else {
-                                                color.colorImage = '/flowers/no-image.jpg' 
-                                                e.target.alt = 'A placeholder image' 
-                                                e.target.src='/no-image.jpg'  
-                                            }
+                                                color.colorImage = '/no-image.jpg'
+                                                e.target.alt = 'A placeholder image'
+                                                e.target.srcset = ''   
+                                                e.target.src = '/no-image.jpg' 
+                                            }  
                                         }}
+                                        // style={{
+                                        //     width:'100%',
+                                        //     height:'auto',
+                                        //     maxWidth: '320px',
+                                        //     minWidth:'150px'}}
                                     />
                                 </label>
                             </div>
@@ -161,7 +174,7 @@ const Fieldset = ({ item, type }) => {
 
                     })
                 )}
-
+ 
             </FlexDiv>
 
             {type === 'ribbon' ? (

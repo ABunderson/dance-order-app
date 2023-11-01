@@ -1,4 +1,3 @@
-import Image from "next/image"
 import styled from "styled-components"
 import { StyledFieldset } from "components/styles/FieldsetStyles"
 

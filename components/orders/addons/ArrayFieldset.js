@@ -42,8 +42,8 @@ const ArrayFieldset = ({ item, keyValue }) => {
                 {item.colors.map((color) => {
                     // console.log(color.colorName+item.name)
                     return <div key={color.colorName + item.name}>
-                        <input type='radio' name={radioGroup} id={name+color.colorName} value={color.colorName} />
-                        <label htmlFor={name+color.colorName}>
+                        <input type='radio' name={radioGroup} id={name + color.colorName} value={color.colorName} />
+                        <label htmlFor={name + color.colorName}>
                             <p>{color.colorName}</p>
                             <Image
                                 src={color.colorImage}
@@ -51,7 +51,18 @@ const ArrayFieldset = ({ item, keyValue }) => {
                                 title={`Click to select ${color.colorName} ${item.name}`}
                                 width={250}
                                 height={250}
-                                priority />
+                                priority
+                                onError={(e) => {
+                                    if (e.target.src.includes('no-image')) {
+                                        e.target.onError = null
+                                    } else {
+                                        color.colorImage = '/no-image.jpg'
+                                        e.target.alt = 'A placeholder image'
+                                        e.target.srcset = ''
+                                        e.target.src = '/no-image.jpg'
+                                    }
+                                }}
+                            />
                         </label>
                     </div>
                 })}
@@ -62,7 +73,7 @@ const ArrayFieldset = ({ item, keyValue }) => {
             {!item.limit ? (
                 <div key={keyValue + 'LimitDiv'}>
                     <label htmlFor={name + 'quantity'} className="ribbonLabel">Amount: </label>
-                    <input name={name + 'quantity'} type="number" defaultValue='0' min="0"/>
+                    <input name={name + 'quantity'} type="number" defaultValue='0' min="0" />
                 </div>
             ) : (
                 <></>

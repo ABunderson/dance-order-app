@@ -1,13 +1,8 @@
-import { StyledForm } from "components/styles/FormStyles"
-import Button from 'components/Button'
-import StyleFieldset from 'components/account/dances/StyleFieldset'
 import styled from "styled-components"
-import FlowerFieldset from "./FlowerFieldset"
 import { Fragment } from "react"
 import StyleDiv from "./StyleDiv"
 import Line from 'components/Line'
 
-// return <ArrayFieldset item={item} key={keyName} keyValue={keyName}></ArrayFieldset>
 
 const OutputDiv = styled.div`
 display: flex;

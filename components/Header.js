@@ -35,7 +35,6 @@ const Header = () => {
             <div className='headerDiv'>
                 <Link href="/">
                     <Image
-                        // className={styles.logo}
                         src="/icons/logo.png"
                         alt="A logo image of a flower. Icon from Icons8"
                         title="Home page"

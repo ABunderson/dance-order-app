@@ -22,7 +22,7 @@ const StyledStyleCard = styled(StyledCard)`
 const StyleCard = ({ style, action }) => {
     return (
         <StyledStyleCard onClick={() => action(style)}>
-            
+
             <h2>{style.name}</h2>
             <Image
                 src={style.image}
@@ -32,14 +32,16 @@ const StyleCard = ({ style, action }) => {
                 height={500}
                 priority
                 onError={(e) => {
-                    if (e.target.src.includes('no')) {
+                    if (e.target.src.includes('no-image')) {
                         e.target.onError = null
                     } else {
-                        style.image = '/styles/no-image.svg'
+                        style.image = '/no-image.jpg'
                         e.target.alt = 'A placeholder image'
-                        e.target.src = '/styles/no-image.svg' 
+                        e.target.srcset = ''
+                        e.target.src = '/no-image.jpg'
                     }
-                }}
+                }
+                }
             />
             <p>${style.price}</p>
 
