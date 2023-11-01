@@ -24,7 +24,7 @@ const StyleCard = ({ style, action }) => {
             
             <h2>{style.name}</h2>
             <Image
-                src={style.image}
+                src={style.image ? style.image : '/styles/no-image.svg'}
                 alt={`A ${style.name} ${style.type}`}
                 title={`A ${style.name} ${style.type}`}
                 width={500}

@@ -98,6 +98,26 @@ const Fieldset = ({ item, type }) => {
             break;
     }
 
+   
+    const imageExists = (url) => {
+        // let http = new XMLHttpRequest();
+
+        // http.open('Head' , url, false)
+        // http.send();
+        // return http.status != 404
+        // console.log(RNFS.exists(url))
+        // try {
+        //     console.log('try')
+        //     console.log(`${url}`)
+        //     console.log(require(url))
+            
+        // } catch (err){
+        //     console.log('false')
+        // }
+        // console.log(url.exists())
+
+    }
+    //  console.log(imageExists(item.colors[0].colorImage))
     return (
         <StyledFieldset key={item.name + 'Fieldset'}>
             <legend>{item.name} {type=== 'slap'? 'bracelet' : ''}</legend>
@@ -118,13 +138,36 @@ const Fieldset = ({ item, type }) => {
                             <input type='radio' name={radioGroup} id={color.colorName} value={color.colorName} required />
                             <label htmlFor={color.colorName}>
                                 <p>{color.colorName}</p>
+
+                                
                                 <Image
+                                    key={item.name+'image'+color.colorName}
+                                    // src={imageExists(color.colorImage) ? color.colorImage : '/flowers/no-image.jpg'}
                                     src={color.colorImage}
+                                    // src={'/flowers/no-image.jpg'}
                                     alt={`${color.colorName} ${item.name}`}
                                     title={`Click to select ${color.colorName} ${item.name}`}
                                     width={250}
                                     height={250}
-                                    priority />
+                                    priority 
+                                    // onErrorCapture={(e) => {e.target.onErrorCapture = null; e.target.src='/flowers/no-image.jpg'}}
+                                    // onError={(e)=>{e.target.onError = null; e.target.src='/flowers/no-image.jpg'}}
+                                    onErrorCapture={(e)=> {
+                                        console.log(e.target.src) 
+                                        e.target.onErrorCapture = null
+                                        e.target.reload
+                                        const current = e.target.src
+                                        let splitUrl = current.split('=')
+                                        console.log(current.split('='))
+                                        splitUrl[1] = '%2Fflowers%2Fno-image.jpg&w' 
+                                        const newUrl = splitUrl.join('=')
+                                        console.log(newUrl)
+                                        e.target.src = newUrl 
+                                        color.colorImage = '/flowers/no-image.jpg'                                        
+                                    }
+                                        
+                                    }
+                                    />
                             </label>
                         </div>
                     })
