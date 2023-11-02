@@ -4,7 +4,6 @@ import { hashPassword } from 'components/account/Hashing'
 import { useRouter } from 'next/router'
 import { Alert } from 'components/Alert'
 import { alertService } from '../../../services/alert.service'
-import { capitalize } from 'functions/utils'
 
 import UserContext from 'context/UserContext'
 import { useContext } from 'react'
@@ -49,11 +48,6 @@ export default function LoginPage() {
         const data = await response.json()
         return data.users.length === 1 ? true : false
     }
-
-
-    let str = 'any list of words'
-    console.log(str)
-    console.log(capitalize(str))
 
     return (
         <Layout pageTitle="Login">

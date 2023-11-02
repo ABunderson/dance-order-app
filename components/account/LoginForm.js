@@ -3,9 +3,11 @@ import { useState } from 'react'
 import { hashPassword} from 'components/account/Hashing'
 import Button from 'components/Button'
 import { StyledColumnForm } from 'components/styles/FormStyles'
+import { useRouter } from 'next/router'
 
 const LoginForm = ({ action }) => {
     const [userName, setUserName] = useState('')
+    const router = useRouter()
     // const [password, setPassword] = useState('')
 
     return (
@@ -17,6 +19,7 @@ const LoginForm = ({ action }) => {
             <input type='password' name='password' id='password' defaultValue={''} required/>
             
             <Button text='Login' type='submit'></Button>
+            <Button text='New User' type='button' action={() => {router.push('/account/newUser')}}></Button>
         </StyledColumnForm>
     )
 }
