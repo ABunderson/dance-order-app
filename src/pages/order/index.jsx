@@ -26,7 +26,6 @@ export default function Finalize() {
 
             const prettyOrder = formatOrder(order)
 
-
             const styleResponse = await fetch(`/api/styles/${order.styleId}`)
             const styleData = await styleResponse.json()
             const style = styleData.styles[0]
@@ -38,6 +37,7 @@ export default function Finalize() {
         if (!order) {
             getOrder()
         }
+        
         if(!router.isReady) {return}
         else {
         const {

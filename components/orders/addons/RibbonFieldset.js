@@ -24,14 +24,12 @@ const FlexDiv = styled.div`
 `
 
 
-const RibbonFieldset = ({ item, ribbon, keyValue }) => {
-    // console.log(keyValue)
+const RibbonFieldset = ({ item, ribbon, keyValue, order }) => {
 
-    // console.log(ribbon[0].colors)
     let name = item.name
     name = name.split(" ").join('')
     const radioGroup = name + 'Ribbon'
-    // console.log(radioGroup)
+
     ribbon = ribbon[0]
     let price = item.price
     let sign = '$'
@@ -39,14 +37,13 @@ const RibbonFieldset = ({ item, ribbon, keyValue }) => {
     if (item.price < 1) {
         price = item.price * 100
         sign = '￠'
-        // console.log(item.price * 100)
     }
 
     return (
         // <p key={keyName}>ribbon</p>)
         <StyledFieldset>
             <legend>{item.name}</legend>
-            <p>{item.description}</p>
+            <p>{order.ribbonColor ?  item.description.includes('bow') ? 'Have a bow with two ribbon colors.' : 'Add another ribbon to your boutonniere' :item.description}</p>
             <p>{sign === '$' ? `${sign}${price}`: `${price}${sign} `}{item.limit ? '':' each'}</p>
             <FlexDiv key={keyValue + 'div'}>
                 {ribbon.colors[0].map((color) => {

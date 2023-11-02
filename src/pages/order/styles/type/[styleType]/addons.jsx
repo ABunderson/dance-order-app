@@ -9,26 +9,42 @@ import { useState, useEffect, useContext } from 'react'
 import OrderContext from 'context/OrderContext'
 
 export default function GetStyles({ addons, ribbon }) {
-    const [breadcrumbs, setBreadcrumbs] = useState([]) 
+    const [breadcrumbs, setBreadcrumbs] = useState([])
+    const [orderInfo, setOrderInfo] = useState([])
     const router = useRouter()
     const order = useContext(OrderContext)
 
     useEffect(() => {
 
-        if(!router.isReady) {return}
-        else {
-        const {
-            query: { paths }
-        } = router
-    
-        const crumbs = { paths }
-        // console.log(crumbs)
-        let pathObj = JSON.parse(crumbs.paths)
+        if (!router.isReady) {
+            return
+        } else {
+            const {
+                query: { paths }
+            } = router
 
-        setBreadcrumbs(pathObj)
+            const crumbs = { paths }
+            // console.log(crumbs)
+            let pathObj = JSON.parse(crumbs.paths)
+
+            setBreadcrumbs(pathObj)
+        }
+        
+        if (orderInfo.length === 0) {
+            getOrder()
         }
 
-    }, [router])
+        async function getOrder() {
+            const orderId = order.orderNumber
+
+            const response = await fetch(`/api/orders/${orderId}`)
+            const data = await response.json()
+            const orderJson = data.orders[0]
+
+            setOrderInfo(orderJson)
+        }
+
+    }, [router, order])
 
     if (router.isFallback) {
         return <h1>Loading:</h1>
@@ -36,7 +52,6 @@ export default function GetStyles({ addons, ribbon }) {
 
 
     const goBack = () => {
-        // console.log('want to go back')
         router.back()
     }
 
@@ -72,18 +87,18 @@ export default function GetStyles({ addons, ribbon }) {
             const {
                 query: { paths }
             } = router
-        
+
             const crumbs = { paths }
-        
+
             let pathString = 'empty'
             let pathObj
-        
+
             if (crumbs && crumbs.paths !== 'empty' && typeof crumbs.paths !== 'undefined') {
                 pathObj = JSON.parse(crumbs.paths)
-        
+
                 const path = window.location.pathname
                 pathObj.push({ order: 6, locName: 'Finishing Touches', path: path })
-        
+
                 pathString = JSON.stringify(pathObj)
             }
 
@@ -104,7 +119,7 @@ export default function GetStyles({ addons, ribbon }) {
 
             <h1 style={{ textTransform: 'capitalize' }}>Finishing Touches</h1>
 
-            <AddonForm backAction={goBack} forwardAction={onSubmit} addons={addons} ribbon={ribbon}></AddonForm>
+            <AddonForm backAction={goBack} forwardAction={onSubmit} addons={addons} ribbon={ribbon} order={orderInfo}></AddonForm>
 
 
         </Layout>

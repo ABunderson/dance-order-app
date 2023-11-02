@@ -5,21 +5,18 @@ import RibbonFieldset from "./RibbonFieldset"
 import SingleFieldset from './SingleFieldset'
 import ArrayFieldset from './ArrayFieldset'
 
-const AddonForm = ({ backAction, forwardAction, addons, ribbon }) => {
-
+const AddonForm = ({ backAction, forwardAction, addons, ribbon, order }) => {
 
     const chooseFieldset = (item, keyName) => {
         if (item.colors === 'ribbon') {
-            return <RibbonFieldset item={item} ribbon={ribbon} key={keyName} keyValue={keyName}></RibbonFieldset>
-            // return <p key={keyName}>ribbon</p>
+            return <RibbonFieldset item={item} ribbon={ribbon} key={keyName} keyValue={keyName} order={order}></RibbonFieldset>
+
         } else if (!item.colors) {
             return <SingleFieldset item={item} key={keyName} keyValue={keyName}></SingleFieldset>
-            // return <p key={keyName}>single</p>
+
         } else {
             return <ArrayFieldset item={item} key={keyName} keyValue={keyName}></ArrayFieldset>
-            // return <p key={keyName}>array</p>
         }
-        
     }
 
     return (
