@@ -30,7 +30,7 @@ const Footer = () => {
                 <p>&copy;2023 Bunderson </p>
                 <p>icons by <a href="https://icons8.com/" target="_blank">Icons8</a></p>
                 <div>
-                    <a href="#" target='_blank'>
+                    <a href="https://www.facebook.com/" target='_blank'>
                         <Image
                             className="socialIcon"
                             src="/icons/facebook.svg"
@@ -41,7 +41,7 @@ const Footer = () => {
                             priority
                         />
                     </a>
-                    <a href="#" target="_blank">
+                    <a href="https://www.pinterest.com/" target="_blank">
                         <Image
                             className="socialIcon"
                             src="/icons/pinterest.svg"
@@ -52,7 +52,7 @@ const Footer = () => {
                             priority
                         />
                     </a>
-                    <a href="#" target="_blank">
+                    <a href="https://www.instagram.com/" target="_blank">
                         <Image
                             className="socialIcon"
                             src="/icons/instagram.svg"

@@ -117,6 +117,7 @@ export default function CreateDance({ styles, flowers}) {
         </Layout>
     )
 }
+
 export async function getStaticProps() {
     let stylesReturn
     try {

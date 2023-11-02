@@ -8,6 +8,7 @@ import CustomizeForm from 'components/orders/customize/CustomizeForm'
 import OrderContext from 'context/OrderContext'
 import DanceContext from 'context/DanceContext'
 import { useState, useEffect, useContext } from 'react'
+import { capitalize } from 'functions/utils'
 
 
 
@@ -121,7 +122,7 @@ export default function Customize({ style, flower, supplies }) {
     }
 
     return (
-        <Layout pageTitle={`Customize ${style[0].name} ${style[0].type}`}>
+        <Layout pageTitle={capitalize(`Customize ${style[0].name} ${style[0].type}`)}>
 
             <Breadcrumbs path={breadcrumbs}></Breadcrumbs>
 
@@ -137,7 +138,6 @@ export default function Customize({ style, flower, supplies }) {
 export async function getStaticPaths() {
     try {
         const { styles, error } = await getStyles(0)
-        // console.log(styles)
         if (error) throw new Error(error)
         let paths = []
         paths = styles.map((style) => {
@@ -145,7 +145,6 @@ export async function getStaticPaths() {
                 params: { styleId: style._id },
             }
         })
-        // console.log(paths)
 
         return {
             paths,
@@ -168,7 +167,6 @@ export async function getStaticProps(context) {
             }
         }
 
-        // console.log(styles[0].flower)
         let flowerArray = []
         if (styles[0].flower) {
             const { flowers, error } = await getFlowerByName(styles[0].flower)
@@ -178,29 +176,25 @@ export async function getStaticProps(context) {
                     notFound: true,
                 }
             }
-            // console.log(flowers)
             flowerArray = flowers
         }
 
         let supplyArray = []
 
         if (styles[0].ribbon || styles[0].metalBack || styles[0].wristlet) {
-            // console.log('need to look it up')
+
             let searchArray = []
             styles[0].ribbon ? searchArray.push('ribbon') : ''
             styles[0].metalBack ? searchArray.push('metal back') : ''
             styles[0].wristlet && styles[0].wristlet !== 'elastic' ? searchArray.push(styles[0].wristlet) : ''
-            // console.log(searchArray)
 
             const { supplies, error } = await getSupplyByNameArray(searchArray)
-            // let jsonSupplies = json( supplies )
             if (error) throw new Error(error)
             if (!styles) {
                 return {
                     notFound: true,
                 }
             }
-            // console.log(supplies)
             supplyArray = supplies
         }
 
@@ -214,9 +208,4 @@ export async function getStaticProps(context) {
     } catch (error) {
         console.log('Error:' + error.message)
     }
-}
-
-
-function checkForflower(name) {
-    if (name) { }
 }

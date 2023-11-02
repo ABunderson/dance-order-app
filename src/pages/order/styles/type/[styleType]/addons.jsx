@@ -99,7 +99,7 @@ export default function GetStyles({ addons, ribbon }) {
     }
 
     return (
-        <Layout pageTitle='Styles'>
+        <Layout pageTitle='Finishing Touches'>
             <Breadcrumbs path={breadcrumbs}></Breadcrumbs>
 
             <h1 style={{ textTransform: 'capitalize' }}>Finishing Touches</h1>

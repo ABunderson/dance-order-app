@@ -2,6 +2,7 @@ import Layout from 'components/Layout'
 import Breadcrumbs from 'components/Breadcrumbs'
 import Card from 'components/Card'
 import FlexRow from 'components/orders/flexRow'
+import Button from 'components/Button'
 import { useRouter } from 'next/router'
 import { useState } from 'react'
 import { useEffect } from 'react'
@@ -97,6 +98,7 @@ export default function ChooseType() {
                     description='A corsage is what a male traditionally buys for a female'>
                 </Card>
             </FlexRow>
+            <Button text='Back' type='button' action={()=> {router.back()}}></Button>
         </Layout>
     )
 }

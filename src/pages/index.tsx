@@ -15,7 +15,6 @@ export default function Home() {
     router.push('/order/information')
   }
 
-
   return (
     <Layout pageTitle='Home'>
        <Image

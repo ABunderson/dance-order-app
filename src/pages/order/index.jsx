@@ -99,7 +99,7 @@ export default function Finalize() {
         // console.log(convertedJSON)
 
         if (convertedJSON.finishType === 'print'){
-            print()
+            window.print()
         }
 
         // unset context

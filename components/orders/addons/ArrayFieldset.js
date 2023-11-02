@@ -42,7 +42,7 @@ const ArrayFieldset = ({ item, keyValue }) => {
                 {item.colors.map((color) => {
                     // console.log(color.colorName+item.name)
                     return <div key={color.colorName + item.name}>
-                        <input type='radio' name={radioGroup} id={name + color.colorName} value={color.colorName} />
+                        <input type='checkbox' name={radioGroup} id={name + color.colorName} value={color.colorName} />
                         <label htmlFor={name + color.colorName}>
                             <p>{color.colorName}</p>
                             <Image

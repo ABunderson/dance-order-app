@@ -162,11 +162,6 @@ const Fieldset = ({ item, type }) => {
                                                 e.target.src = '/no-image.jpg' 
                                             }  
                                         }}
-                                        // style={{
-                                        //     width:'100%',
-                                        //     height:'auto',
-                                        //     maxWidth: '320px',
-                                        //     minWidth:'150px'}}
                                     />
                                 </label>
                             </div>

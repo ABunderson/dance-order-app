@@ -1,5 +1,6 @@
 // all the styles either bout or cor
 import Layout from 'components/Layout'
+import Button from 'components/Button'
 import Breadcrumbs from 'components/Breadcrumbs'
 import { getStylesByType } from 'mongoDb/styles'
 import { useRouter } from 'next/router'
@@ -7,6 +8,7 @@ import StyleCard from 'components/orders/StyleCard'
 import FlexGrid from 'components/orders/FlexGrid'
 import { useState, useEffect, useContext } from 'react'
 import DanceContext from 'context/DanceContext'
+import { capitalize } from 'functions/utils'
 
 export default function GetStyles({ styles }) {
 
@@ -92,7 +94,7 @@ export default function GetStyles({ styles }) {
     }
 
     return (
-        <Layout pageTitle='Styles'>
+        <Layout pageTitle={capitalize(`${styles[0].type}s`)}>
             <Breadcrumbs path={breadcrumbs}></Breadcrumbs>
 
             <h1 style={{ textTransform: 'capitalize' }}>Pick {styles[0].type} Style</h1>
@@ -103,6 +105,7 @@ export default function GetStyles({ styles }) {
                 })}
             </FlexGrid>
 
+            <Button text='Back' type='button' action={()=> {router.back()}}></Button>
 
         </Layout>
     )

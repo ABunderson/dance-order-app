@@ -4,6 +4,7 @@ import { getStyle, getStyles } from 'mongoDb/styles'
 import { useRouter } from 'next/router'
 import StyleInfo from 'components/orders/StyleInfo'
 import { useState, useEffect } from 'react'
+import { capitalize } from 'functions/utils'
 
 
 
@@ -70,7 +71,7 @@ export default function Style({ style }) {
     }
 
     return (
-        <Layout pageTitle={`${style[0].name} ${style[0].type}`}>
+        <Layout pageTitle={capitalize(`${style[0].name} ${style[0].type}`)}>
 
             <Breadcrumbs path={breadcrumbs}></Breadcrumbs>
 
@@ -84,9 +85,9 @@ export default function Style({ style }) {
 export async function getStaticPaths() {
     try {
         const { styles, error } = await getStyles(0)
-        // console.log(styles)
         if (error) throw new Error(error)
         let paths = []
+
         paths = styles.map((style) => {
             return {
                 params: { styleId: style._id },

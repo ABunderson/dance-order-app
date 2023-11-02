@@ -1,9 +1,10 @@
 import Layout from 'components/Layout'
 import LoginForm from 'components/account/LoginForm'
-import { hashPassword} from 'components/account/Hashing'
+import { hashPassword } from 'components/account/Hashing'
 import { useRouter } from 'next/router'
 import { Alert } from 'components/Alert'
 import { alertService } from '../../../services/alert.service'
+import { capitalize } from 'functions/utils'
 
 import UserContext from 'context/UserContext'
 import { useContext } from 'react'
@@ -31,10 +32,10 @@ export default function LoginPage() {
             user.setUserName(convertedJSON.userName)
             router.push('/account')
         } else {
-            alertService.warn('Password or Username is incorrect. Please try again', {autoClose: true, keepAfterRouteChange: false})
-           event.target.reset() 
+            alertService.warn('Password or Username is incorrect. Please try again', { autoClose: true, keepAfterRouteChange: false })
+            event.target.reset()
         }
- 
+
     }
 
     async function Login(userArray) {
@@ -42,12 +43,17 @@ export default function LoginPage() {
         // console.log('status = ' + status)
         return status
     }
-    
+
     async function fetchUser(userName, password) {
         const response = await fetch(`/api/users/${userName}/${password}`)
         const data = await response.json()
         return data.users.length === 1 ? true : false
     }
+
+
+    let str = 'any list of words'
+    console.log(str)
+    console.log(capitalize(str))
 
     return (
         <Layout pageTitle="Login">

@@ -121,12 +121,11 @@ h1, h2, h3, h4, h5, h6, button {
 }
 
 @media print {
-  header *, footer *, main * {
+  body {
     display: none;
   }
 
-  #printArea, #printArea * {
+  #printArea, body #printArea * {
     display: block !important;
   }
-
 }
