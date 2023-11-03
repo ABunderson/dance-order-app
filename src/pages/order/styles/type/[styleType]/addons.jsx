@@ -44,7 +44,7 @@ export default function GetStyles({ addons, ribbon }) {
             setOrderInfo(orderJson)
         }
 
-    }, [router, order])
+    }, [router, order, orderInfo.length])
 
     if (router.isFallback) {
         return <h1>Loading:</h1>
