@@ -53,7 +53,7 @@ export default function LoginPage() {
         <Layout pageTitle="Login">
             <Alert />
             <h1>Important!</h1>
-            <p>This page is only for florists affiliate with the site. If you are not a florist please go back to the home page by clicking on the logo at the top.</p>
+            <p>This page is only for florists affiliated with this site. If you are not a florist please go back to the home page by clicking on the logo at the top.</p>
             <LoginForm action={onSubmit}></LoginForm>
 
         </Layout>

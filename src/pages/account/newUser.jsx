@@ -85,8 +85,8 @@ export default function LoginPage() {
         <Layout pageTitle="New User">
             <Alert />
             <h1>Create User</h1>
-            <p>This page is only for florists affiliate with the site. If you are not a florist please go back to the home page by clicking on the logo at the top.</p>
-            <p>To ensure that only florists affiliated with the site can make new accounts you must know the secret code for the business.</p>
+            <p>This page is only for florists affiliated with this site. If you are not a florist please go back to the home page by clicking on the logo at the top.</p>
+            <p>To ensure that only florists affiliated with this site can make new accounts you must know the secret code for your floral shop along with the used shop name.</p>
             <NewUserForm action={onSubmit}></NewUserForm>
 
         </Layout>

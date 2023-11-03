@@ -17,62 +17,39 @@ export default function Finalize() {
     const [breadcrumbs, setBreadcrumbs] = useState([])
 
     useEffect(() => {
+        if (orderNum.orderNumber === 'default'){
+            router.push('/')
+        }
         async function getOrder() {
             const orderId = orderNum.orderNumber
-
             const response = await fetch(`/api/orders/${orderId}`)
             const data = await response.json()
             const order = data.orders[0]
-
             const prettyOrder = formatOrder(order)
 
-            const styleResponse = await fetch(`/api/styles/${order.styleId}`)
-            const styleData = await styleResponse.json()
-            const style = styleData.styles[0]
-
             setOrder(prettyOrder)
-            setStyle(style)
+            setStyle(order.style)
         }
 
         if (!order) {
             getOrder()
         }
-        
-        if(!router.isReady) {return}
-        else {
-        const {
-            query: { paths }
-        } = router
-    
-        const crumbs = { paths }
-        // console.log(crumbs)
-        let pathObj = JSON.parse(crumbs.paths)
 
-        setBreadcrumbs(pathObj)
+        if (!router.isReady) { 
+            return 
+        } else {
+            const {
+                query: { paths }
+            } = router
+
+            const crumbs = { paths }
+
+            if (crumbs.paths) {
+                setBreadcrumbs(JSON.parse(crumbs.paths))
+            }
         }
+
     }, [order, router, orderNum.orderNumber])
-
-    const {
-        query: { paths }
-    } = router
-
-    const crumbs = { paths }
-
-    let pathString = 'empty'
-    let pathObj
-    // console.log('on page')
-    // console.log(crumbs)
-
-    if (crumbs && crumbs.paths !== 'empty' && typeof crumbs.paths !== 'undefined') {
-        pathObj = JSON.parse(crumbs.paths)
-
-        const path = window.location.pathname
-        pathObj.push({ order: 7, locName: 'Finalize', path: path })
-        // console.log('below is pathObj')
-        // console.log(pathObj)
-
-        pathString = JSON.stringify(pathObj)
-    }
 
     function formatOrder(order) {
         order.phoneOne = `(${order.phoneOne.slice(0, 3)}) ${order.phoneOne.slice(3, 6)}-${order.phoneOne.slice(6, 10)}`
@@ -98,7 +75,7 @@ export default function Finalize() {
         });
         // console.log(convertedJSON)
 
-        if (convertedJSON.finishType === 'print'){
+        if (convertedJSON.finishType === 'print') {
             window.print()
         }
 
@@ -136,7 +113,8 @@ export default function Finalize() {
             </style>
             <Layout pageTitle='Finalize'>
 
-            <Breadcrumbs path={breadcrumbs}></Breadcrumbs>
+                {breadcrumbs ? <Breadcrumbs path={breadcrumbs}></Breadcrumbs> : <></>}
+
                 <h1>Finalize</h1>
                 <h2>You are not done yet! Please follow the steps below.</h2>
                 <p><b>First:</b> Check the information below to make sure it is correct. Fix anything that is wrong by going back to that page</p>

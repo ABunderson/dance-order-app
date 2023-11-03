@@ -60,12 +60,12 @@ export default function Customize({ style, flower, supplies }) {
     }
 
     const goBack = () => {
-        // console.log('want to go back')
+
         router.back()
     }
 
     async function onSubmit(event) {
-        // console.log('submit')
+
         event.preventDefault()
 
         if (typeof window !== undefined) {
@@ -75,15 +75,17 @@ export default function Customize({ style, flower, supplies }) {
             formData.forEach(function (value, key) {
                 convertedJSON[key] = value;
             });
-            // console.log(convertedJSON)
-            const orderId = order.orderNumber
 
+            const orderId = order.orderNumber
+            const styleObj = {}
+            styleObj.style = {...convertedJSON, name: style[0].name, type: style[0].type, price: style[0].price, flower: style[0].flower}        
 
             let res = await fetch(`/api/orders/${orderId}/update`, {
                 method: 'POST',
-                body: JSON.stringify(convertedJSON),
+                body: JSON.stringify(styleObj),
             })
             res = await res.json()
+            // console.log(res)
             // console.log(res.result.ok)
             // console.log(res._id)
             if (res.result.ok === 1) {

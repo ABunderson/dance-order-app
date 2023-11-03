@@ -2,7 +2,7 @@ import { getStyles } from 'mongoDb/styles'
 import { getDances, getDanceById } from 'mongoDb/dances'
 
 import { useRouter } from 'next/router'
-import UserContext from '../../../_app'
+import UserContext from 'context/UserContext'
 import { useContext, useEffect } from 'react'
 
 import { alertService } from 'services/alert.service'
@@ -39,7 +39,7 @@ export default function DeleteDance({ styles, dance }) {
         res = await res.json()
 
         if (res.ok) {
-            alertService.warn('Succesfully added dance!', { autoClose: false, keepAfterRouteChange: true })
+            alertService.warn('Succesfully deleted dance!', { autoClose: false, keepAfterRouteChange: true })
             router.back()
         }
     }
