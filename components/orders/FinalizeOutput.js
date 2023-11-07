@@ -48,7 +48,7 @@ const OutputDiv = styled.div`
 const FinalizeOutput = ({ order, style }) => {
     // console.log(order)
 
-    console.log(style)
+    // console.log(style)
 
     return (
         <OutputDiv id='printArea'>

@@ -13,12 +13,14 @@ export default function Finalize() {
     const router = useRouter()
     const orderNum = useContext(OrderContext)
     const dance = useContext(DanceContext)
+    console.log(orderNum)
 
     const [breadcrumbs, setBreadcrumbs] = useState([])
 
     useEffect(() => {
-        if (orderNum.orderNumber === 'default'){
-            router.push('/')
+        if (orderNum.orderNumber === 'default') {
+            // router.push('/')
+            orderNum.setOrderNumber("654983d50ec9b3598851a38c")
         }
         async function getOrder() {
             const orderId = orderNum.orderNumber
@@ -35,8 +37,8 @@ export default function Finalize() {
             getOrder()
         }
 
-        if (!router.isReady) { 
-            return 
+        if (!router.isReady) {
+            return
         } else {
             const {
                 query: { paths }
@@ -80,10 +82,10 @@ export default function Finalize() {
         }
 
         // unset context
-        orderNum.setOrderNumber('default')
-        dance.setDanceNumber('default')
+        // orderNum.setOrderNumber('default')
+        // dance.setDanceNumber('default')
 
-        router.push('/')
+        // router.push('/')
         // emailSomething()
         // if(email) {
         //     const recipient = 'practicedpuzzler@gmail.com'
@@ -101,19 +103,10 @@ export default function Finalize() {
 
     return (
         <Fragment>
-            <style jsx>
-                {`
-                    @media print {
-                        body * {display: hidden;}
-                    }
-                    body {
-                        background-color: red;
-                    }
-                `}
-            </style>
             <Layout pageTitle='Finalize'>
 
                 {breadcrumbs ? <Breadcrumbs path={breadcrumbs}></Breadcrumbs> : <></>}
+                {console.log(order)}
 
                 <h1>Finalize</h1>
                 <h2>You are not done yet! Please follow the steps below.</h2>
@@ -123,7 +116,114 @@ export default function Finalize() {
 
                 <FinalizeOutput order={order} style={style}></FinalizeOutput>
 
-                <FinalizeForm submitAction={onSubmit}></FinalizeForm>
+                <FinalizeForm submitAction={onSubmit} id='finalForm'></FinalizeForm>
+
+                <div id='printA' style={{ border: `10px solid black` }}>
+
+                    <section id='sectionOne'>
+                        <p className='pOne'>Name: </p>
+                        <p className='pTwo'>{order.firstName} {order.lastName}</p>
+                        <hr></hr>
+                        <p>Phone 1: </p>
+                        <p>{order.phoneOne}</p>
+                        <hr></hr>
+                        <p>Phone 2: </p>
+                        <p>{order.phoneTwo}</p>
+                        <hr></hr>
+                        <p>Dress Color:</p>
+                        <p>{order.dressColor}</p>
+                        <hr></hr>
+                        <hr></hr>
+                        <p>School:</p>
+                        <p>{order.school}</p>
+                        <hr></hr>
+                        <p>Dance Date:</p>
+                        <p>{order.danceDate}</p>
+                        <hr></hr>
+
+                        <p>Taken By:</p>
+                        <p>GET INITIALS</p>
+                        <hr></hr>
+                        <hr></hr>
+
+                        <p>Pick up:</p>
+                        <p>DO SOMETHING HERE </p>
+                        <p style={{border: '3px solid black', padding: '0px 5px 0px 5px', paddingBottom: '0px'}}>Fri</p> <p>Sat</p>
+                        <hr></hr>
+
+                        <p>Status:</p>
+                        <p>PAID OR NOT PAID</p>
+                        <p>Receipt</p> <p>COD</p>
+                        <hr></hr>
+
+                        <p>QC STICKER PLACE:</p>
+
+                    </section>
+                    <section id='sectionTwo'>
+                        <p style={{fontWeight: 'bold'}}>{style.name} {style.type}</p>
+                        <p class='priceP'>{style.price}</p>
+                        <hr></hr>
+                        <hr></hr>
+
+                        {style.flowerColor ? <><p>{style.flower}: </p><p>{style.flowerColor}</p><hr></hr></> : <></>}
+                        <p>DO SOMETHING HERE ABOUT SAVED FLOWERS</p>
+                        <br></br>
+                        {style.slapColor ? <><p>Slap Bracelet: </p><p>{style.slapColor}</p><hr></hr></> : <></>}
+                        {style.metalBackColor ? <><p>Metal Back: </p><p>{style.metalBackColor}</p><hr></hr></> : <></>}
+                        {style.ribbonColor ? <><p>{`Ribbon (${style.type === 'corsage' ? 'bow' : 'bout ribbon'}): `}</p><p>{style.ribbonColor}</p><hr></hr></> : <></>}
+                        <hr></hr>
+                        <p style={{fontWeight: 'bold'}}>Add ons</p>
+                    </section>
+                    {/* <tbody>
+                        {/* <tr>
+                        <th colSpan={2}>Personal Information</th>
+                        <th colSpan={2}>cor information</th>
+                    </tr> */}
+                    {/* <tr>
+                            <td style={{borderRight:'0px solid black'}}>Name:</td>
+                            <td style={{ textTransform: 'capitalize', borderLeft:'0px solid black' }}>{order.firstName + ' ' + order.lastName}</td>
+
+                            <td colSpan={2} style={{ fontWeight: 'bold', textTransform: 'capitalize' }}>{style.name} {style.type}</td>
+                            <td>{style.price}</td>
+                        </tr>
+                        {console.log(style.flower)}
+                        <tr>
+                            <td>Phone 1:</td>
+                            <td>{order.phoneOne}</td>
+                            <td>{style.flower ? style.flower + ':' : 'No flower'}</td>
+                            <td>{style.flower ? style.flowerColor : 'No flower'}</td>
+                        </tr>
+                        <tr>
+                            <td>Phone 2:</td>
+                            <td>{order.phoneTwo}</td>
+                            <td>{style.metalBackColor ? 'Metal Back' + ':' : style.slapColor ? 'Slap Bracelet:' : style.ribbonColor ? 'Ribbon Color:' : 'no ribbon'}</td>
+                            <td>{style.metalBackColor ? style.metalBackColor : style.slapColor ? style.slapColor : style.ribbonColor ? style.ribbonColor : 'no ribbon'}</td>
+                        </tr>
+                        <tr>
+                            <td>Dress Color:</td>
+                            <td>{order.dressColor}</td>
+                        </tr>
+                        <tr>
+                            <td>Dance Date:</td>
+                            <td>{order.danceDate}</td>
+                        </tr>
+                        <tr>
+                            <th colSpan={2}>{style.type} Information</th>
+                        </tr>
+                        <tr>
+                            <td>Ordered:</td>
+                            <td>{style.name} {style.type}</td>
+                        </tr> */}
+                    {/* <StyleRows order={order} style={style} key={'styleRows'}></StyleRows> */}
+                    {/* <tr>
+                            <th colSpan={2}>Finishing Touches</th>
+                        </tr> */}
+                    {/* <AddonRows order={order} style={style} key={'addonRows'}></AddonRows> */}
+                    {/* <tr>
+                            <th colSpan={2}>Total Cost: FIND IT!!!</th>
+                        </tr>
+                    </tbody> */}
+                </div>
 
             </Layout>
         </Fragment>
