@@ -6,6 +6,18 @@ import SingleFieldset from './SingleFieldset'
 import ArrayFieldset from './ArrayFieldset'
 
 const AddonForm = ({ backAction, forwardAction, addons, ribbon, order }) => {
+    // console.log(addons)
+
+    // console.log(order.style)
+    const styleObj = order.style
+
+    if (styleObj?.slapColor) {
+        addons.map((item, index) => {
+            if (item.name === 'slap') {
+                addons.splice(index, 1)
+            }
+        })
+    }
 
     const chooseFieldset = (item, keyName) => {
         if (item.colors === 'ribbon') {

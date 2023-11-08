@@ -24,14 +24,16 @@ export default function GetStyles({ addons, ribbon }) {
             } = router
 
             const crumbs = { paths }
-            // console.log(crumbs)
-            let pathObj = JSON.parse(crumbs.paths)
+            if (crumbs && crumbs.paths !== 'empty' && typeof crumbs.paths !== 'undefined') {
+                // console.log(crumbs)
+                let pathObj = JSON.parse(crumbs.paths)
 
-            setBreadcrumbs(pathObj)
+                setBreadcrumbs(pathObj)
+            }
         }
-        
+
         if (orderInfo.length === 0) {
-            getOrder()
+            order.orderNumber === 'default' ? router.push('/') : getOrder()
         }
 
         async function getOrder() {
@@ -66,35 +68,69 @@ export default function GetStyles({ addons, ribbon }) {
 
             formData.forEach(function (value, key) {
                 if (value === '0' || value === '') {
-                    // console.log('eemplty')
+                    // console.log('empty')
                 } else {
                     convertedJSON[key] = value;
                 }
             });
+            // console.log(addons)
             // console.log(convertedJSON)
+            const addOnArr = []
+
+            addons.map((addon) => {
+
+                const searchValue = addon.name.split(' ')[0]
+                let newObj = {}
+
+                for (let key of Object.keys(convertedJSON)) {
+
+                    if (key.toLowerCase().includes(searchValue.toLowerCase())) {
+
+                        newObj.name = addon.name
+
+                        if (addon.colors === 'ribbon') {
+                            newObj.color = convertedJSON.ribbonColor
+                            newObj.price = addon.price
+
+                        } else if (!addon.colors) {
+                            newObj.price = addon.price
+
+                        } else {
+                            if (key.toLowerCase().includes('color')) {
+                                newObj.color = convertedJSON[key]
+                                newObj.price = addon.price
+                            }
+                            if (key.toLowerCase().includes('quantity')) {
+                                newObj.quantity = convertedJSON[key]
+                                newObj.price = Number(convertedJSON[key]) * addon.price
+                            }
+                        }
+                    }
+
+                }
+                // console.log(newObj)
+                newObj.name ? addOnArr.push(newObj) : ''
+            })
+
+            // console.log(addOnArr.length)
+            let sendingThis = {}
+            sendingThis.addon = addOnArr
 
             const orderId = order.orderNumber
 
-
             let res = await fetch(`/api/orders/${orderId}/update`, {
                 method: 'POST',
-                body: JSON.stringify(convertedJSON),
+                body: JSON.stringify(sendingThis),
             })
             res = await res.json()
             // console.log(res.result.ok)
             // console.log(res._id)
 
-            const {
-                query: { paths }
-            } = router
-
-            const crumbs = { paths }
-
             let pathString = 'empty'
             let pathObj
 
-            if (crumbs && crumbs.paths !== 'empty' && typeof crumbs.paths !== 'undefined') {
-                pathObj = JSON.parse(crumbs.paths)
+            if (breadcrumbs) {
+                pathObj = breadcrumbs
 
                 const path = window.location.pathname
                 pathObj.push({ order: 6, locName: 'Finishing Touches', path: path })
@@ -115,7 +151,7 @@ export default function GetStyles({ addons, ribbon }) {
 
     return (
         <Layout pageTitle='Finishing Touches'>
-            <Breadcrumbs path={breadcrumbs}></Breadcrumbs>
+            {breadcrumbs ? <Breadcrumbs path={breadcrumbs}></Breadcrumbs> : <></>}
 
             <h1 style={{ textTransform: 'capitalize' }}>Finishing Touches</h1>
 

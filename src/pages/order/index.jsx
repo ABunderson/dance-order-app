@@ -13,14 +13,14 @@ export default function Finalize() {
     const router = useRouter()
     const orderNum = useContext(OrderContext)
     const dance = useContext(DanceContext)
-    console.log(orderNum)
+    // console.log(orderNum)
 
     const [breadcrumbs, setBreadcrumbs] = useState([])
 
     useEffect(() => {
         if (orderNum.orderNumber === 'default') {
-            // router.push('/')
-            orderNum.setOrderNumber("654983d50ec9b3598851a38c")
+            router.push('/')
+            // orderNum.setOrderNumber("654bb15b480ca44c4ce30dc7")
         }
         async function getOrder() {
             const orderId = orderNum.orderNumber
@@ -106,7 +106,7 @@ export default function Finalize() {
             <Layout pageTitle='Finalize'>
 
                 {breadcrumbs ? <Breadcrumbs path={breadcrumbs}></Breadcrumbs> : <></>}
-                {console.log(order)}
+                {/* {console.log(order)} */}
 
                 <h1>Finalize</h1>
                 <h2>You are not done yet! Please follow the steps below.</h2>
@@ -121,8 +121,8 @@ export default function Finalize() {
                 <div id='printA' style={{ border: `10px solid black` }}>
 
                     <section id='sectionOne'>
-                        <p className='pOne'>Name: </p>
-                        <p className='pTwo'>{order.firstName} {order.lastName}</p>
+                        <p>Name: </p>
+                        <p>{order.firstName} {order.lastName}</p>
                         <hr></hr>
                         <p>Phone 1: </p>
                         <p>{order.phoneOne}</p>
@@ -161,7 +161,7 @@ export default function Finalize() {
                     </section>
                     <section id='sectionTwo'>
                         <p style={{fontWeight: 'bold'}}>{style.name} {style.type}</p>
-                        <p class='priceP'>{style.price}</p>
+                        <p className='priceP'>{style.price}</p>
                         <hr></hr>
                         <hr></hr>
 

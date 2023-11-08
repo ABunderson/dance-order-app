@@ -22,7 +22,7 @@ const ArrayFieldset = ({ item, keyValue }) => {
 
     let name = item.name
     name = name.split(" ").join('')
-    const radioGroup = 'extra' + name + 'Color'
+    const radioGroup = name + 'Color'
     let price = item.price
     let sign = '$'
 
@@ -42,6 +42,7 @@ const ArrayFieldset = ({ item, keyValue }) => {
                 {item.colors.map((color) => {
                     // console.log(color.colorName+item.name)
                     return <div key={color.colorName + item.name}>
+                        
                         <input type='checkbox' name={radioGroup} id={name + color.colorName} value={color.colorName} />
                         <label htmlFor={name + color.colorName}>
                             <p>{color.colorName}</p>
@@ -72,8 +73,8 @@ const ArrayFieldset = ({ item, keyValue }) => {
 
             {!item.limit ? (
                 <div key={keyValue + 'LimitDiv'}>
-                    <label htmlFor={name + 'quantity'} className="ribbonLabel">Amount: </label>
-                    <input name={name + 'quantity'} type="number" defaultValue='0' min="0" />
+                    <label htmlFor={name + 'Quantity'} className="ribbonLabel">Amount: </label>
+                    <input name={name + 'Quantity'} type="number" defaultValue='0' min="0" />
                 </div>
             ) : (
                 <></>

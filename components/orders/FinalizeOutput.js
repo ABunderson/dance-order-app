@@ -48,6 +48,14 @@ const OutputDiv = styled.div`
 const FinalizeOutput = ({ order, style }) => {
     // console.log(order)
 
+    let totalPrice = 0 
+    totalPrice += style.price
+    // console.log(order.addon)
+    order.addon?.map((item) => {
+        item.price ? totalPrice += item.price : ''
+
+    })
+
     // console.log(style)
 
     return (
@@ -94,7 +102,7 @@ const FinalizeOutput = ({ order, style }) => {
                     </tr>
                     <AddonRows order={order} style={style} key={'addonRows'}></AddonRows>
                     <tr>
-                        <th colSpan={2}>Total Cost: FIND IT!!!</th>
+                        <th colSpan={2}>Total Cost: ${totalPrice} + tax</th>
                     </tr>
                 </tbody>
             </table>

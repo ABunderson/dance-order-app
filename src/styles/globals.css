@@ -116,6 +116,10 @@ button {
   font-family: var(--font-serif);
 }
 
+#printA {
+  display: none;
+}
+
 @media print {
 
   header,
@@ -143,23 +147,7 @@ button {
     border: 1px solid black;
     padding: 5px;
     padding-top: 10px;
-    /* display: flex;
-    flex-direction: row; */
-    /* justify-content: flex-start; */
-    /* align-items: flex-start; */
-    /* flex-wrap: wrap; */
-    /* gap: 7px; */
   }
-/* 
-  #printA #sectionTwo {
-    width: 50%;
-    border: 1px solid black;
-    padding: 5px;
-    padding-top: 10px;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: flex-start;
-  } */
 
   #printA section hr {
     width: 100%;
@@ -177,17 +165,4 @@ button {
     padding: 0;
     float: right;
   }
-
-  /* table,
-  tbody,
-  th,
-  td {
-    border-collapse: collapse;
-  }
-  th, td {
-    padding: 3px;
-    border: 1px solid black;
-  } */
-
-
 }

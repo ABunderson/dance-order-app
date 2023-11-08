@@ -84,6 +84,8 @@ export default function Customize({ style, flower, supplies }) {
                 method: 'POST',
                 body: JSON.stringify(styleObj),
             })
+
+            
             res = await res.json()
             // console.log(res)
             // console.log(res.result.ok)
