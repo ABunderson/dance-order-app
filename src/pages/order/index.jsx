@@ -14,13 +14,14 @@ export default function Finalize() {
     const orderNum = useContext(OrderContext)
     const dance = useContext(DanceContext)
     // console.log(orderNum)
+    console.log(order)
 
     const [breadcrumbs, setBreadcrumbs] = useState([])
 
     useEffect(() => {
         if (orderNum.orderNumber === 'default') {
-            router.push('/')
-            // orderNum.setOrderNumber("654bb15b480ca44c4ce30dc7")
+            // router.push('/')
+            orderNum.setOrderNumber("654c2611480ca44c4ce30dce")
         }
         async function getOrder() {
             const orderId = orderNum.orderNumber
@@ -75,7 +76,34 @@ export default function Finalize() {
         formData.forEach(function (value, key) {
             convertedJSON[key] = value;
         });
-        // console.log(convertedJSON)
+        console.log(convertedJSON)
+
+        if (convertedJSON.pickupDay === 'friday') {
+            document.querySelector('#fri').classList.add('selected')
+            document.querySelector('#sat').classList.contains('selected') ? document.querySelector('#sat').classList.remove('selected') : ''
+        } else {
+            document.querySelector('#sat').classList.add('selected')
+            document.querySelector('#fri').classList.contains('selected') ? document.querySelector('#fri').classList.remove('selected') : ''
+        }
+
+        if (convertedJSON.payTime === 'now') {
+            document.querySelector('#pay').classList.add('selected')
+            document.querySelector('#cod').classList.contains('selected') ? document.querySelector('#cod').classList.remove('selected') : ''
+        } else {
+            document.querySelector('#cod').classList.add('selected')
+            document.querySelector('#pay').classList.contains('selected') ? document.querySelector('#pay').classList.remove('selected') : ''
+        }
+
+        if (convertedJSON.saveFlower === 'yes'){
+            document.querySelector('#saveFlower').innerHTML = 'Flowers Saved by:'
+            const line = document.createElement('hr')
+            line.setAttribute('id', 'saveFlowerLine')
+            document.querySelector('#saveFlower').append(line)
+        } else {
+            document.querySelector('#saveFlower').innerHTML = ''
+        }
+
+        convertedJSON.initials ? document.querySelector('#initials').innerHTML = convertedJSON.initials : ''
 
         if (convertedJSON.finishType === 'print') {
             window.print()
@@ -106,19 +134,19 @@ export default function Finalize() {
             <Layout pageTitle='Finalize'>
 
                 {breadcrumbs ? <Breadcrumbs path={breadcrumbs}></Breadcrumbs> : <></>}
-                {/* {console.log(order)} */}
 
                 <h1>Finalize</h1>
                 <h2>You are not done yet! Please follow the steps below.</h2>
-                <p><b>First:</b> Check the information below to make sure it is correct. Fix anything that is wrong by going back to that page</p>
+                <p><b>First:</b> Check the information below to make sure it is correct. Fix anything that is wrong by going back to that page.</p>
                 <p><b>Second:</b> Choose your pickup day at the bottom of the page.</p>
-                <p><b>Last:</b> Talk to an employee to pay and have the order confirmed. <b>{`If the order isn't confirmed it will not be made!`}</b></p>
+                <p><b>Third:</b> Decide when you want to pay. You can pay now or pay when you pickup. Pickup day will be faster for you if you pay now.</p>
+                <p><b>Last:</b> Talk to an employee to pay and have the order confirmed. <b>{`If the order isn't confirmed it will not be made!!!`}</b></p>
 
                 <FinalizeOutput order={order} style={style}></FinalizeOutput>
 
                 <FinalizeForm submitAction={onSubmit} id='finalForm'></FinalizeForm>
 
-                <div id='printA' style={{ border: `10px solid black` }}>
+                <div id='printA' style={{ border: `8px solid ${order.style?.pageColor}` }}>
 
                     <section id='sectionOne'>
                         <p>Name: </p>
@@ -142,89 +170,85 @@ export default function Finalize() {
                         <hr></hr>
 
                         <p>Taken By:</p>
-                        <p>GET INITIALS</p>
+                        <p id='initials' style={{textTransform:'uppercase'}}></p>
                         <hr></hr>
                         <hr></hr>
 
-                        <p>Pick up:</p>
-                        <p>DO SOMETHING HERE </p>
-                        <p style={{border: '3px solid black', padding: '0px 5px 0px 5px', paddingBottom: '0px'}}>Fri</p> <p>Sat</p>
+                        <p>Pick up: </p>
+                        <p id='fri'> Fri </p> <p id='sat'> Sat </p>
                         <hr></hr>
 
                         <p>Status:</p>
-                        <p>PAID OR NOT PAID</p>
-                        <p>Receipt</p> <p>COD</p>
+                        <p id='pay'> Receipt </p> <p id='cod'> COD </p>
                         <hr></hr>
 
-                        <p>QC STICKER PLACE:</p>
+                        <div id='stickers'>
 
+                            <svg height='82' width='82'>
+                                <circle cx='41' cy='41' r='35'
+                                    stroke='black'
+                                    strokeWidth={2}
+                                    fill='none'
+                                />
+                                <text x='41' y={41}
+                                    textAnchor='middle'
+                                    stroke='black'
+                                    strokeWidth={1}
+                                    alignmentBaseline='middle'
+                                >QC</text>
+                            </svg>
+                            <svg height='82' width='82'>
+                                <circle cx='41' cy='41' r='35'
+                                    stroke='black'
+                                    strokeWidth={2}
+                                    fill='none'
+                                />
+                                <text x='41' y={41}
+                                    textAnchor='middle'
+                                    stroke='black'
+                                    strokeWidth={1}
+                                    alignmentBaseline='middle'
+                                >PU</text>
+                            </svg>
+                        </div>
                     </section>
                     <section id='sectionTwo'>
-                        <p style={{fontWeight: 'bold'}}>{style.name} {style.type}</p>
-                        <p className='priceP'>{style.price}</p>
+                        <p style={{ fontWeight: 'bold' }}>{style.name} {style.type}</p>
+                        <p className='priceP'>${style.price}</p>
                         <hr></hr>
                         <hr></hr>
 
                         {style.flowerColor ? <><p>{style.flower}: </p><p>{style.flowerColor}</p><hr></hr></> : <></>}
-                        <p>DO SOMETHING HERE ABOUT SAVED FLOWERS</p>
-                        <br></br>
+                        <p id='saveFlower'></p>
+                        {/* <p>DO SOMETHING HERE ABOUT SAVED FLOWERS</p>
+                        <hr></hr> */}
                         {style.slapColor ? <><p>Slap Bracelet: </p><p>{style.slapColor}</p><hr></hr></> : <></>}
                         {style.metalBackColor ? <><p>Metal Back: </p><p>{style.metalBackColor}</p><hr></hr></> : <></>}
                         {style.ribbonColor ? <><p>{`Ribbon (${style.type === 'corsage' ? 'bow' : 'bout ribbon'}): `}</p><p>{style.ribbonColor}</p><hr></hr></> : <></>}
                         <hr></hr>
-                        <p style={{fontWeight: 'bold'}}>Add ons</p>
+                        <p style={{ fontWeight: 'bold' }}>Add ons</p>
+                        <hr></hr>
+
+                        {order.addon?.map((item) => {
+                            const returnArr = []
+                            returnArr.push(
+                                <>
+                                    <div id='addonDiv'>
+                                        <p style={{ textTransform: 'capitalize' }}>{item.name} </p>
+                                        {item.color ? <><p>Color: <span style={{ textDecoration: 'underline' }}>{item.color}</span></p></> : <p></p>}
+                                        {item.quantity ? <><p>Qty: <span style={{ textDecoration: 'underline' }}>{item.quantity}</span></p></> : <p></p>}
+                                        {item.price ? <><p> <span>${item.price.toFixed(2)}</span></p></> : ''}
+                                    </div>
+                                    <hr></hr>
+                                </>
+                            )
+                            return returnArr.map((item) => {
+                                return item
+                            })
+                        })}
+
                     </section>
-                    {/* <tbody>
-                        {/* <tr>
-                        <th colSpan={2}>Personal Information</th>
-                        <th colSpan={2}>cor information</th>
-                    </tr> */}
-                    {/* <tr>
-                            <td style={{borderRight:'0px solid black'}}>Name:</td>
-                            <td style={{ textTransform: 'capitalize', borderLeft:'0px solid black' }}>{order.firstName + ' ' + order.lastName}</td>
-
-                            <td colSpan={2} style={{ fontWeight: 'bold', textTransform: 'capitalize' }}>{style.name} {style.type}</td>
-                            <td>{style.price}</td>
-                        </tr>
-                        {console.log(style.flower)}
-                        <tr>
-                            <td>Phone 1:</td>
-                            <td>{order.phoneOne}</td>
-                            <td>{style.flower ? style.flower + ':' : 'No flower'}</td>
-                            <td>{style.flower ? style.flowerColor : 'No flower'}</td>
-                        </tr>
-                        <tr>
-                            <td>Phone 2:</td>
-                            <td>{order.phoneTwo}</td>
-                            <td>{style.metalBackColor ? 'Metal Back' + ':' : style.slapColor ? 'Slap Bracelet:' : style.ribbonColor ? 'Ribbon Color:' : 'no ribbon'}</td>
-                            <td>{style.metalBackColor ? style.metalBackColor : style.slapColor ? style.slapColor : style.ribbonColor ? style.ribbonColor : 'no ribbon'}</td>
-                        </tr>
-                        <tr>
-                            <td>Dress Color:</td>
-                            <td>{order.dressColor}</td>
-                        </tr>
-                        <tr>
-                            <td>Dance Date:</td>
-                            <td>{order.danceDate}</td>
-                        </tr>
-                        <tr>
-                            <th colSpan={2}>{style.type} Information</th>
-                        </tr>
-                        <tr>
-                            <td>Ordered:</td>
-                            <td>{style.name} {style.type}</td>
-                        </tr> */}
-                    {/* <StyleRows order={order} style={style} key={'styleRows'}></StyleRows> */}
-                    {/* <tr>
-                            <th colSpan={2}>Finishing Touches</th>
-                        </tr> */}
-                    {/* <AddonRows order={order} style={style} key={'addonRows'}></AddonRows> */}
-                    {/* <tr>
-                            <th colSpan={2}>Total Cost: FIND IT!!!</th>
-                        </tr>
-                    </tbody> */}
                 </div>
-
             </Layout>
         </Fragment>
     )

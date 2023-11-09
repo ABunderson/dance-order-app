@@ -102,7 +102,7 @@ const FinalizeOutput = ({ order, style }) => {
                     </tr>
                     <AddonRows order={order} style={style} key={'addonRows'}></AddonRows>
                     <tr>
-                        <th colSpan={2}>Total Cost: ${totalPrice} + tax</th>
+                        <th colSpan={2}>Total Cost: ${totalPrice.toFixed(2)} + tax</th>
                     </tr>
                 </tbody>
             </table>

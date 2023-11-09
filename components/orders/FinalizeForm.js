@@ -14,6 +14,23 @@ row-gap: 15px;
 font-size: 1.2em;
 align-items: left;
 
+input[type='text'], textarea {
+    font-size: .75em;
+    padding: 5px;
+    background-color: gainsboro;
+    margin-top: 5px;
+    margin-bottom: 10px;
+}
+
+textarea {
+    max-width: 550px;
+    font-size: 1em;
+}
+
+input[type='text'] {   
+    max-width: 260px;
+}
+
 button {
     margin-top: 10px;
     max-width: 300px;
@@ -52,9 +69,10 @@ label {
     max-width: 100%;
     width: 100%;
 
-    & input {
+    input, input[type='text'] {
         flex-basis: 100%;
         width: 100%;
+        max-width: 100%;
     }
 
     & label {
@@ -91,9 +109,9 @@ const FinalizeForm = ({ submitAction }) => {
 
     return (
         <StyledFinalForm onSubmit={submitAction}>
-            <div>
-                <h2>Pick your pickup day directly below.</h2>
-            </div>
+
+            <h2>Pick your pickup day directly below.</h2>
+
             <FlexDiv>
                 <input type='radio' name='pickupDay' id='pickupFri' value='friday' />
                 <label htmlFor='pickupFri'>
@@ -107,10 +125,25 @@ const FinalizeForm = ({ submitAction }) => {
                     <p>9 am - 2 pm</p>
                 </label>
             </FlexDiv>
+
+            <h2>When would you like to pay?</h2>
+
+            <FlexDiv>
+                <input type='radio' name='payTime' id='payNow' value='now' />
+                <label htmlFor='payNow'>
+                    <p>Pay now</p>
+                </label>
+
+                <input type='radio' name='payTime' id='payLater' value='later' />
+                <label htmlFor='payLater'>
+                    <p>Pay when Pick Up</p>
+                </label>
+            </FlexDiv>
             <Line></Line>
-            <div>
-                <h2>The buttons below are for the employees when they confirm your order</h2>
-            </div>
+            <Line></Line>
+
+            <h2>The section below is for the employees when they confirm your order.</h2>
+
             <FlexDiv>
                 <input type='radio' name='finishType' id='print' value='print' />
                 <label htmlFor='print'>
@@ -122,6 +155,29 @@ const FinalizeForm = ({ submitAction }) => {
                     <p>Wait to Print</p>
                 </label>
             </FlexDiv>
+
+            <h2>Are the flowers going to be saved?</h2>
+
+            <FlexDiv>
+                <input type='radio' name='saveFlower' id='yes' value='yes' />
+                <label htmlFor='yes'>
+                    <p>Yes</p>
+                </label>
+
+                <input type='radio' name='saveFlower' id='no' value='no' />
+                <label htmlFor='no'>
+                    <p>No</p>
+                </label>
+            </FlexDiv>
+
+            <h2>Employee Initials</h2>
+
+            <input type='text' name='initials' required />
+
+            <h2>Special Instructions</h2>
+
+            <textarea name='specialInstructions' rows='3'></textarea>
+
             <Button text='Finish' type='submit'></Button>
         </StyledFinalForm>
     )

@@ -78,7 +78,7 @@ export default function Customize({ style, flower, supplies }) {
 
             const orderId = order.orderNumber
             const styleObj = {}
-            styleObj.style = {...convertedJSON, name: style[0].name, type: style[0].type, price: style[0].price, flower: style[0].flower}        
+            styleObj.style = {...convertedJSON, name: style[0].name, type: style[0].type, price: style[0].price, flower: style[0].flower, pageColor: style[0].pageColor}        
 
             let res = await fetch(`/api/orders/${orderId}/update`, {
                 method: 'POST',
