@@ -7,6 +7,10 @@ import { Fragment, useContext, useEffect, useState } from 'react'
 import OrderContext from 'context/OrderContext'
 import DanceContext from 'context/DanceContext'
 import PrintView from 'components/orders/finalize/PrintView'
+import { Alert } from 'components/Alert'
+import { alertService } from 'services/alert.service'
+import { formatOrder } from 'functions/orders'
+
 
 export default function Finalize() {
     const [order, setOrder] = useState('')
@@ -30,6 +34,18 @@ export default function Finalize() {
             getOrder()
         }
 
+        async function getOrder() {
+            const orderId = orderNum.orderNumber
+            const response = await fetch(`/api/orders/${orderId}`)
+            const data = await response.json()
+            const order = data.orders[0]
+            const prettyOrder = formatOrder(order)
+
+            setOrder(prettyOrder)
+            setStyle(order.style)
+            // setPrintOrder(prettyOrder)
+        }
+
         if (!router.isReady) {
             return
         } else {
@@ -46,33 +62,11 @@ export default function Finalize() {
 
     }, [order, router, orderNum.orderNumber])
 
-    async function getOrder() {
-        const orderId = orderNum.orderNumber
-        const response = await fetch(`/api/orders/${orderId}`)
-        const data = await response.json()
-        const order = data.orders[0]
-        const prettyOrder = formatOrder(order)
+    const isBrowser = () => typeof window !== 'undefined'
 
-        setOrder(prettyOrder)
-        setPrintOrder(prettyOrder)
-        setStyle(order.style)
-    }
-
-    function formatOrder(order) {
-        order.phoneOne = `(${order.phoneOne.slice(0, 3)}) ${order.phoneOne.slice(3, 6)}-${order.phoneOne.slice(6, 10)}`
-        order.phoneTwo = `(${order.phoneTwo.slice(0, 3)}) ${order.phoneTwo.slice(3, 6)}-${order.phoneTwo.slice(6, 10)}`
-
-        let dDate = new Date(order.danceDate)
-        const months = ["Jan.", "Feb.", "March", "April", "May", "June", "July", "Aug.", "Sept.", "Oct.", "Nov.", "Dec."];
-        let month = months[dDate.getMonth()]
-
-        let oDate = new Date(order.orderDate)
-        let oMonth = months[oDate.getMonth()]
-
-        order.formatDanceDate = `${month} ${dDate.getDate()}`
-        order.formatOrderDate = `${oMonth} ${oDate.getDate()}`
-
-        return (order)
+    function scrollToTop() {
+        if (!isBrowser()) return
+        window.scrollTo({ top: 0, behavior: 'smooth' })
     }
 
     async function onSubmit(event) {
@@ -86,18 +80,26 @@ export default function Finalize() {
             convertedJSON[key] = value;
         });
 
+
+        if (!convertedJSON.finishType || !convertedJSON.saveFlower || !convertedJSON.pickupDay || !convertedJSON.payTime) {
+            alertService.warn('Please select a choice for each question at the bottom.', { autoClose: false, keepAfterRouteChange: false })
+            scrollToTop()
+            return
+        } else if (!convertedJSON.initials) {
+            alertService.warn('employee initials are required.', { autoClose: false, keepAfterRouteChange: false })
+            scrollToTop()
+            return
+        }
+
         let res = await fetch(`/api/orders/${order._id}/update`, {
             method: 'POST',
             body: JSON.stringify(convertedJSON),
         })
         res = await res.json()
- 
-        if (res.result.ok) {
-            getOrder()
-        }
 
-        if (convertedJSON.finishType === 'print') {
-            window.print()
+        if (res.result.ok) {
+            getNewOrder()
+            getNewOrder().then(function() {print(convertedJSON.finishType)})
         }
 
         // unset context
@@ -107,18 +109,24 @@ export default function Finalize() {
         router.push('/')
     }
 
-    const getTotal = (style, order) => {
-        let total = 0
-        total += style.price
-        order.addon?.map((item) => {
-            item.price ? total += item.price : ''
-        })
-        return total
+    async function getNewOrder() {
+        const response = await fetch(`/api/orders/${order._id}`)
+        const data = await response.json()
+        const newOrder = data.orders
+
+        setPrintOrder(newOrder[0])
+    }
+
+    const print = async (value) => {
+        if (value === 'print') {
+            window.print()
+        }
     }
 
     return (
         <Fragment>
             <Layout pageTitle='Finalize'>
+                <Alert />
 
                 {breadcrumbs ? <Breadcrumbs path={breadcrumbs}></Breadcrumbs> : <></>}
 
@@ -132,7 +140,7 @@ export default function Finalize() {
                 <FinalizeOutput order={order} style={style}></FinalizeOutput>
 
                 <FinalizeForm submitAction={onSubmit} id='finalForm'></FinalizeForm>
-                
+
                 <PrintView order={printOrder} id={'printA'}></PrintView>
 
             </Layout>
