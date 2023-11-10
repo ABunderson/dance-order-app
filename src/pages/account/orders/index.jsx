@@ -30,11 +30,6 @@ export default function AllOrders({ orders }) {
     //     }
     // }, )
 
-    // const addDance = () => {
-    //     router.push('/account/dances/create')
-    // }
-
-
     const filterPrint = (filter) => {
 
         const ordersCopy = [...orders]
@@ -67,6 +62,57 @@ export default function AllOrders({ orders }) {
         }
     }
 
+    // products.sort((p1, p2) => (p1.FinalPrice > p2.FinalPrice) ? 1 : (p1.FinalPrice < p2.FinalPrice) ? -1 : 0);
+
+    const sort = async (value) => {
+
+        const sortList = [...ordersList]
+        let match = true
+
+        switch(value) {
+            case 'name':
+                sortList.sort((p1, p2) => (p1.firstName > p2.firstName) ? 1 : (p1.firstName < p2.firstName) ? -1 : 0)
+
+                sortList.map((item, index) => {
+                    if (item.orderDate !== ordersList[index].orderDate){
+                        return match = false
+                    }
+                })
+                
+                match ? sortList.sort((p1, p2) => (p1.firstName < p2.firstName) ? 1 : (p1.firstName > p2.firstName) ? -1 : 0) : ''
+                break;
+
+            case 'dance':
+                sortList.sort((p1, p2) => (p1.danceDate > p2.danceDate) ? 1 : (p1.danceDate < p2.danceDate) ? -1 : 0)
+
+                sortList.map((item, index) => {
+                    if (item.orderDate !== ordersList[index].orderDate){
+                        return match = false
+                    }
+                })
+                
+                match ? sortList.sort((p1, p2) => (p1.danceDate < p2.danceDate) ? 1 : (p1.danceDate > p2.danceDate) ? -1 : 0) : ''
+                break;
+
+                case 'order':
+                    sortList.sort((p1, p2) => (p1.orderDate > p2.orderDate) ? 1 : (p1.orderDate < p2.orderDate) ? -1 : 0)
+    
+                    sortList.map((item, index) => {
+                        if (item.orderDate !== ordersList[index].orderDate){
+                            return match = false
+                        }
+                    })
+                    
+                    match ? sortList.sort((p1, p2) => (p1.orderDate < p2.orderDate) ? 1 : (p1.orderDate > p2.orderDate) ? -1 : 0) : ''
+                    break;
+
+                default:
+                    break;
+        }
+
+        setOrdersList(sortList)        
+    }
+
     return (
         <Layout pageTitle="Orders">
             <Alert />
@@ -82,6 +128,13 @@ export default function AllOrders({ orders }) {
             </SmallFlexButton>
 
             <h2>Sort: </h2>
+
+            <SmallFlexButton>
+                <SmallButton text='Name' type='button' action={() => { sort('name') }}></SmallButton>
+                <SmallButton text='Dance Date' type='button' action={() => { sort('dance') }}></SmallButton>
+                <SmallButton text='Order Date' type='button' action={() => { sort('order') }}></SmallButton>
+                <SmallButton text='Reset' type='button' action={() => { setOrdersList(orders) }}></SmallButton>
+            </SmallFlexButton>
 
             <Line></Line>
 
