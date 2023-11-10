@@ -16,4 +16,6 @@ const getTotal = (order) => {
     return total
 }
 
+
+
 export {setDate, getTotal}

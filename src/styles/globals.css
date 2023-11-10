@@ -127,7 +127,10 @@ button {
   main div,
   main h1,
   main h2,
+  main h3,
   main p,
+  main button, 
+  main hr,
   form {
     display: none !important;
   }
@@ -137,6 +140,10 @@ button {
     width: 100%;
     text-transform: capitalize;
     font-size: 1rem;
+  }
+
+  #printA hr, main section hr{
+    display: block !important;
   }
 
   .printDiv {

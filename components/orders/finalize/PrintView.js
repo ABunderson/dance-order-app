@@ -191,7 +191,7 @@ const PrintView = ({order, id}) => {
                 {order?.style.metalBackColor ? <><p>Metal Back: </p><p>{order.style.metalBackColor}</p><hr></hr></> : <></>}
                 {order?.style.ribbonColor ? <><p>{`Ribbon (${order.style.type === 'corsage' ? 'bow' : 'bout'}): `}</p><p>{order.style.ribbonColor}</p><hr></hr></> : <></>}
                 <hr></hr>
-                {order?.addon.length === 0 ? <></> : <><p style={{ fontWeight: 'bold' }}>Add ons</p><hr></hr></>}
+                {order?.addon.length === 0 ? <></> : <><p style={{ fontWeight: 'bold' }}>Add ons</p><hr></hr><hr></hr></>}
 
                 {order?.addon?.map((item) => {
                     const returnArr = []
@@ -210,10 +210,13 @@ const PrintView = ({order, id}) => {
                         return item
                     })
                 })}
+                <hr></hr>
                 <div className='printDiv' style={{ fontWeight: 'bold' }}>
+                    
                     <p>Total</p>
                     <p>${getTotal(order)}</p>
                 </div>
+                <hr></hr>
                 <hr></hr>
                 {setInstructions()}
 

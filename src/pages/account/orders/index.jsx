@@ -14,6 +14,7 @@ import ShowOrders from 'components/account/orders/ShowOrders'
 import Button, { SmallButton } from 'components/Button'
 import { Alert } from 'components/Alert'
 import { SmallFlexButton } from 'components/styles/ButtonStyles'
+import PrintView from 'components/orders/finalize/PrintView'
 
 
 
@@ -21,6 +22,7 @@ export default function AllOrders({ orders }) {
     const router = useRouter()
     const user = useContext(UserContext)
     const [ordersList, setOrdersList] = useState(orders)
+    const [printOrder, setPrintOrder] = useState(orders[0])
 
     // useEffect(() => {
     //     if (user.userName === 'default') {
@@ -42,11 +44,34 @@ export default function AllOrders({ orders }) {
         setOrdersList(newArray)
     }
 
+    const print = async (order) => {
+        const sendObject = {}
+        sendObject.finishType = 'print'
+
+        let res = await fetch(`/api/orders/${order._id}/update`, {
+            method: 'POST',
+            body: JSON.stringify(sendObject),
+        })
+        res = await res.json()
+        // console.log(res)
+
+        const response = await fetch(`/api/orders`)
+        const data = await response.json()
+        const newOrders = data.data
+
+        setOrdersList(newOrders)
+
+        if (res.ok) {
+            setPrintOrder(order)
+            window.print()
+        }
+    }
+
     return (
         <Layout pageTitle="Orders">
             <Alert />
             <h1>Orders</h1>
-            <p>Here you can see, print, or remove any orders. Click the information about the order to view it.</p>
+            <p>Here you can see, print, or remove any orders. Click the information about the order to view it. Print status can be set to not printed when viewing orders.</p>
 
             <h2>Filter: </h2>
 
@@ -60,11 +85,13 @@ export default function AllOrders({ orders }) {
 
             <Line></Line>
 
-            <ShowOrders objects={ordersList} id='orders'></ShowOrders>
+            <ShowOrders objects={ordersList} place='individual' printAction={print}></ShowOrders>
 
             <Line></Line>
 
             <Button text='Back' type='button' action={() => { router.push('/account') }}></Button>
+
+            <PrintView order={printOrder} id={'printA'}></PrintView>
 
         </Layout>
 

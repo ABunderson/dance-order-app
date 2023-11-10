@@ -13,24 +13,53 @@ import Button from 'components/Button'
 import { useRouter } from 'next/router'
 import { Alert } from 'components/Alert'
 import UserContext from 'context/UserContext'
-import { useContext, useEffect } from 'react'
+import { useContext, useEffect, useState } from 'react'
+import ShowOrder from '../../../components/account/orders/ShowOrders'
+import PrintView from 'components/orders/finalize/PrintView'
 
 
 
 export default function Account({ dances, styles, flowers, supplies, addons, orders }) {
     const router = useRouter()
+    const [printOrder, setPrintOrder] = useState(orders[0])
+    const [ordersList, setOrdersList] = useState(orders)
 
     const user = useContext(UserContext)
 
-    useEffect(() => {
-        if (user.userName === 'default') {
-            router.push('/account/login')
-        }
-    }, [router, user.userName])
+    console.log(orders)
+
+    // useEffect(() => {
+    //     if (user.userName === 'default') {
+    //         router.push('/account/login')
+    //     }
+    // }, [router, user.userName])
 
     const logOut = () => {
         user.setUserName('default')
         router.push('/')
+    }
+
+    const print = async (order) => {
+        const sendObject = {}
+        sendObject.finishType = 'print'
+
+        let res = await fetch(`/api/orders/${order._id}/update`, {
+            method: 'POST',
+            body: JSON.stringify(sendObject),
+        })
+        res = await res.json()
+        // console.log(res)
+
+        const response = await fetch(`/api/orders`)
+        const data = await response.json()
+        const newOrders = data.data
+
+        setOrdersList(newOrders)
+
+        if (res.ok) {
+            setPrintOrder(order)
+            window.print()
+        }
     }
 
     return (
@@ -45,6 +74,8 @@ export default function Account({ dances, styles, flowers, supplies, addons, ord
 
             <Link href='/account/orders'><h2>Orders</h2></Link>
             <p>See orders that have been placed. This is where you can print orders that were not printed right after being taken.</p>
+            <ShowOrder objects={ordersList} place={'main'} printAction={print}></ShowOrder>
+            <PrintView order={printOrder} id={'printA'}></PrintView>
             <Line></Line>
 
             <Link href='/account/dances'><h2>Dances</h2></Link>

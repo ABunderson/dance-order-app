@@ -94,7 +94,6 @@ export default function Finalize() {
  
         if (res.result.ok) {
             getOrder()
-            
         }
 
         if (convertedJSON.finishType === 'print') {
