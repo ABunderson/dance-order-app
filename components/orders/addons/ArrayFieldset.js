@@ -17,8 +17,6 @@ const FlexDiv = styled.div`
 
 
 const ArrayFieldset = ({ item, keyValue }) => {
-    // console.log(keyValue)
-    // console.log(item)
 
     let name = item.name
     name = name.split(" ").join('')
@@ -30,7 +28,6 @@ const ArrayFieldset = ({ item, keyValue }) => {
         price = item.price * 100
         sign = '￠'
     }
-    // console.log(keyValue)
 
     return (
         // <p key={keyName}>ribbon</p>)
@@ -40,7 +37,6 @@ const ArrayFieldset = ({ item, keyValue }) => {
             <p>{sign === '$' ? `${sign}${price}` : `${price}${sign} `}{item.limit ? '' : ' each'}</p>
             <FlexDiv key={keyValue + 'div'}>
                 {item.colors.map((color) => {
-                    // console.log(color.colorName+item.name)
                     return <div key={color.colorName + item.name}>
                         
                         <input type='checkbox' name={radioGroup} id={name + color.colorName} value={color.colorName} />

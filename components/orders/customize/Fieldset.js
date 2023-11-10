@@ -94,7 +94,6 @@ const FlexDiv = styled.div`
 
 
 const Fieldset = ({ item, type }) => {
-    // console.log(item)
 
     let desc = ''
     // type === 'flower' ? desc = 'pick a color of flower ' : 'not a flower '

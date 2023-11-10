@@ -8,7 +8,6 @@ import { useRouter } from 'next/router'
 const LoginForm = ({ action }) => {
     const [userName, setUserName] = useState('')
     const router = useRouter()
-    // const [password, setPassword] = useState('')
 
     return (
         <StyledColumnForm onSubmit={action}>

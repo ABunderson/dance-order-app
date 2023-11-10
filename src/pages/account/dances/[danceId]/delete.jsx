@@ -52,7 +52,10 @@ export default function DeleteDance({ styles, dance }) {
             <Alert />
             <h1>Delete Dance</h1>
             <h2>Are you sure you want to delete this dance? This action cannot be undone.</h2>
-            <FlexButton><Button text='Delete' type='button' action={deleteDance}></Button><Button text="Back" type="button" action={() => {router.back()}}></Button></FlexButton>
+            <FlexButton>
+                <Button text='Delete' type='button' action={deleteDance}></Button>
+                <Button text="Back" type="button" action={() => {router.back()}}></Button>
+                </FlexButton>
 
             <Line></Line>
 

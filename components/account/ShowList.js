@@ -25,8 +25,7 @@ const ShowList = ({ objects, type }) => {
         <>
             {
                 objects.map((item) => {
-                    // console.log(item.name)
-                    // console.log(item._id)
+
                     return (
                         <Fragment key={item._id}>
                         <SmallLine></SmallLine>

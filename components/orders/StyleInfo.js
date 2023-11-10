@@ -38,7 +38,6 @@ const FlexInfo = styled.div`
 
 
 const StyleInfo = ({ style, backAction, forwardAction }) => {
-    // console.log(style.flower)
 
     style.flower = (style.flower === 'fullRose' ? 'full sized rose': style.flower)
 

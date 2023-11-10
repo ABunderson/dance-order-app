@@ -46,17 +46,14 @@ const OutputDiv = styled.div`
 
 
 const FinalizeOutput = ({ order, style }) => {
-    // console.log(order)
 
     let totalPrice = 0 
     totalPrice += style.price
-    // console.log(order.addon)
+
     order.addon?.map((item) => {
         item.price ? totalPrice += item.price : ''
 
     })
-
-    // console.log(style)
 
     return (
         <OutputDiv id='printArea'>
@@ -87,7 +84,7 @@ const FinalizeOutput = ({ order, style }) => {
                     </tr>
                     <tr>
                         <td>Dance Date:</td>
-                        <td>{order.danceDate}</td>
+                        <td>{order.formatDanceDate}</td>
                     </tr>
                     <tr>
                         <th colSpan={2}>{style.type} Information</th>
@@ -102,7 +99,7 @@ const FinalizeOutput = ({ order, style }) => {
                     </tr>
                     <AddonRows order={order} style={style} key={'addonRows'}></AddonRows>
                     <tr>
-                        <th colSpan={2}>Total Cost: ${totalPrice.toFixed(2)} + tax</th>
+                        <th>Total Cost:</th><th>${totalPrice.toFixed(2)} + tax</th>
                     </tr>
                 </tbody>
             </table>

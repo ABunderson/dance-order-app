@@ -42,5 +42,8 @@ export const FlexButton = styled.div`
         gap: 2rem;
         padding-bottom: 1rem;
     }
+`
 
+export const SmallFlexButton = styled(FlexButton)`
+    gap: 30px;
 `

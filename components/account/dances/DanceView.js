@@ -36,7 +36,6 @@ const FlexDiv = styled.div`
 
 
 const DanceView = ({ dance, styles }) => {
-    // console.log(dance)
     dance = dance[0]
 
     const getSchools = () => {
@@ -52,7 +51,6 @@ const DanceView = ({ dance, styles }) => {
     const getColors = (colorArray) => {
         let colorList = ''
         colorArray.colors.map((color, index) => {
-            // console.log(flower)
             let value
             colorArray.colors.length === index + 1 ? value = `${color}` : value = `${color}, `
             colorList += value
@@ -91,7 +89,6 @@ const DanceView = ({ dance, styles }) => {
             <h2>Flowers</h2>
 
             {dance.flowers.map((flower) => {
-                // console.log(flower.name)
                 return (
                     <p key={flower.flowerName}><b>{flower.flowerName}:</b> {getColors(flower)}</p>
                 )

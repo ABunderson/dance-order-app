@@ -36,7 +36,7 @@ img, p {
 
 const StyleDiv = (style) => {
     style = style.style
-    // console.log(style)
+
     return (
         <StyleBlock key={style._id}>
             <p>{style.name}</p>

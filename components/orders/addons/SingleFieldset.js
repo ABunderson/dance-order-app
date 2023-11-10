@@ -18,8 +18,6 @@ const FlexDiv = styled.div`
 
 
 const SingleFieldset = ({ item, keyValue }) => {
-    // console.log(item)
-    // console.log(keyValue)
 
     let name = item.name
     name = name.split(" ").join('')
@@ -30,7 +28,6 @@ const SingleFieldset = ({ item, keyValue }) => {
     if (item.price < 1) {
         price = item.price * 100
         sign = '￠'
-        // console.log(item.price * 100)
     }
 
 

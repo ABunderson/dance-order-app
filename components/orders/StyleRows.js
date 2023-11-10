@@ -7,7 +7,7 @@ const StyleRows = ({ style, order }) => {
         
         <>
         {Object.entries(style).map((item) => {
-            // console.log(item[0])
+
             //check for flowercolor instead of flower because objects go in a weird order otherwise
             if (item[0] === 'flowerColor'){
                 return <Fragment key={item[0]+'styleRows'}><tr><td>Flower:</td><td>{style.flower}</td></tr><tr><td>Flower Color:</td><td>{style.flowerColor}</td></tr></Fragment>

@@ -3,6 +3,7 @@ import { getStyles } from 'mongoDb/styles'
 import { getFlowers } from 'mongoDb/flowers'
 import { getSupplies } from 'mongoDb/supplies'
 import { getAddons } from 'mongoDb/addons'
+import { getOrders } from 'mongoDb/orders'
 
 import Layout from 'components/Layout'
 import Line from 'components/Line'
@@ -16,7 +17,7 @@ import { useContext, useEffect } from 'react'
 
 
 
-export default function Account({ dances, styles, flowers, supplies, addons }) {
+export default function Account({ dances, styles, flowers, supplies, addons, orders }) {
     const router = useRouter()
 
     const user = useContext(UserContext)
@@ -38,8 +39,13 @@ export default function Account({ dances, styles, flowers, supplies, addons }) {
             <Alert />
 
             <h1>Welcome {user.userName}</h1>
-            <p>Here you can see, add, edit, or remove dances, styles, flowers, supplies, addons, and default styles. Each category only shows 10 items. To see all the items click on the category header</p>
+            <p>Here you can see, add, edit, or remove dances, styles, flowers, supplies, addons, and default styles. Each category only shows 10 items. To see all the items click on the category header.</p>
             <Button text='Log Out' type='button' action={logOut}></Button>
+            <Line></Line>
+
+            <Link href='/account/orders'><h2>Orders</h2></Link>
+            <p>See orders that have been placed. This is where you can print orders that were not printed right after being taken.</p>
+            <Line></Line>
 
             <Link href='/account/dances'><h2>Dances</h2></Link>
             <p>This is where you can create different dances. A dance has the date, a name, which schools are participating, and also allows you to decide which styles and flower colors are available that week.</p>
@@ -79,6 +85,15 @@ export async function getStaticProps() {
         const { dances, error } = await getDances(10)
         if (error) throw new Error(error)
         dancesReturn = dances
+    } catch (error) {
+        console.log('Error:' + error.message)
+    }
+
+    let ordersReturn
+    try {
+        const { orders, error } = await getOrders(10)
+        if (error) throw new Error(error)
+        ordersReturn = orders
     } catch (error) {
         console.log('Error:' + error.message)
     }
@@ -126,6 +141,7 @@ export async function getStaticProps() {
             flowers: flowersReturn,
             supplies: suppliesReturn,
             addons: addonsReturn,
+            orders: ordersReturn,
         }
     }
 }

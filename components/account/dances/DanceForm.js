@@ -30,28 +30,25 @@ const FormDiv = styled.div`
 
 const DanceForm = ({ action, styles, flowers, dance }) => {
     const router = useRouter()
-    // console.log(dance)
 
-    // dance ? console.log('is a dance') : console.log('is a create')
-
-   if(dance){
-    dance = dance[0]
-   }
+    if (dance) {
+        dance = dance[0]
+    }
 
 
     return (
         <StyledForm onSubmit={action}>
             <FormDiv>
                 <label htmlFor='name'>Name: </label>
-                <input type='text' name='name' id='name' placeholder="LP, Maser" required defaultValue={dance ? dance.name : ''}/>
+                <input type='text' name='name' id='name' placeholder="LP, Maser" required defaultValue={dance ? dance.name : ''} />
                 <span style={{ fontSize: '1rem' }}>You can put anything for the dance name. Date or schools seem useful</span>
 
                 <label htmlFor='danceDate'>Dance Date: </label>
-                <input type='date' name='danceDate' id='danceDate' required defaultValue={dance ? dance.danceDate : ''}/>
+                <input type='date' name='danceDate' id='danceDate' required defaultValue={dance ? dance.danceDate : ''} />
                 <span style={{ fontSize: '1rem' }}>Please pick the Saturday of the week of the dance.</span>
 
                 <label htmlFor='schools'>Schools: </label>
-                <input type='text' name='schools' id='schools' placeholder="LP" defaultValue={dance ? dance.schools : ''}/>
+                <input type='text' name='schools' id='schools' placeholder="LP" defaultValue={dance ? dance.schools : ''} />
                 <span style={{ fontSize: '1rem' }}>Put a list of schools seperated by commas.</span>
             </FormDiv>
             <StyleFieldset styles={styles} dance={dance} key={'styles'} ></StyleFieldset>

@@ -42,8 +42,6 @@ const Fieldset = styled(StyledFieldset)`
 `
 
 const ArrayFieldset = ({ styles, dance }) => {
-    // console.log(styles)
-    // console.log(dance)
 
     return (
         <Fieldset>
@@ -51,7 +49,7 @@ const ArrayFieldset = ({ styles, dance }) => {
             <p>Green boxes mean the style is selected. {dance ? 'Prior selections for this dance start green.' : 'Default styles start out selected.'}</p>
             <FlexDiv>
                 {styles?.map((style) => {
-                    // console.log(style)
+
                     return (
                         <div key={style._id}>
                             <input type='checkbox' className='styles' name='styles' id={'styles ' + style._id} value={style._id} defaultChecked={dance ? dance.styles.includes(style._id) : style.defaultStyle} />

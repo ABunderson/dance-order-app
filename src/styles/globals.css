@@ -117,7 +117,7 @@ button {
 }
 
 #printA {
-  display: none;
+  display: none !important;
 }
 
 @media print {
@@ -136,52 +136,16 @@ button {
     display: flex !important;
     width: 100%;
     text-transform: capitalize;
+    font-size: 1rem;
   }
 
-  #addonDiv {
+  .printDiv {
     display: flex !important;
     justify-content: space-between;
   }
 
   #printA section p {
-    display: inline !important;
+    display: inline-block !important;
   }
 
-  #printA section {
-    width: 50%;
-    border: 1px solid black;
-    padding: 5px;
-    padding-top: 10px;
-  }
-
-  #printA section hr {
-    width: 100%;
-    margin-top: 3px;
-    margin-bottom: 5px;
-  }
-
-  #printA section p {
-    padding-top: 5px;
-    padding-bottom: 5px;
-    padding-right: 5px;
-  }
-
-  #printA .priceP {
-    padding: 0;
-    float: right;
-  }
-
-  #printA #stickers {
-    display: flex !important;
-    justify-content: center;
-    gap: 35px;
-
-  }
-
-  .selected {
-    border: 3px solid black;
-    padding: 0px 4px 0px 4px !important;
-    margin: 0px 7px;
-    padding-bottom: 0px !important;
-  }
 }
