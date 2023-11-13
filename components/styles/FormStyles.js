@@ -53,4 +53,24 @@ max-width: 400px;
     flex-basis: 92%;
 } 
 
+@media (max-width: 450px) {
+    max-width: 100%;
+    width: 100%;
+
+    & input {
+        flex-basis: 100%;
+        width: 100%;
+        max-width: 300px;
+    }
+
+    & label {
+        flex-basis: 100%;
+    }
+
+    & button {
+        flex-basis: 100%;
+        margin-top: 20px;
+    }
+}  
+
 `;

@@ -16,18 +16,21 @@ import Line from 'components/Line'
 
 
 export default function ViewOrder({ orders }) {
-    // console.log(orders)
-
     const router = useRouter();
 
     const user = useContext(UserContext)
-    const [status, setStatus] = useState(orders[0].finishType)
+    const [status, setStatus] = useState('')
 
-    // useEffect(() => {
-    //     if (user.userName === 'default') {
-    //         router.push('/account/login')
-    //     }
-    // }, )
+    useEffect(() => {
+        // if (user.userName === 'default') {
+        //     router.push('/account/login')
+        // }
+
+        if (status.length === 0){
+            orders[0].finishType && status !== orders[0].finishType ? setStatus(orders[0].finishType) : setStatus('unknown')
+        }
+    }, [status, orders])
+
 
     if (router.isFallback) {
         return <h1>The order is loading</h1>
@@ -36,8 +39,6 @@ export default function ViewOrder({ orders }) {
     const print = async () => {
         const sendObject = {}
         sendObject.finishType = 'print'
-
-        
 
         let res = await fetch(`/api/orders/${orders[0]._id}/update`, {
             method: 'POST',
@@ -56,7 +57,7 @@ export default function ViewOrder({ orders }) {
         const sendObject = {}
         sendObject.finishType = 'wait'
 
-        setStatus('wait')
+        // setStatus('wait')
 
         let res = await fetch(`/api/orders/${orders[0]._id}/update`, {
             method: 'POST',

@@ -26,7 +26,7 @@ export default function Account({ dances, styles, flowers, supplies, addons, ord
 
     const user = useContext(UserContext)
 
-    console.log(orders)
+    // console.log(orders)
 
     // useEffect(() => {
     //     if (user.userName === 'default') {
