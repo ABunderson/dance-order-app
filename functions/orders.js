@@ -16,25 +16,22 @@ const getTotal = (order) => {
     return total
 }
 
+const formatPhone = (phone) => {
+    return `(${phone.slice(0, 3)}) ${phone.slice(3, 6)}-${phone.slice(6, 10)}`
+}
+
 function formatOrder(order) {
-    order.phoneOne = `(${order.phoneOne.slice(0, 3)}) ${order.phoneOne.slice(3, 6)}-${order.phoneOne.slice(6, 10)}`
-    order.phoneTwo = `(${order.phoneTwo.slice(0, 3)}) ${order.phoneTwo.slice(3, 6)}-${order.phoneTwo.slice(6, 10)}`
 
-    let dDate = new Date(order.danceDate)
-    const months = ["Jan.", "Feb.", "March", "April", "May", "June", "July", "Aug.", "Sept.", "Oct.", "Nov.", "Dec."];
-    let month = months[dDate.getMonth()]
+    order.phoneOne = formatPhone(order.phoneOne)
+    order.phoneTwo = formatPhone(order.phoneTwo)
 
-    let oDate = new Date(order.orderDate)
-    let oMonth = months[oDate.getMonth()]
-
-    order.formatDanceDate = `${month} ${dDate.getDate()}`
-    order.formatOrderDate = `${oMonth} ${oDate.getDate()}`
+    order.formatDanceDate = setDate(order.danceDate)
+    order.formatOrderDate = setDate(order.orderDate)
 
     return (order)
 }
 
 const deleteBadOrders = async () => {
-    console.log('in function')
 
     let res = await fetch(`/api/orders/delete`, {
       method: 'POST',
@@ -45,4 +42,4 @@ const deleteBadOrders = async () => {
   }
 
 
-export {setDate, getTotal, formatOrder, deleteBadOrders}
+export {setDate, getTotal, formatOrder, deleteBadOrders, formatPhone}

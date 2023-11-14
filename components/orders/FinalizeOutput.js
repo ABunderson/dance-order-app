@@ -52,7 +52,6 @@ const FinalizeOutput = ({ order, style }) => {
 
     order.addon?.map((item) => {
         item.price ? totalPrice += item.price : ''
-
     })
 
     return (

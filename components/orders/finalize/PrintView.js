@@ -1,6 +1,7 @@
 import { getTotal, setDate } from "functions/orders"
 import { Fragment } from "react"
 import styled from "styled-components"
+import {formatPhone} from 'functions/orders'
 
 const ShowPrintDiv = styled.div`
     display: flex !important;
@@ -111,7 +112,7 @@ const PrintView = ({order, id}) => {
                 <>
                 <p style={{ fontWeight: 'bold' }}>Notes</p>
                 <hr></hr>
-                <p>{order.specialInstructions}</p>
+                <p style={{textTransform: 'none'}}>{order.specialInstructions}</p>
                 </>
             )
         }
@@ -126,11 +127,11 @@ const PrintView = ({order, id}) => {
                 <hr></hr>
 
                 <p>Phone 1: </p>
-                <p>{order?.phoneOne}</p>
+                <p>{order?.phoneOne ? formatPhone(order?.phoneOne): ''}</p>
                 <hr></hr>
 
                 <p>Phone 2: </p>
-                <p>{order?.phoneTwo}</p>
+                <p>{order?.phoneTwo ? formatPhone(order?.phoneTwo): ''}</p>
                 <hr></hr>
 
                 <p>Dress Color:</p>
@@ -219,7 +220,7 @@ const PrintView = ({order, id}) => {
                         </Fragment>
                     )
                     return returnArr.map((item) => {
-                        return item
+                        return (item)
                     })
                 })}
                 <hr></hr>
