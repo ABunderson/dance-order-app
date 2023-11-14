@@ -16,6 +16,7 @@ import UserContext from 'context/UserContext'
 import { useContext, useEffect, useState } from 'react'
 import ShowOrder from '../../../components/account/orders/ShowOrders'
 import PrintView from 'components/orders/finalize/PrintView'
+import { deleteBadOrders } from 'functions/orders'
 
 
 
@@ -28,11 +29,12 @@ export default function Account({ dances, styles, flowers, supplies, addons, ord
 
     // console.log(orders)
 
-    // useEffect(() => {
-    //     if (user.userName === 'default') {
-    //         router.push('/account/login')
-    //     }
-    // }, [router, user.userName])
+    useEffect(() => {
+        if (user.userName === 'default') {
+            router.push('/account/login')
+        }
+        deleteBadOrders()
+    }, [router, user.userName])
 
     const logOut = () => {
         user.setUserName('default')

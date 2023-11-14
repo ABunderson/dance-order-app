@@ -15,6 +15,7 @@ import Button, { SmallButton } from 'components/Button'
 import { Alert } from 'components/Alert'
 import { SmallFlexButton } from 'components/styles/ButtonStyles'
 import PrintView from 'components/orders/finalize/PrintView'
+import { deleteBadOrders } from 'functions/orders'
 
 
 
@@ -28,6 +29,7 @@ export default function AllOrders({ orders }) {
     //     if (user.userName === 'default') {
     //         router.push('/account/login')
     //     }
+    // deleteBadOrders()
     // }, )
 
     const filterPrint = (filter) => {
@@ -69,16 +71,16 @@ export default function AllOrders({ orders }) {
         const sortList = [...ordersList]
         let match = true
 
-        switch(value) {
+        switch (value) {
             case 'name':
                 sortList.sort((p1, p2) => (p1.firstName > p2.firstName) ? 1 : (p1.firstName < p2.firstName) ? -1 : 0)
 
                 sortList.map((item, index) => {
-                    if (item.orderDate !== ordersList[index].orderDate){
+                    if (item.orderDate !== ordersList[index].orderDate) {
                         return match = false
                     }
                 })
-                
+
                 match ? sortList.sort((p1, p2) => (p1.firstName < p2.firstName) ? 1 : (p1.firstName > p2.firstName) ? -1 : 0) : ''
                 break;
 
@@ -86,31 +88,31 @@ export default function AllOrders({ orders }) {
                 sortList.sort((p1, p2) => (p1.danceDate > p2.danceDate) ? 1 : (p1.danceDate < p2.danceDate) ? -1 : 0)
 
                 sortList.map((item, index) => {
-                    if (item.orderDate !== ordersList[index].orderDate){
+                    if (item.orderDate !== ordersList[index].orderDate) {
                         return match = false
                     }
                 })
-                
+
                 match ? sortList.sort((p1, p2) => (p1.danceDate < p2.danceDate) ? 1 : (p1.danceDate > p2.danceDate) ? -1 : 0) : ''
                 break;
 
-                case 'order':
-                    sortList.sort((p1, p2) => (p1.orderDate > p2.orderDate) ? 1 : (p1.orderDate < p2.orderDate) ? -1 : 0)
-    
-                    sortList.map((item, index) => {
-                        if (item.orderDate !== ordersList[index].orderDate){
-                            return match = false
-                        }
-                    })
-                    
-                    match ? sortList.sort((p1, p2) => (p1.orderDate < p2.orderDate) ? 1 : (p1.orderDate > p2.orderDate) ? -1 : 0) : ''
-                    break;
+            case 'order':
+                sortList.sort((p1, p2) => (p1.orderDate > p2.orderDate) ? 1 : (p1.orderDate < p2.orderDate) ? -1 : 0)
 
-                default:
-                    break;
+                sortList.map((item, index) => {
+                    if (item.orderDate !== ordersList[index].orderDate) {
+                        return match = false
+                    }
+                })
+
+                match ? sortList.sort((p1, p2) => (p1.orderDate < p2.orderDate) ? 1 : (p1.orderDate > p2.orderDate) ? -1 : 0) : ''
+                break;
+
+            default:
+                break;
         }
 
-        setOrdersList(sortList)        
+        setOrdersList(sortList)
     }
 
     return (

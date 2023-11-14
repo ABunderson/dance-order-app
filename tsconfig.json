@@ -17,6 +17,7 @@
       "@/*": ["./src/*"],
       "components/*": ["./components/*"],
       "mongoDb/*": ["./lib/mongodb/*"],
+      "mongodb/*": ["./lib/mongodb/*"],
       "services/*": ["./services/*"],
       "context/*": ["./context/*"],
       "functions/*": ["./functions/*"]

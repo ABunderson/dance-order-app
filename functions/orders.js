@@ -33,5 +33,16 @@ function formatOrder(order) {
     return (order)
 }
 
+const deleteBadOrders = async () => {
+    console.log('in function')
 
-export {setDate, getTotal, formatOrder}
+    let res = await fetch(`/api/orders/delete`, {
+      method: 'POST',
+    })
+    res = await res.json()
+    // console.log(res)
+    // console.log('delete bad orders')
+  }
+
+
+export {setDate, getTotal, formatOrder, deleteBadOrders}
