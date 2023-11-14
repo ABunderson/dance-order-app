@@ -4,9 +4,9 @@ import { StyledFieldset } from "components/styles/FieldsetStyles"
 
 
 
-const FlexDiv = styled.div`
-    display: flex;
-    flex-wrap: wrap; 
+const GridDiv = styled.div`
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(8em, 12em));
     justify-content: space-around;
     gap: 10px;
     row-gap: 30px;
@@ -22,6 +22,7 @@ const FlexDiv = styled.div`
     }
 `
 const Fieldset = styled(StyledFieldset)`
+
     label {
         height: 100%;
         img, p {
@@ -36,7 +37,7 @@ const Fieldset = styled(StyledFieldset)`
             img {
                 max-width: 100%;
                 height: auto;
-            }
+            } 
         }
     }
 `
@@ -47,11 +48,11 @@ const ArrayFieldset = ({ styles, dance }) => {
         <Fieldset>
             <legend>Styles</legend>
             <p>Green boxes mean the style is selected. {dance ? 'Prior selections for this dance start green.' : 'Default styles start out selected.'}</p>
-            <FlexDiv>
+            <GridDiv>
                 {styles?.map((style) => {
 
                     return (
-                        <div key={style._id}>
+                        <div key={style._id} className='item'>
                             <input type='checkbox' className='styles' name='styles' id={'styles ' + style._id} value={style._id} defaultChecked={dance ? dance.styles.includes(style._id) : style.defaultStyle} />
                             <label htmlFor={'styles ' + style._id}>
                                 <p>{style.name} {style.type}</p>
@@ -78,7 +79,7 @@ const ArrayFieldset = ({ styles, dance }) => {
                         </div>
                     )
                 })}
-            </FlexDiv>
+            </GridDiv>
 
         </Fieldset>
     )

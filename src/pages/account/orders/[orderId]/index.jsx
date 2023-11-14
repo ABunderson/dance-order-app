@@ -74,6 +74,7 @@ export default function ViewOrder({ orders }) {
             <Alert />
             <h1>View Order</h1>
             <h2>Orders appear as they will be printed. They cannot be edited.</h2>
+            <p>If the screen is small the order will be condensed but will still print normally.</p>
             <SmallFlexButton>
                 <SmallButton text='Set as Not Printed' type='button' action={unsetPrint}></SmallButton>
                 <SmallButton text='Print' type='button' action={print}></SmallButton>

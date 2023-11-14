@@ -99,13 +99,20 @@ export default function Finalize() {
 
         if (res.result.ok) {
             getNewOrder()
-            getNewOrder().then(function() {print(convertedJSON.finishType)})
+            if (convertedJSON.finishType === 'print') {
+                getNewOrder()
+                    .then(function () { print(convertedJSON.finishType) })
+                    .then(function () { finish() })
+            } else {
+                finish()
+            }
         }
+    }
 
+    const finish = () => {
         // unset context
         orderNum.setOrderNumber('default')
         dance.setDanceNumber('default')
-
         router.push('/')
     }
 

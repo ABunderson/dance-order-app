@@ -1,4 +1,4 @@
-import { StyledForm } from "components/styles/FormStyles"
+import { StyledForm, StyledColumnForm } from "components/styles/FormStyles"
 import Button from 'components/Button'
 import StyleFieldset from 'components/account/dances/StyleFieldset'
 import styled from "styled-components"
@@ -26,7 +26,25 @@ const FormDiv = styled.div`
     & button {
         flex-basis: 92%;
     } 
+
+    @media (max-width: 450px) {
+        max-width: 100%;
+        width: 100%;
+    
+        & input {
+            flex-basis: 100%;
+            width: 100%;
+            max-width: 300px;
+        }
+    
+        & label {
+            flex-basis: 100%;
+        }
+    }  
 `
+
+
+
 
 const DanceForm = ({ action, styles, flowers, dance }) => {
     const router = useRouter()

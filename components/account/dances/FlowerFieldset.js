@@ -3,8 +3,8 @@ import styled from "styled-components"
 import { StyledFieldset } from "components/styles/FieldsetStyles"
 
 const FlexDiv = styled.div`
-    display: flex;
-    flex-wrap: wrap; 
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(8em, 12em));
     justify-content: space-around;
     gap: 10px;
     row-gap: 30px;
@@ -21,6 +21,7 @@ const FlexDiv = styled.div`
 `
 const Fieldset = styled(StyledFieldset)`
     label {
+        flex: 1 0 50%;
         height: 100%;
         img, p {
             text-align: center;

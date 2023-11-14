@@ -6,11 +6,11 @@ display: flex;
 flex-direction: column;
 border: 1px solid black;
 border-radius: 15px;
-justify-content: space-between;
 align-items: center;
 padding: 1rem;
 width: auto;
 max-width: 244px;
+flex: 1 0 50%;
 
 p {
     text-align: center;
@@ -48,6 +48,16 @@ const StyleDiv = (style) => {
                 width={250}
                 height={250}
                 priority 
+                onError={(e) => {
+                    if (e.target.src.includes('no-image')) {
+                        e.target.onError = null
+                    } else {
+                        style.image = '/no-image.jpg'
+                        e.target.alt = 'A placeholder image'
+                        e.target.srcset = ''
+                        e.target.src = '/no-image.jpg'
+                    }
+                }}
             />
 
         </StyleBlock>

@@ -46,4 +46,18 @@ export const FlexButton = styled.div`
 
 export const SmallFlexButton = styled(FlexButton)`
     gap: 30px;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+
+    @media (max-width: 670px){
+        flex-direction: row;
+        gap: 30px;
+        padding-bottom: auto;
+    }
+
+    @media (max-width: 400px){
+        flex-direction: column;
+        gap: 2rem;
+        padding-bottom: 1rem;
+    }
 `

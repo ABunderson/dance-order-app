@@ -4,6 +4,7 @@ import styled from "styled-components"
 
 const ShowPrintDiv = styled.div`
     display: flex !important;
+    flex-wrap: wrap;
     width: 100%;
     text-transform: capitalize;
     font-size: 1rem;
@@ -11,6 +12,11 @@ const ShowPrintDiv = styled.div`
     .printDiv {
         display: flex !important;
         justify-content: space-between;
+        flexwrap: wrap;
+
+        @media (max-width: 350px) {
+            flex-direction: column;
+        }
     }
 
     section p {
@@ -53,6 +59,12 @@ const ShowPrintDiv = styled.div`
 
     #instructionsP {
         text-transform: none;
+    }
+
+    @media (max-width: 700px){
+        section {
+            min-width: 100%;
+        }  
     }
 
 `
