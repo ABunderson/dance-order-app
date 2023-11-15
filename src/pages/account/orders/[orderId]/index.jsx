@@ -30,7 +30,7 @@ export default function ViewOrder({ orders }) {
         if (status.length === 0) {
             orders[0].finishType && status !== orders[0].finishType ? setStatus(orders[0].finishType) : setStatus('unknown')
         }
-    }, [status, orders])
+    }, [status, orders, router, user.userName])
 
 
     if (router.isFallback) {

@@ -12,6 +12,7 @@ import FinalizeForm from 'components/orders/finalize/FinalizeForm'
 
 import { Alert } from 'components/Alert'
 import { alertService } from 'services/alert.service'
+import { scrollToTop } from 'functions/utils'
 
 
 export default function Finalize() {
@@ -49,7 +50,6 @@ export default function Finalize() {
             } catch (error) {
                 console.log('Error: ' + error.message)
                 alertService.warn('The order information has been lost.', { autoClose: false, keepAfterRouteChange: false })
-                scrollToTop()
             }
         }
 
@@ -68,13 +68,6 @@ export default function Finalize() {
         }
 
     }, [order, router, orderNum.orderNumber])
-
-    const isBrowser = () => typeof window !== 'undefined'
-
-    function scrollToTop() {
-        if (!isBrowser()) return
-        window.scrollTo({ top: 0, behavior: 'smooth' })
-    }
 
     async function onSubmit(event) {
         event.preventDefault()
