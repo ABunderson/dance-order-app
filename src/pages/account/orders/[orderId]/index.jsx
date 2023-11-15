@@ -22,9 +22,9 @@ export default function ViewOrder({ orders }) {
     const [status, setStatus] = useState('')
 
     useEffect(() => {
-        // if (user.userName === 'default') {
-        //     router.push('/account/login')
-        // }
+        if (user.userName === 'default') {
+            router.push('/account/login')
+        }
 
         if (status.length === 0){
             orders[0].finishType && status !== orders[0].finishType ? setStatus(orders[0].finishType) : setStatus('unknown')

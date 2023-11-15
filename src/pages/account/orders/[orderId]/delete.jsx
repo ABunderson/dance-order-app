@@ -7,7 +7,7 @@ import { useContext, useEffect } from 'react'
 import { alertService } from 'services/alert.service'
 import { Alert } from 'components/Alert'
 import Layout from 'components/Layout'
-import FinalizeOutput from '../../../../../components/orders/FinalizeOutput'
+import FinalizeOutput from '../../../../../components/orders/finalize/FinalizeOutput'
 import PrintView from 'components/orders/finalize/PrintView'
 
 import { FlexButton } from 'components/styles/ButtonStyles'
@@ -22,11 +22,11 @@ export default function DeleteOrder({ orders }) {
 
     const user = useContext(UserContext)
 
-    // useEffect(() => {
-    //     if (user.userName === 'default') {
-    //         router.push('/account/login')
-    //     }
-    // }, )
+    useEffect(() => {
+        if (user.userName === 'default') {
+            router.push('/account/login')
+        }
+    }, )
 
     if (router.isFallback) {
         return <h1>The order is loading</h1>

@@ -1,15 +1,17 @@
-import Layout from 'components/Layout'
-import Breadcrumbs from 'components/Breadcrumbs'
 import { useRouter } from 'next/router'
-import FinalizeOutput from 'components/orders/FinalizeOutput'
-import FinalizeForm from 'components/orders/FinalizeForm'
+
 import { Fragment, useContext, useEffect, useState } from 'react'
 import OrderContext from 'context/OrderContext'
 import DanceContext from 'context/DanceContext'
+
+import Layout from 'components/Layout'
+import Breadcrumbs from 'components/Breadcrumbs'
 import PrintView from 'components/orders/finalize/PrintView'
+import FinalizeOutput from 'components/orders/finalize/FinalizeOutput'
+import FinalizeForm from 'components/orders/finalize/FinalizeForm'
+
 import { Alert } from 'components/Alert'
 import { alertService } from 'services/alert.service'
-import { formatOrder } from 'functions/orders'
 
 
 export default function Finalize() {
@@ -18,6 +20,7 @@ export default function Finalize() {
     const [printOrder, setPrintOrder] = useState()
     const router = useRouter()
     const orderNum = useContext(OrderContext)
+    // const {orderNumber, setOrderNumber} = useContext(OrderContext)
     const dance = useContext(DanceContext)
     // console.log(orderNum)
     // console.log(order)
@@ -39,11 +42,8 @@ export default function Finalize() {
             const response = await fetch(`/api/orders/${orderId}`)
             const data = await response.json()
             const order = data.orders[0]
-            const prettyOrder = formatOrder(order)
-
-            setOrder(prettyOrder)
+            setOrder(order)
             setStyle(order.style)
-            // setPrintOrder(prettyOrder)
         }
 
         if (!router.isReady) {
@@ -99,6 +99,10 @@ export default function Finalize() {
 
         if (res.result.ok) {
             getNewOrder()
+            // setTimeout(() => {
+            //     window.print()
+            // }, 2000) 
+            
             if (convertedJSON.finishType === 'print') {
                 getNewOrder()
                     .then(function () { print(convertedJSON.finishType) })

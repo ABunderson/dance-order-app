@@ -12,17 +12,17 @@ const AddonRows = ({ style, order }) => {
                 for (let key of Object.keys(item)) {
 
                     if (key === 'name') {
-                        pieceArray.push(<tr className="addonHead"><td colSpan={2}>{item.name}</td></tr>)
+                        pieceArray.push(<tr className="addonHead" key={`${item.name} + head`}><td colSpan={2}>{item.name}</td></tr>)
                     } else if (key === 'price'){
 
                         if(item[key] < 1){
                             const price = item[key] * 100
-                            pieceArray.push(<tr><td>{key}:</td><td>{price}￠</td></tr>)
+                            pieceArray.push(<tr key={`${item.name} + price`}><td>{key}:</td><td>{price}￠</td></tr>)
                         } else {
-                            pieceArray.push(<tr><td>{key}:</td><td>${item[key]}</td></tr>)
+                            pieceArray.push(<tr key={`${item.name} + price`}><td>{key}:</td><td>${item[key]}</td></tr>)
                         }
                     } else {
-                        pieceArray.push(<tr><td>{key}:</td><td>{item[key]}</td></tr>)
+                        pieceArray.push(<tr key={`${item.name} + quantity`}><td>{key}:</td><td>{item[key]}</td></tr>)
                     }
                 }
                 return (

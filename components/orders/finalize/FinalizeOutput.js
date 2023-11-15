@@ -1,6 +1,7 @@
 import styled from "styled-components"
 import StyleRows from "./StyleRows"
 import AddonRows from "./AddonRows"
+import { setDate, formatPhone } from 'functions/orders'
 
 const OutputDiv = styled.div`
     // display: flex;
@@ -71,11 +72,11 @@ const FinalizeOutput = ({ order, style }) => {
                     </tr>
                     <tr>
                         <td>Phone number 1:</td>
-                        <td>{order.phoneOne}</td>
+                        <td>{order.phoneOne ? formatPhone(order.phoneOne): ''}</td>
                     </tr>
                     <tr>
                         <td>Phone number 2:</td>
-                        <td>{order.phoneTwo}</td>
+                        <td>{order.phoneTwo ? formatPhone(order.phoneTwo): ''}</td>
                     </tr>
                     <tr>
                         <td>Dress Color:</td>
@@ -83,7 +84,7 @@ const FinalizeOutput = ({ order, style }) => {
                     </tr>
                     <tr>
                         <td>Dance Date:</td>
-                        <td>{order.formatDanceDate}</td>
+                        <td>{setDate(order.danceDate)}</td>
                     </tr>
                     <tr>
                         <th colSpan={2}>{style.type} Information</th>

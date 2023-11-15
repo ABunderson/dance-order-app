@@ -20,17 +20,6 @@ const formatPhone = (phone) => {
     return `(${phone.slice(0, 3)}) ${phone.slice(3, 6)}-${phone.slice(6, 10)}`
 }
 
-function formatOrder(order) {
-
-    order.phoneOne = formatPhone(order.phoneOne)
-    order.phoneTwo = formatPhone(order.phoneTwo)
-
-    order.formatDanceDate = setDate(order.danceDate)
-    order.formatOrderDate = setDate(order.orderDate)
-
-    return (order)
-}
-
 const deleteBadOrders = async () => {
 
     let res = await fetch(`/api/orders/delete`, {
@@ -42,4 +31,4 @@ const deleteBadOrders = async () => {
   }
 
 
-export {setDate, getTotal, formatOrder, deleteBadOrders, formatPhone}
+export {setDate, getTotal, deleteBadOrders, formatPhone}

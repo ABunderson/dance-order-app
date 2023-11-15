@@ -25,12 +25,12 @@ export default function AllOrders({ orders }) {
     const [ordersList, setOrdersList] = useState(orders)
     const [printOrder, setPrintOrder] = useState(orders[0])
 
-    // useEffect(() => {
-    //     if (user.userName === 'default') {
-    //         router.push('/account/login')
-    //     }
-    // deleteBadOrders()
-    // }, )
+    useEffect(() => {
+        if (user.userName === 'default') {
+            router.push('/account/login')
+        }
+        deleteBadOrders()
+    },)
 
     const filterPrint = (filter) => {
 

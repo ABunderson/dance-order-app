@@ -25,19 +25,17 @@ export default function Account({ dances, styles, flowers, supplies, addons, ord
     const [printOrder, setPrintOrder] = useState(orders[0])
     const [ordersList, setOrdersList] = useState(orders)
 
-    const user = useContext(UserContext)
-
-    // console.log(orders)
+    const { userName, setUserName } = useContext(UserContext)
 
     useEffect(() => {
-        if (user.userName === 'default') {
+        if (userName === 'default') {
             router.push('/account/login')
         }
         deleteBadOrders()
-    }, [router, user.userName])
+    }, [router, userName])
 
     const logOut = () => {
-        user.setUserName('default')
+        setUserName('default')
         router.push('/')
     }
 
@@ -69,7 +67,7 @@ export default function Account({ dances, styles, flowers, supplies, addons, ord
 
             <Alert />
 
-            <h1>Welcome {user.userName}</h1>
+            <h1>Welcome {userName}</h1>
             <p>Here you can see, add, edit, or remove dances, styles, flowers, supplies, addons, and default styles. Each category only shows 10 items. To see all the items click on the category header.</p>
             <Button text='Log Out' type='button' action={logOut}></Button>
             <Line></Line>
