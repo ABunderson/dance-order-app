@@ -32,17 +32,17 @@ const CrudDiv = styled.div`
 
 `
 
-const ShowList = ({ objects, type }) => {
+const ShowList = ({ objects, type, place }) => {
     const router = useRouter()
 
     return (
         <>
             {
-                objects.map((item) => {
+                objects.map((item, index) => {
 
                     return (
                         <Fragment key={item._id}>
-                            <SmallLine></SmallLine>
+                            {place === 'main' ? <SmallLine></SmallLine> : index === 0 ? <></> : <SmallLine></SmallLine>}
                             <CrudDiv>
                                 <Link href={`/account/${type}/${item._id}`}>
                                     <p style={{ textTransform: 'capitalize', }} >{item.name} {item.type ? item.type : ''}</p>

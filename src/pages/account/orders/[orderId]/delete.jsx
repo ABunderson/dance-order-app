@@ -6,11 +6,10 @@ import { useContext, useEffect } from 'react'
 
 import { alertService } from 'services/alert.service'
 import { Alert } from 'components/Alert'
-import Layout from 'components/Layout'
-import FinalizeOutput from '../../../../../components/orders/finalize/FinalizeOutput'
-import PrintView from 'components/orders/finalize/PrintView'
+import { scrollToTop } from 'functions/utils'
 
-import { FlexButton } from 'components/styles/ButtonStyles'
+import Layout from 'components/Layout'
+import PrintView from 'components/orders/finalize/PrintView'
 import Button from 'components/Button'
 import Line from 'components/Line'
 
@@ -26,7 +25,7 @@ export default function DeleteOrder({ orders }) {
         if (user.userName === 'default') {
             router.push('/account/login')
         }
-    }, )
+    },)
 
     if (router.isFallback) {
         return <h1>The order is loading</h1>
@@ -34,15 +33,23 @@ export default function DeleteOrder({ orders }) {
 
     const deleteOrder = async () => {
 
-        let res = await fetch(`/api/orders/${orders[0]._id}/delete`, {
-            method: 'POST',
-        })
-        res = await res.json()
-        // console.log(res)
+        try {
 
-        if (res.ok) {
-            alertService.warn('Succesfully deleted order!', { autoClose: false, keepAfterRouteChange: true })
-            router.back()
+            let res = await fetch(`/api/orders/${orders[0]._id}/delete`, {
+                method: 'POST',
+            })
+            res = await res.json()
+            // console.log(res)
+
+            if (res.ok) {
+                alertService.warn('Succesfully deleted order!', { autoClose: false, keepAfterRouteChange: true })
+                router.back()
+            }
+        } catch (error) {
+            console.log('Error: ' + error.message)
+            alertService.warn('something went wrong with the database connection.', { autoClose: false, keepAfterRouteChange: false })
+            scrollToTop()
+            return
         }
     }
 
@@ -50,8 +57,8 @@ export default function DeleteOrder({ orders }) {
 
     return (
         <Layout pageTitle='Delete Order'>
-
             <Alert />
+            
             <h1>Delete Order</h1>
             <h2>Are you sure you want to delete this order? This action cannot be undone.</h2>
 

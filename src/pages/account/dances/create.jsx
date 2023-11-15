@@ -7,12 +7,14 @@ import { useContext, useEffect } from 'react'
 
 import { alertService } from 'services/alert.service'
 import { Alert } from 'components/Alert'
+import { scrollToTop } from 'functions/utils'
+
 import Layout from 'components/Layout'
 import DanceForm from 'components/account/dances/DanceForm'
 
 
 
-export default function CreateDance({ styles, flowers}) {
+export default function CreateDance({ styles, flowers }) {
 
     const router = useRouter();
 
@@ -22,13 +24,13 @@ export default function CreateDance({ styles, flowers}) {
         if (user.userName === 'default') {
             router.push('/account/login')
         }
-    }, )
+    },)
 
     const flowerTypes = flowers.map((flower) => {
         return flower.name.split(" ").join('')
     })
 
-    const findChecked  = (className)=> {
+    const findChecked = (className) => {
         const checkboxes = document.querySelectorAll(`.${className}`)
         const returnArray = []
         checkboxes.forEach((checkbox) => {
@@ -51,7 +53,7 @@ export default function CreateDance({ styles, flowers}) {
                 name = 'full rose'
             }
             let returnObj
-            returnObj = { flowerName: name, colors: findChecked(flower)}
+            returnObj = { flowerName: name, colors: findChecked(flower) }
             flowers.push(returnObj)
         })
 
@@ -69,7 +71,7 @@ export default function CreateDance({ styles, flowers}) {
         });
 
         convertedJSON.editDate = new Date()
-        
+
         convertedJSON.schools = convertedJSON.schools.split(',')
         convertedJSON.schools = convertedJSON.schools.map((school) => {
             return school.trim()
@@ -92,24 +94,32 @@ export default function CreateDance({ styles, flowers}) {
             alertService.warn('Please pick a Saturday', { autoClose: false, keepAfterRouteChange: false })
             return
         }
-   
-        let res = await fetch('/api/dances', {
-            method: 'POST',
-            body: JSON.stringify(convertedJSON),
-        })
 
-        res = await res.json()
+        try {
 
-        if (res._id){
-            alertService.warn('Succesfully added dance!', { autoClose: false, keepAfterRouteChange: true })
-            router.back()
+            let res = await fetch('/api/dances', {
+                method: 'POST',
+                body: JSON.stringify(convertedJSON),
+            })
+
+            res = await res.json()
+
+            if (res._id) {
+                alertService.warn('Succesfully added dance!', { autoClose: false, keepAfterRouteChange: true })
+                router.back()
+            }
+        } catch (error) {
+            console.log('Error: ' + error.message)
+            alertService.warn('Something went wrong with the dance creation.', { autoClose: false, keepAfterRouteChange: false })
+            scrollToTop()
+            return
         }
     }
 
     return (
         <Layout pageTitle='Create Dance'>
-
             <Alert />
+            
             <h1>Create Dance</h1>
 
             <DanceForm action={onSubmit} styles={styles} flowers={flowers} dance={false}></DanceForm>

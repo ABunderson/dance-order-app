@@ -8,6 +8,8 @@ import { useContext, useEffect } from 'react'
 
 import { alertService } from 'services/alert.service'
 import { Alert } from 'components/Alert'
+import { scrollToTop } from 'functions/utils'
+
 import Layout from 'components/Layout'
 import DanceForm from 'components/account/dances/DanceForm'
 
@@ -22,7 +24,7 @@ export default function EditDance({ styles, flowers, dance }) {
         if (user.userName === 'default') {
             router.push('/account/login')
         }
-    }, )
+    },)
 
     const getFlowers = () => {
         const flowers = []
@@ -95,24 +97,30 @@ export default function EditDance({ styles, flowers, dance }) {
             return
         }
 
+        try {
 
+            let res = await fetch(`/api/dances/${dance[0]._id}/update`, {
+                method: 'POST',
+                body: JSON.stringify(convertedJSON),
+            })
+            res = await res.json()
 
-        let res = await fetch(`/api/dances/${dance[0]._id}/update`, {
-            method: 'POST',
-            body: JSON.stringify(convertedJSON),
-        })
-        res = await res.json()
-
-        if (res.ok === 1) {
-            alertService.warn('Succesfully edited dance!', { autoClose: false, keepAfterRouteChange: true })
-            router.back()
+            if (res.ok === 1) {
+                alertService.warn('Succesfully edited dance!', { autoClose: false, keepAfterRouteChange: true })
+                router.back()
+            }
+        } catch (error) {
+            console.log('Error: ' + error.message)
+            alertService.warn('Something went wrong while updating the dance.', { autoClose: false, keepAfterRouteChange: false })
+            scrollToTop()
+            return
         }
     }
 
     return (
         <Layout pageTitle='Edit Dance'>
-
             <Alert />
+            
             <h1>Edit Dance</h1>
 
             <DanceForm action={onSubmit} styles={styles} flowers={flowers} dance={dance}></DanceForm>

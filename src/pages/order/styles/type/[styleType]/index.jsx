@@ -19,43 +19,50 @@ export default function GetStyles({ styles }) {
 
     useEffect(() => {
 
-        if(!router.isReady) {return}
+        if (!router.isReady) { return }
         else {
-        const {
-            query: { paths }
-        } = router
-    
-        const crumbs = { paths }
-        // console.log(crumbs)
-        let pathObj = JSON.parse(crumbs.paths)
+            const {
+                query: { paths }
+            } = router
 
-        setBreadcrumbs(pathObj)
+            const crumbs = { paths }
+            // console.log(crumbs)
+            let pathObj = JSON.parse(crumbs.paths)
+
+            setBreadcrumbs(pathObj)
         }
 
-        if(shownStyles.length === 0){
+        if (shownStyles.length === 0) {
             getOutputStyles()
         }
 
         async function getOutputStyles() {
-            
 
-            if (dance.danceNumber !== 'default'){
-    
-                const response = await fetch(`/api/dances/${dance.danceNumber}`)
-                const data = await response.json()
-                const danceInfo= data.dances[0]
-    
-                let danceStyles = styles.filter((item) => {
-                    return danceInfo.styles.includes(item._id)
-                })
 
-                setShownStyles(danceStyles)
-                
+            if (dance.danceNumber !== 'default') {
+
+                try {
+
+                    const response = await fetch(`/api/dances/${dance.danceNumber}`)
+                    const data = await response.json()
+                    const danceInfo = data.dances[0]
+
+                    let danceStyles = styles.filter((item) => {
+                        return danceInfo.styles.includes(item._id)
+                    })
+
+                    setShownStyles(danceStyles)
+                } catch (error) {
+                    alertService.warn('The styles for the dance did not load.', { autoClose: false, keepAfterRouteChange: false })
+                    scrollToTop()
+                    return
+                }
+
             } else {
                 let defaultStyles = styles.filter((item) => {
                     return item.defaultStyle === true
                 })
-            
+
                 setShownStyles(defaultStyles)
             }
         }
@@ -105,7 +112,7 @@ export default function GetStyles({ styles }) {
                 })}
             </FlexGrid>
 
-            <Button text='Back' type='button' action={()=> {router.back()}}></Button>
+            <Button text='Back' type='button' action={() => { router.back() }}></Button>
 
         </Layout>
     )

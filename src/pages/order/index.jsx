@@ -38,12 +38,19 @@ export default function Finalize() {
         }
 
         async function getOrder() {
-            const orderId = orderNum.orderNumber
-            const response = await fetch(`/api/orders/${orderId}`)
-            const data = await response.json()
-            const order = data.orders[0]
-            setOrder(order)
-            setStyle(order.style)
+            try {
+                const orderId = orderNum.orderNumber
+                const { response, error } = await fetch(`/api/orders/${orderId}`)
+                if (error) throw new Error(error)
+                const data = await response.json()
+                const order = data.orders[0]
+                setOrder(order)
+                setStyle(order.style)
+            } catch (error) {
+                console.log('Error: ' + error.message)
+                alertService.warn('The order information has been lost.', { autoClose: false, keepAfterRouteChange: false })
+                scrollToTop()
+            }
         }
 
         if (!router.isReady) {
@@ -90,27 +97,28 @@ export default function Finalize() {
             scrollToTop()
             return
         }
+        try {
+            let res = await fetch(`/api/orders/${order._id}/update`, {
+                method: 'POST',
+                body: JSON.stringify(convertedJSON),
+            })
+            res = await res.json()
 
-        let res = await fetch(`/api/orders/${order._id}/update`, {
-            method: 'POST',
-            body: JSON.stringify(convertedJSON),
-        })
-        res = await res.json()
-
-        if (res.result.ok) {
-            getNewOrder()
-            // setTimeout(() => {
-            //     window.print()
-            // }, 2000) 
-            
-            if (convertedJSON.finishType === 'print') {
+            if (res.result.ok) {
                 getNewOrder()
-                    .then(function () { print(convertedJSON.finishType) })
-                    .then(function () { finish() })
-            } else {
-                finish()
+                // setTimeout(() => {
+                //     window.print()
+                // }, 2000) 
+
+                if (convertedJSON.finishType === 'print') {
+                    getNewOrder()
+                        .then(function () { print(convertedJSON.finishType) })
+                        .then(function () { finish() })
+                } else {
+                    finish()
+                }
             }
-        }
+        } catch (error) { }
     }
 
     const finish = () => {
@@ -121,11 +129,18 @@ export default function Finalize() {
     }
 
     async function getNewOrder() {
+        try {
         const response = await fetch(`/api/orders/${order._id}`)
         const data = await response.json()
         const newOrder = data.orders
 
         setPrintOrder(newOrder[0])
+        
+        } catch (error) {
+            alertService.warn('The order could not be updated to print.', { autoClose: false, keepAfterRouteChange: false })
+            scrollToTop()
+            return
+        }
     }
 
     const print = async (value) => {

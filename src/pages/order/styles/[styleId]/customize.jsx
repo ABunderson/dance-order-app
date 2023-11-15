@@ -10,6 +10,10 @@ import DanceContext from 'context/DanceContext'
 import { useState, useEffect, useContext } from 'react'
 import { capitalize } from 'functions/utils'
 
+import { Alert } from 'components/Alert'
+import { alertService } from 'services/alert.service'
+import { scrollToTop } from 'functions/utils'
+
 
 
 export default function Customize({ style, flower, supplies }) {
@@ -41,15 +45,22 @@ export default function Customize({ style, flower, supplies }) {
 
         async function getOutputColors() {
 
-            const response = await fetch(`/api/dances/${dance.danceNumber}`)
-            const data = await response.json()
-            const danceInfo = data.dances[0]
+            try {
 
-            let flowerInfo = danceInfo.flowers.filter((item) => {
-                return item.flowerName === flower[0].name
-            })
+                const response = await fetch(`/api/dances/${dance.danceNumber}`)
+                const data = await response.json()
+                const danceInfo = data.dances[0]
 
-            setDanceColors(flowerInfo)
+                let flowerInfo = danceInfo.flowers.filter((item) => {
+                    return item.flowerName === flower[0].name
+                })
+
+                setDanceColors(flowerInfo)
+            } catch (error) {
+                console.log('Error: ' + error.message)
+                alertService.warn('Something has gone wrong with the database connection.', { autoClose: false, keepAfterRouteChange: false })
+                scrollToTop()
+            }
         }
 
     }, [router, dance.danceNumber, danceColors.length, flower])
@@ -78,55 +89,56 @@ export default function Customize({ style, flower, supplies }) {
 
             const orderId = order.orderNumber
             const styleObj = {}
-            styleObj.style = {...convertedJSON, name: style[0].name, type: style[0].type, price: style[0].price, flower: style[0].flower, pageColor: style[0].pageColor}        
+            styleObj.style = { ...convertedJSON, name: style[0].name, type: style[0].type, price: style[0].price, flower: style[0].flower, pageColor: style[0].pageColor }
 
-            let res = await fetch(`/api/orders/${orderId}/update`, {
-                method: 'POST',
-                body: JSON.stringify(styleObj),
-            })
+            try {
+                let res = await fetch(`/api/orders/${orderId}/update`, {
+                    method: 'POST',
+                    body: JSON.stringify(styleObj),
+                })
+                res = await res.json()
 
-            
-            res = await res.json()
-            // console.log(res)
-            // console.log(res.result.ok)
-            // console.log(res._id)
-            if (res.result.ok === 1) {
+                if (res.result.ok === 1) {
 
-                const {
-                    query: { paths }
-                } = router
+                    const {
+                        query: { paths }
+                    } = router
 
-                const crumbs = { paths }
+                    const crumbs = { paths }
 
-                let pathString = 'empty'
-                let pathObj
-                // console.log('on page')
-                // console.log(crumbs)
+                    let pathString = 'empty'
+                    let pathObj
 
-                if (crumbs && crumbs.paths !== 'empty' && typeof crumbs.paths !== 'undefined') {
-                    pathObj = JSON.parse(crumbs.paths)
+                    if (crumbs && crumbs.paths !== 'empty' && typeof crumbs.paths !== 'undefined') {
+                        pathObj = JSON.parse(crumbs.paths)
 
-                    const path = window.location.pathname
-                    pathObj.push({ order: 5, locName: 'Customize', path: path })
-                    // console.log('below is pathObj')
-                    // console.log(pathObj)
+                        const path = window.location.pathname
+                        pathObj.push({ order: 5, locName: 'Customize', path: path })
 
-                    pathString = JSON.stringify(pathObj)
+                        pathString = JSON.stringify(pathObj)
+                    }
+
+                    router.push({
+                        query: {
+                            paths: pathString
+                        },
+                        pathname: `/order/styles/type/${style[0].type}/addons`,
+                    }, `/order/styles/type/${style[0].type}/addons`)
                 }
-
-                router.push({
-                    query: {
-                        paths: pathString
-                    },
-                    pathname: `/order/styles/type/${style[0].type}/addons`,
-                }, `/order/styles/type/${style[0].type}/addons`)
+            } catch (error) {
+                alertService.warn('Something has gone wrong with the database connection.', { autoClose: false, keepAfterRouteChange: false })
+                console.log('Error ' + error.message)
+                scrollToTop()
             }
+
+
         }
 
     }
 
     return (
         <Layout pageTitle={capitalize(`Customize ${style[0].name} ${style[0].type}`)}>
+            <Alert />
 
             <Breadcrumbs path={breadcrumbs}></Breadcrumbs>
 

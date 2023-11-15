@@ -2,8 +2,10 @@ import Layout from 'components/Layout'
 import LoginForm from 'components/account/LoginForm'
 import { hashPassword } from 'components/account/Hashing'
 import { useRouter } from 'next/router'
+
+import { alertService } from 'services/alert.service'
 import { Alert } from 'components/Alert'
-import { alertService } from '../../../services/alert.service'
+import { scrollToTop } from 'functions/utils'
 
 import UserContext from 'context/UserContext'
 import { useContext } from 'react'
@@ -23,6 +25,8 @@ export default function LoginPage() {
             convertedJSON[key] = value;
         });
         // console.log(convertedJSON)
+
+        try {
         convertedJSON.password = await hashPassword(convertedJSON.password)
 
         const check = await Login(convertedJSON)
@@ -34,6 +38,12 @@ export default function LoginPage() {
             alertService.warn('Password or Username is incorrect. Please try again', { autoClose: true, keepAfterRouteChange: false })
             event.target.reset()
         }
+    } catch (error) {
+        console.log('Error: ' + error.message)
+        alertService.warn('Something went wrong with the database connection.', { autoClose: false, keepAfterRouteChange: false })
+        scrollToTop()
+        return
+    }
 
     }
 

@@ -6,8 +6,9 @@ import { useContext, useEffect, useState } from 'react'
 
 import { alertService } from 'services/alert.service'
 import { Alert } from 'components/Alert'
+import { scrollToTop } from 'functions/utils'
+
 import Layout from 'components/Layout'
-import FinalizeOutput from '../../../../../components/orders/FinalizeOutput'
 import PrintView from 'components/orders/finalize/PrintView'
 
 import { FlexButton, SmallFlexButton } from 'components/styles/ButtonStyles'
@@ -26,7 +27,7 @@ export default function ViewOrder({ orders }) {
             router.push('/account/login')
         }
 
-        if (status.length === 0){
+        if (status.length === 0) {
             orders[0].finishType && status !== orders[0].finishType ? setStatus(orders[0].finishType) : setStatus('unknown')
         }
     }, [status, orders])
@@ -38,40 +39,57 @@ export default function ViewOrder({ orders }) {
 
     const print = async () => {
         const sendObject = {}
-        sendObject.finishType = 'print'
+        try {
+            sendObject.finishType = 'print'
 
-        let res = await fetch(`/api/orders/${orders[0]._id}/update`, {
-            method: 'POST',
-            body: JSON.stringify(sendObject),
-        })
-        res = await res.json()
-        // console.log(res)
+            let res = await fetch(`/api/orders/${orders[0]._id}/update`, {
+                method: 'POST',
+                body: JSON.stringify(sendObject),
+            })
+            res = await res.json()
+            // console.log(res)
 
-        if (res.ok) {  
-            window.print()
-            setStatus('print')
+            if (res.ok) {
+                window.print()
+                setStatus('print')
+            }
+        } catch (error) {
+            console.log('Error: ' + error.message)
+            alertService.warn('something went wrong with the database connection.', { autoClose: false, keepAfterRouteChange: false })
+            scrollToTop()
+            return
         }
     }
 
     const unsetPrint = async () => {
         const sendObject = {}
-        sendObject.finishType = 'wait'
 
-        // setStatus('wait')
+        try {
+            sendObject.finishType = 'wait'
 
-        let res = await fetch(`/api/orders/${orders[0]._id}/update`, {
-            method: 'POST',
-            body: JSON.stringify(sendObject),
-        })
-        res = await res.json()
-        // console.log(res)
-        res.ok ? setStatus('wait') : alertService.warn('Something went wrong', { autoClose: false, keepAfterRouteChange: false })
+            // setStatus('wait')
+
+
+
+            let res = await fetch(`/api/orders/${orders[0]._id}/update`, {
+                method: 'POST',
+                body: JSON.stringify(sendObject),
+            })
+            res = await res.json()
+            // console.log(res)
+            res.ok ? setStatus('wait') : alertService.warn('Something went wrong', { autoClose: false, keepAfterRouteChange: false })
+        } catch (error) {
+            console.log('Error: ' + error.message)
+            alertService.warn('something went wrong with the database connection.', { autoClose: false, keepAfterRouteChange: false })
+            scrollToTop()
+            return
+        }
     }
 
     return (
         <Layout pageTitle='View Order'>
-
             <Alert />
+            
             <h1>View Order</h1>
             <h2>Orders appear as they will be printed. They cannot be edited.</h2>
             <p>If the screen is small the order will be condensed but will still print normally.</p>

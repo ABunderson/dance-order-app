@@ -7,10 +7,11 @@ import { useContext, useEffect } from 'react'
 
 import { alertService } from 'services/alert.service'
 import { Alert } from 'components/Alert'
+import { scrollToTop } from 'functions/utils'
 
 import Layout from 'components/Layout'
 import DanceView from 'components/account/dances/DanceView'
-import { FlexButton} from 'components/styles/ButtonStyles'
+import { FlexButton } from 'components/styles/ButtonStyles'
 import Button from 'components/Button'
 import Line from 'components/Line'
 
@@ -25,22 +26,30 @@ export default function DeleteDance({ styles, dance }) {
         if (user.userName === 'default') {
             router.push('/account/login')
         }
-    }, )
+    },)
 
-    if(router.isFallback){
+    if (router.isFallback) {
         return <h1>The style is loading</h1>
     }
 
     const deleteDance = async () => {
 
-        let res = await fetch(`/api/dances/${dance[0]._id}/delete`, {
-            method: 'POST',
-        })
-        res = await res.json()
+        try {
 
-        if (res.ok) {
-            alertService.warn('Succesfully deleted dance!', { autoClose: false, keepAfterRouteChange: true })
-            router.back()
+            let res = await fetch(`/api/dances/${dance[0]._id}/delete`, {
+                method: 'POST',
+            })
+            res = await res.json()
+
+            if (res.ok) {
+                alertService.warn('Succesfully deleted dance!', { autoClose: false, keepAfterRouteChange: true })
+                router.back()
+            }
+        } catch (error) {
+            console.log('Error: ' + error.message)
+            alertService.warn('Something went wrong when deleting the dance.', { autoClose: false, keepAfterRouteChange: false })
+            scrollToTop()
+            return
         }
     }
 
@@ -48,19 +57,19 @@ export default function DeleteDance({ styles, dance }) {
 
     return (
         <Layout pageTitle='Delete Dance'>
-
             <Alert />
+            
             <h1>Delete Dance</h1>
             <h2>Are you sure you want to delete this dance? This action cannot be undone.</h2>
             <FlexButton>
                 <Button text='Delete' type='button' action={deleteDance}></Button>
-                <Button text="Back" type="button" action={() => {router.back()}}></Button>
-                </FlexButton>
+                <Button text="Back" type="button" action={() => { router.back() }}></Button>
+            </FlexButton>
 
             <Line></Line>
 
             <DanceView dance={dance} styles={styles}></DanceView>
-            <FlexButton><Button text="Back" type="button" action={() => {router.back()}}></Button></FlexButton>
+            <FlexButton><Button text="Back" type="button" action={() => { router.back() }}></Button></FlexButton>
 
         </Layout>
     )
@@ -97,7 +106,7 @@ export async function getStaticProps(context) {
     } catch (error) {
         console.log('Error:' + error.message)
     }
-    
+
     let stylesReturn
     try {
         const { styles, error } = await getStyles(0)

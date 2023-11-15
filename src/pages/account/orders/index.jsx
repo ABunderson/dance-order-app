@@ -12,7 +12,11 @@ import Layout from 'components/Layout'
 import Line from 'components/Line'
 import ShowOrders from 'components/account/orders/ShowOrders'
 import Button, { SmallButton } from 'components/Button'
+
+import { alertService } from 'services/alert.service'
 import { Alert } from 'components/Alert'
+import { scrollToTop } from 'functions/utils'
+
 import { SmallFlexButton } from 'components/styles/ButtonStyles'
 import PrintView from 'components/orders/finalize/PrintView'
 import { deleteBadOrders } from 'functions/orders'
@@ -43,24 +47,33 @@ export default function AllOrders({ orders }) {
 
     const print = async (order) => {
         const sendObject = {}
-        sendObject.finishType = 'print'
 
-        let res = await fetch(`/api/orders/${order._id}/update`, {
-            method: 'POST',
-            body: JSON.stringify(sendObject),
-        })
-        res = await res.json()
-        // console.log(res)
+        try {
+            sendObject.finishType = 'print'
 
-        const response = await fetch(`/api/orders`)
-        const data = await response.json()
-        const newOrders = data.data
 
-        setOrdersList(newOrders)
+            let res = await fetch(`/api/orders/${order._id}/update`, {
+                method: 'POST',
+                body: JSON.stringify(sendObject),
+            })
+            res = await res.json()
+            // console.log(res)
 
-        if (res.ok) {
-            setPrintOrder(order)
-            window.print()
+            const response = await fetch(`/api/orders`)
+            const data = await response.json()
+            const newOrders = data.data
+
+            setOrdersList(newOrders)
+
+            if (res.ok) {
+                setPrintOrder(order)
+                window.print()
+            }
+        } catch (error) {
+            console.log('Error: ' + error.message)
+            alertService.warn('something went wrong with the database connection.', { autoClose: false, keepAfterRouteChange: false })
+            scrollToTop()
+            return
         }
     }
 

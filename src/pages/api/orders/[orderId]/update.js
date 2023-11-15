@@ -1,4 +1,4 @@
-import clientPromise from '../../../../../lib/mongodb/index'
+import clientPromise from 'mongodb/index'
 
 const ObjectId = require('mongodb').ObjectId
 
@@ -9,12 +9,11 @@ export default async function handler(req, res) {
     let filter = orderId
     switch (req.method) {
         case "POST":
-
+            
             let bodyObject = JSON.parse(req.body);
-            let myOrder = await db.collection("orders").updateOne({ _id: ObjectId(filter)}, {$set:bodyObject}, {upsert: true} );
+            let myOrder = await db.collection("orders").updateOne({ _id: ObjectId(filter)}, {$set:bodyObject} );
             res.json(myOrder);
             break;
-
         case "GET":
             const thisOrder = await db.collection("orders").find({ _id: ObjectId(filter)}).toArray();
             res.json({ status: 200, data: thisOrder });

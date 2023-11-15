@@ -8,6 +8,10 @@ import { getSupplyByName } from 'mongoDb/supplies'
 import { useState, useEffect, useContext } from 'react'
 import OrderContext from 'context/OrderContext'
 
+import { Alert } from 'components/Alert'
+import { alertService } from 'services/alert.service'
+import { scrollToTop } from 'functions/utils'
+
 export default function GetStyles({ addons, ribbon }) {
     const [breadcrumbs, setBreadcrumbs] = useState([])
     const [orderInfo, setOrderInfo] = useState([])
@@ -118,39 +122,48 @@ export default function GetStyles({ addons, ribbon }) {
 
             const orderId = order.orderNumber
 
-            let res = await fetch(`/api/orders/${orderId}/update`, {
-                method: 'POST',
-                body: JSON.stringify(sendingThis),
-            })
-            res = await res.json()
-            // console.log(res.result.ok)
-            // console.log(res._id)
+            let res
 
-            let pathString = 'empty'
-            let pathObj
+            try {
+                res = await fetch(`/api/orders/${orderId}/update`, {
+                    method: 'POST',
+                    body: JSON.stringify(sendingThis),
+                })
+                res = await res.json()
+                // console.log(res.result.ok)
+                // console.log(res._id)
 
-            if (breadcrumbs) {
-                pathObj = breadcrumbs
+                let pathString = 'empty'
+                let pathObj
 
-                const path = window.location.pathname
-                pathObj.push({ order: 6, locName: 'Finishing Touches', path: path })
+                if (breadcrumbs) {
+                    pathObj = breadcrumbs
 
-                pathString = JSON.stringify(pathObj)
-            }
+                    const path = window.location.pathname
+                    pathObj.push({ order: 6, locName: 'Finishing Touches', path: path })
 
-            if (res.result.ok === 1) {
-                router.push({
-                    query: {
-                        paths: pathString
-                    },
-                    pathname: `/order`,
-                }, `/order`)
+                    pathString = JSON.stringify(pathObj)
+                }
+
+                if (res.result.ok === 1) {
+                    router.push({
+                        query: {
+                            paths: pathString
+                        },
+                        pathname: `/order`,
+                    }, `/order`)
+                }
+            } catch (error) {
+                console.log('Error: ' + error.message)
+                alertService.warn('Something has gone wrong with the database connection.', { autoClose: false, keepAfterRouteChange: false })
+                scrollToTop()
             }
         }
     }
 
     return (
         <Layout pageTitle='Finishing Touches'>
+            <Alert />
             {breadcrumbs ? <Breadcrumbs path={breadcrumbs}></Breadcrumbs> : <></>}
 
             <h1 style={{ textTransform: 'capitalize' }}>Finishing Touches</h1>

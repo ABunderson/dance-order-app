@@ -2,8 +2,10 @@ import Layout from 'components/Layout'
 import NewUserForm from 'components/account/NewUserForm'
 import { hashPassword } from 'components/account/Hashing'
 import { useRouter } from 'next/router'
+
+import { alertService } from 'services/alert.service'
 import { Alert } from 'components/Alert'
-import { alertService } from '../../../services/alert.service'
+import { scrollToTop } from 'functions/utils'
 
 import UserContext from 'context/UserContext'
 import { useContext } from 'react'
@@ -27,44 +29,52 @@ export default function LoginPage() {
             return
         }
 
-        if (await checkUserName(convertedJSON.username)) {
-            alertService.warn('That username is already being used. Please pick a different one.', { autoClose: false, keepAfterRouteChange: false })
-            return
-        }
+        try {
 
-        const pattern = /^(.{0,7}|[^0-9]*|[^A-Z]*|[a-zA-Z0-9]*)$/
-        if (pattern.test(convertedJSON.password)) {
-            alertService.warn(`That password doesn't meet the requirements`, { autoClose: false, keepAfterRouteChange: false })
-            return
-        }
+            if (await checkUserName(convertedJSON.username)) {
+                alertService.warn('That username is already being used. Please pick a different one.', { autoClose: false, keepAfterRouteChange: false })
+                return
+            }
 
-        // convert the shopcode to password hash and check
-        convertedJSON.shopCode = await hashPassword(convertedJSON.shopCode)
-        if (! await fetchUser(convertedJSON.shop, convertedJSON.shopCode)){
-            alertService.warn(`The shop information is not correct.`, { autoClose: false, keepAfterRouteChange: false })
-            return
-        } 
+            const pattern = /^(.{0,7}|[^0-9]*|[^A-Z]*|[a-zA-Z0-9]*)$/
+            if (pattern.test(convertedJSON.password)) {
+                alertService.warn(`That password doesn't meet the requirements`, { autoClose: false, keepAfterRouteChange: false })
+                return
+            }
 
-        //convert password to password hash and add to database
-        convertedJSON.password = await hashPassword(convertedJSON.password)
-        delete convertedJSON.shop
-        delete convertedJSON.shopCode
-        console.log(convertedJSON)
+            // convert the shopcode to password hash and check
+            convertedJSON.shopCode = await hashPassword(convertedJSON.shopCode)
+            if (! await fetchUser(convertedJSON.shop, convertedJSON.shopCode)) {
+                alertService.warn(`The shop information is not correct.`, { autoClose: false, keepAfterRouteChange: false })
+                return
+            }
 
-        
+            //convert password to password hash and add to database
+            convertedJSON.password = await hashPassword(convertedJSON.password)
+            delete convertedJSON.shop
+            delete convertedJSON.shopCode
+            // console.log(convertedJSON)
 
-        let res = await fetch('/api/users', {
-            method: 'POST',
-            body: JSON.stringify(convertedJSON),
-        })
-        res = await res.json()
-        console.log(res)
-        console.log(res._id)
 
-        if (res._id) {
-            router.push('/account')
-        } else {
-            alertService.warn(`Something unexpected went wrong. Try waiting or contacting the site creator.`, { autoClose: false, keepAfterRouteChange: false })
+            let res = await fetch('/api/users', {
+                method: 'POST',
+                body: JSON.stringify(convertedJSON),
+            })
+
+            res = await res.json()
+            // console.log(res)
+            // console.log(res._id)
+
+            if (res._id) {
+                router.push('/account')
+            } else {
+                alertService.warn(`Something unexpected went wrong. Try waiting or contacting the site creator.`, { autoClose: false, keepAfterRouteChange: false })
+                return
+            }
+        } catch (error) {
+            console.log('Error: ' + error.message)
+            alertService.warn('The database could not be reached', { autoClose: false, keepAfterRouteChange: false })
+            scrollToTop()
             return
         }
     }
