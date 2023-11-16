@@ -8,6 +8,7 @@ import { useContext, useEffect } from 'react'
 import { alertService } from 'services/alert.service'
 import { Alert } from 'components/allPages/Alert'
 import { scrollToTop } from 'functions/utils'
+import { findFlowersNeeded, checkFlowers, getSelectedFlowers, flowerTypes, findChecked } from 'functions/newDance'
 
 import Layout from 'components/allPages/Layout'
 import DanceForm from 'components/account/dances/DanceForm'
@@ -26,40 +27,6 @@ export default function CreateDance({ styles, flowers }) {
         }
     },)
 
-    const flowerTypes = flowers.map((flower) => {
-        return flower.name.split(" ").join('')
-    })
-
-    const findChecked = (className) => {
-        const checkboxes = document.querySelectorAll(`.${className}`)
-        const returnArray = []
-        checkboxes.forEach((checkbox) => {
-
-            if (checkbox.checked) {
-                returnArray.push(checkbox.value)
-            }
-        })
-        return returnArray
-    }
-
-    const getFlowers = () => {
-        const flowers = []
-
-        flowerTypes.map((flower) => {
-            let name = flower
-            if (flower === 'babiesbreath') {
-                name = 'babies breath'
-            } else if (flower === 'fullrose') {
-                name = 'full rose'
-            }
-            let returnObj
-            returnObj = { flowerName: name, colors: findChecked(flower) }
-            flowers.push(returnObj)
-        })
-
-        return flowers
-    }
-
     async function onSubmit(event) {
         event.preventDefault()
 
@@ -72,54 +39,76 @@ export default function CreateDance({ styles, flowers }) {
 
         convertedJSON.editDate = new Date()
 
+        if (convertedJSON.schools.length === 0 || convertedJSON.danceDate.length === 0 || convertedJSON.name.length === 0) {
+            alertService.warn('Please fill out each field.', { autoClose: false, keepAfterRouteChange: false })
+            scrollToTop()
+            return
+        }
+
         convertedJSON.schools = convertedJSON.schools.split(',')
         convertedJSON.schools = convertedJSON.schools.map((school) => {
             return school.trim()
         })
+
         let date = new Date(convertedJSON.danceDate)
+        date.setHours(date.getHours() + 30)
 
-        convertedJSON.styles = findChecked('styles')
-        convertedJSON.flowers = getFlowers()
-
-        delete convertedJSON.rose
-        delete convertedJSON.babiesbreath
-        delete convertedJSON.carnation
-        delete convertedJSON.daisy
-        delete convertedJSON.freesia
-        delete convertedJSON.ranunculus
-        delete convertedJSON.succulent
-        delete convertedJSON.fullrose
-
-        if (date.getDay() !== 5) {
+        if (date.getDay() !== 6) {
             alertService.warn('Please pick a Saturday', { autoClose: false, keepAfterRouteChange: false })
+            scrollToTop()
             return
         }
 
-        try {
-
-            let res = await fetch('/api/dances', {
-                method: 'POST',
-                body: JSON.stringify(convertedJSON),
-            })
-
-            res = await res.json()
-
-            if (res._id) {
-                alertService.warn('Succesfully added dance!', { autoClose: false, keepAfterRouteChange: true })
-                router.back()
-            }
-        } catch (error) {
-            console.log('Error: ' + error.message)
-            alertService.warn('Something went wrong with the dance creation.', { autoClose: false, keepAfterRouteChange: false })
+        if (convertedJSON.editDate.getTime() > date.getTime()) {
+            alertService.warn('The dance date must be today or a future day.', { autoClose: false, keepAfterRouteChange: false })
             scrollToTop()
             return
+        }
+
+        convertedJSON.styles = findChecked('styles')
+        convertedJSON.flowers = getSelectedFlowers(flowerTypes(flowers))
+
+        const neededFlowers = findFlowersNeeded(convertedJSON.styles, styles)
+
+        const canContinue = checkFlowers(neededFlowers, convertedJSON.flowers)
+
+        if (canContinue) {
+
+            delete convertedJSON.rose
+            delete convertedJSON.babiesbreath
+            delete convertedJSON.carnation
+            delete convertedJSON.daisy
+            delete convertedJSON.freesia
+            delete convertedJSON.ranunculus
+            delete convertedJSON.succulent
+            delete convertedJSON.fullrose
+
+            try {
+
+                let res = await fetch('/api/dances', {
+                    method: 'POST',
+                    body: JSON.stringify(convertedJSON),
+                })
+
+                res = await res.json()
+
+                if (res._id) {
+                    alertService.warn('Succesfully added dance!', { autoClose: false, keepAfterRouteChange: true })
+                    router.back()
+                }
+            } catch (error) {
+                console.log('Error: ' + error.message)
+                alertService.warn('Something went wrong with the dance creation.', { autoClose: false, keepAfterRouteChange: false })
+                scrollToTop()
+                return
+            }
         }
     }
 
     return (
         <Layout pageTitle='Create Dance'>
             <Alert />
-            
+
             <h1>Create Dance</h1>
 
             <DanceForm action={onSubmit} styles={styles} flowers={flowers} dance={false}></DanceForm>

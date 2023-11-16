@@ -45,7 +45,7 @@ const FlowerFieldset = ({ flower, dance }) => {
         if (dance) {
             let colorArray = []
             colorArray = dance.flowers.find(item => item.flowerName === flower.name)
-            return colorArray.colors.includes(color.colorName)
+            return colorArray?.colors.includes(color.colorName)
         } else {
             return color.defaultColor
         }
