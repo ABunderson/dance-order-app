@@ -1,10 +1,10 @@
-import Layout from 'components/Layout'
+import Layout from 'components/allPages/Layout'
 import LoginForm from 'components/account/LoginForm'
 import { hashPassword } from 'components/account/Hashing'
 import { useRouter } from 'next/router'
 
 import { alertService } from 'services/alert.service'
-import { Alert } from 'components/Alert'
+import { Alert } from 'components/allPages/Alert'
 import { scrollToTop } from 'functions/utils'
 
 import UserContext from 'context/UserContext'

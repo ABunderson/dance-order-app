@@ -1,7 +1,8 @@
-import Layout from 'components/Layout'
-import Breadcrumbs from 'components/Breadcrumbs'
+import Layout from 'components/allPages/Layout'
+import Breadcrumbs from 'components/orders/Breadcrumbs'
 import { getStyle, getStyles } from 'mongoDb/styles'
 import { useRouter } from 'next/router'
+
 import { getFlowerByName } from 'mongoDb/flowers'
 import { getSupplyByNameArray } from 'mongoDb/supplies'
 import CustomizeForm from 'components/orders/customize/CustomizeForm'
@@ -10,7 +11,7 @@ import DanceContext from 'context/DanceContext'
 import { useState, useEffect, useContext } from 'react'
 import { capitalize } from 'functions/utils'
 
-import { Alert } from 'components/Alert'
+import { Alert } from 'components/allPages/Alert'
 import { alertService } from 'services/alert.service'
 import { scrollToTop } from 'functions/utils'
 

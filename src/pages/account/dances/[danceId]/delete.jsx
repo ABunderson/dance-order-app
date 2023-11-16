@@ -6,10 +6,10 @@ import UserContext from 'context/UserContext'
 import { useContext, useEffect } from 'react'
 
 import { alertService } from 'services/alert.service'
-import { Alert } from 'components/Alert'
+import { Alert } from 'components/allPages/Alert'
 import { scrollToTop } from 'functions/utils'
 
-import Layout from 'components/Layout'
+import Layout from 'components/allPages/Layout'
 import DanceView from 'components/account/dances/DanceView'
 import { FlexButton } from 'components/styles/ButtonStyles'
 import Button from 'components/Button'

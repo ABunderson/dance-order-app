@@ -1,10 +1,12 @@
-import { StyledForm, StyledColumnForm } from "components/styles/FormStyles"
+import styled from "styled-components"
+import { useRouter } from "next/router"
+
 import Button from 'components/Button'
 import StyleFieldset from 'components/account/dances/StyleFieldset'
-import styled from "styled-components"
 import FlowerFieldset from "./FlowerFieldset"
-import { useRouter } from "next/router"
+
 import { FlexButton } from 'components/styles/ButtonStyles'
+import { StyledForm } from "components/styles/FormStyles"
 
 const FormDiv = styled.div`
     display: flex;

@@ -4,7 +4,7 @@ import { getStyles } from 'mongoDb/styles'
 import UserContext from 'context/UserContext'
 import { useContext, useEffect } from 'react'
 
-import Layout from 'components/Layout'
+import Layout from 'components/allPages/Layout'
 import Line from 'components/Line'
 import ShowList from 'components/account/ShowList'
 import Link from 'next/link'

@@ -1,7 +1,8 @@
-import { getTotal, setDate } from "functions/orders"
 import { Fragment } from "react"
 import styled from "styled-components"
+
 import {formatPhone} from 'functions/orders'
+import { getTotal, setDate } from "functions/orders"
 
 const ShowPrintDiv = styled.div`
     display: flex !important;

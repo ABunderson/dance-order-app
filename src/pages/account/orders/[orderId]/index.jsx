@@ -5,10 +5,10 @@ import UserContext from 'context/UserContext'
 import { useContext, useEffect, useState } from 'react'
 
 import { alertService } from 'services/alert.service'
-import { Alert } from 'components/Alert'
+import { Alert } from 'components/allPages/Alert'
 import { scrollToTop } from 'functions/utils'
 
-import Layout from 'components/Layout'
+import Layout from 'components/allPages/Layout'
 import PrintView from 'components/orders/finalize/PrintView'
 
 import { FlexButton, SmallFlexButton } from 'components/styles/ButtonStyles'

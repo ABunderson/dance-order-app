@@ -5,9 +5,9 @@ import { useRouter } from 'next/router'
 import UserContext from 'context/UserContext'
 import { useContext, useEffect } from 'react'
 
-import Layout from 'components/Layout'
+import Layout from 'components/allPages/Layout'
 import DanceView from 'components/account/dances/DanceView'
-import { Alert } from 'components/Alert'
+import { Alert } from 'components/allPages/Alert'
 import { FlexButton} from 'components/styles/ButtonStyles'
 import Button from 'components/Button'
 

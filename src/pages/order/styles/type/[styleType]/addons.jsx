@@ -1,6 +1,6 @@
 // all the styles either bout or cor
-import Layout from 'components/Layout'
-import Breadcrumbs from 'components/Breadcrumbs'
+import Layout from 'components/allPages/Layout'
+import Breadcrumbs from 'components/orders/Breadcrumbs'
 import { useRouter } from 'next/router'
 import { getAddonsByType } from 'mongoDb/addons'
 import AddonForm from 'components/orders/addons/AddonForm'
@@ -8,7 +8,7 @@ import { getSupplyByName } from 'mongoDb/supplies'
 import { useState, useEffect, useContext } from 'react'
 import OrderContext from 'context/OrderContext'
 
-import { Alert } from 'components/Alert'
+import { Alert } from 'components/allPages/Alert'
 import { alertService } from 'services/alert.service'
 import { scrollToTop } from 'functions/utils'
 

@@ -1,11 +1,11 @@
 import Link from "next/link"
-import { SmallButton } from 'components/Button'
 import styled from "styled-components"
 import { useRouter } from "next/router"
-import { FlexButton } from 'components/styles/ButtonStyles'
-import { SmallLine } from 'components/Line'
 import { Fragment } from "react"
 
+import { SmallButton } from 'components/Button'
+import { FlexButton } from 'components/styles/ButtonStyles'
+import { SmallLine } from 'components/Line'
 
 const CrudDiv = styled.div`
     width: 100%;

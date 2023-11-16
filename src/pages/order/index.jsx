@@ -4,13 +4,13 @@ import { Fragment, useContext, useEffect, useState } from 'react'
 import OrderContext from 'context/OrderContext'
 import DanceContext from 'context/DanceContext'
 
-import Layout from 'components/Layout'
-import Breadcrumbs from 'components/Breadcrumbs'
+import Layout from 'components/allPages/Layout'
+import Breadcrumbs from 'components/orders/Breadcrumbs'
 import PrintView from 'components/orders/finalize/PrintView'
 import FinalizeOutput from 'components/orders/finalize/FinalizeOutput'
 import FinalizeForm from 'components/orders/finalize/FinalizeForm'
 
-import { Alert } from 'components/Alert'
+import { Alert } from 'components/allPages/Alert'
 import { alertService } from 'services/alert.service'
 import { scrollToTop } from 'functions/utils'
 
@@ -23,8 +23,6 @@ export default function Finalize() {
     const orderNum = useContext(OrderContext)
     // const {orderNumber, setOrderNumber} = useContext(OrderContext)
     const dance = useContext(DanceContext)
-    // console.log(orderNum)
-    // console.log(order)
 
     const [breadcrumbs, setBreadcrumbs] = useState([])
 
@@ -41,12 +39,12 @@ export default function Finalize() {
         async function getOrder() {
             try {
                 const orderId = orderNum.orderNumber
-                const { response, error } = await fetch(`/api/orders/${orderId}`)
-                if (error) throw new Error(error)
+                const response = await fetch(`/api/orders/${orderId}`)
                 const data = await response.json()
                 const order = data.orders[0]
                 setOrder(order)
                 setStyle(order.style)
+
             } catch (error) {
                 console.log('Error: ' + error.message)
                 alertService.warn('The order information has been lost.', { autoClose: false, keepAfterRouteChange: false })
@@ -123,12 +121,12 @@ export default function Finalize() {
 
     async function getNewOrder() {
         try {
-        const response = await fetch(`/api/orders/${order._id}`)
-        const data = await response.json()
-        const newOrder = data.orders
+            const response = await fetch(`/api/orders/${order._id}`)
+            const data = await response.json()
+            const newOrder = data.orders
 
-        setPrintOrder(newOrder[0])
-        
+            setPrintOrder(newOrder[0])
+
         } catch (error) {
             alertService.warn('The order could not be updated to print.', { autoClose: false, keepAfterRouteChange: false })
             scrollToTop()

@@ -1,8 +1,8 @@
-import Layout from 'components/Layout'
-import Breadcrumbs from 'components/Breadcrumbs'
+import Layout from 'components/allPages/Layout'
+import Breadcrumbs from 'components/orders/Breadcrumbs'
 import { getStyle, getStyles } from 'mongoDb/styles'
 import { useRouter } from 'next/router'
-import StyleInfo from 'components/orders/StyleInfo'
+import StyleInfo from 'components/orders/style/StyleInfo'
 import { useState, useEffect } from 'react'
 import { capitalize } from 'functions/utils'
 

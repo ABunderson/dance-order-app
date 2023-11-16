@@ -1,10 +1,10 @@
-import Layout from 'components/Layout'
+import Layout from 'components/allPages/Layout'
 import NewUserForm from 'components/account/NewUserForm'
 import { hashPassword } from 'components/account/Hashing'
 import { useRouter } from 'next/router'
 
 import { alertService } from 'services/alert.service'
-import { Alert } from 'components/Alert'
+import { Alert } from 'components/allPages/Alert'
 import { scrollToTop } from 'functions/utils'
 
 import UserContext from 'context/UserContext'
@@ -53,8 +53,6 @@ export default function LoginPage() {
             convertedJSON.password = await hashPassword(convertedJSON.password)
             delete convertedJSON.shop
             delete convertedJSON.shopCode
-            // console.log(convertedJSON)
-
 
             let res = await fetch('/api/users', {
                 method: 'POST',

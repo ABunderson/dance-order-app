@@ -10,7 +10,7 @@ import { useContext, useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
 import UserContext from 'context/UserContext'
 
-import Layout from 'components/Layout'
+import Layout from 'components/allPages/Layout'
 import Line from 'components/Line'
 import Button from 'components/Button'
 
@@ -20,7 +20,7 @@ import PrintView from 'components/orders/finalize/PrintView'
 import { deleteBadOrders } from 'functions/orders'
 
 import { alertService } from 'services/alert.service'
-import { Alert } from 'components/Alert'
+import { Alert } from 'components/allPages/Alert'
 import { scrollToTop } from 'functions/utils'
 
 export default function Account({ dances, styles, flowers, supplies, addons, orders }) {

@@ -1,7 +1,5 @@
 import Image from "next/image"
 import styled from "styled-components"
-import { useState } from 'react'
-// import { FlexDiv } from "../FlexGrid"
 
 const StyledFieldset = styled.fieldset`
 cursor: pointer;
@@ -123,12 +121,12 @@ const Fieldset = ({ item, type }) => {
     return (
         <StyledFieldset key={item.name + 'Fieldset'}>
             <legend>{item.name} {type === 'slap' ? 'bracelet' : ''}</legend>
-            <p>{desc}</p>
+            <p>{desc}. Selected items are green.</p>
             <FlexDiv>
                 {type === 'ribbon' ? (
-                    item.colors[0].map((color) => {
+                    item.colors[0].map((color, index) => {
                         return <div key={color + item.name}>
-                            <input type='radio' name={radioGroup} id={item.name + color} value={color} required />
+                            {index === 0 ? <input type='radio' name={radioGroup} id={item.name + color} value={color} required defaultChecked/>:<input type='radio' name={radioGroup} id={item.name + color} value={color} required />}
                             <label htmlFor={item.name + color} className="ribbonColors">
                                 <p>{color}</p>
                                 <section className="colorDiv" style={{ background: `${color === "peach" ? "peachpuff" : color.split(" ").join('')}` }}>
@@ -138,10 +136,10 @@ const Fieldset = ({ item, type }) => {
                         </div>
                     })
                 ) : (
-                    item.colors.map((color) => {
+                    item.colors.map((color, index) => {
                         return (
                             <div key={color.colorName + item.name}>
-                                <input type='radio' name={radioGroup} id={item.name+color.colorName} value={color.colorName} required />
+                                {index === 0 ? <input type='radio' name={radioGroup} id={item.name+color.colorName} value={color.colorName} required defaultChecked/>:<input type='radio' name={radioGroup} id={item.name+color.colorName} value={color.colorName} required />}
                                 <label htmlFor={item.name+color.colorName}>
                                     <p>{color.colorName}</p>
                                     <Image

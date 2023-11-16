@@ -1,9 +1,8 @@
-import styled from 'styled-components'
+import { useRouter } from 'next/router'
 import { useState } from 'react'
-import { hashPassword} from 'components/account/Hashing'
+
 import Button from 'components/Button'
 import { StyledColumnForm } from 'components/styles/FormStyles'
-import { useRouter } from 'next/router'
 
 const LoginForm = ({ action }) => {
     const [userName, setUserName] = useState('')

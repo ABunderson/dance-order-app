@@ -3,7 +3,7 @@ import { useRouter } from 'next/router';
 import styled from 'styled-components'
 import PropTypes from 'prop-types';
 
-import { alertService, AlertType } from '../services/alert.service';
+import { alertService, AlertType } from '../../services/alert.service';
 
 export { Alert };
 

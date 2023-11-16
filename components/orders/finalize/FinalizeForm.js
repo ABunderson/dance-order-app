@@ -1,10 +1,6 @@
 import styled from "styled-components"
-import StyleRows from "./StyleRows"
-import AddonRows from "./AddonRows"
 import Button from 'components/Button'
-import { FlexButton } from 'components/styles/ButtonStyles'
 import Line from 'components/Line'
-import { StyledForm } from "../../styles/FormStyles"
 
 const StyledFinalForm = styled.form`
 display: flex;

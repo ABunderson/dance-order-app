@@ -1,10 +1,10 @@
 import { getDances } from 'mongoDb/dances'
 
-import Layout from 'components/Layout'
+import Layout from 'components/allPages/Layout'
 import InformationForm from 'components/orders/InformationForm'
 import { useRouter } from 'next/router'
 import { alertService } from 'services/alert.service'
-import { Alert } from 'components/Alert'
+import { Alert } from 'components/allPages/Alert'
 import { scrollToTop } from 'functions/utils'
 
 import OrderContext from 'context/OrderContext'
@@ -30,15 +30,31 @@ export default function Information({ dances }) {
         formData.forEach(function (value, key) {
             convertedJSON[key] = value;
         });
-        // console.log(convertedJSON)
+
         convertedJSON.orderDate = new Date()
-        // console.log(convertedJSON)
 
         let date = new Date(convertedJSON.danceDate)
+        date.setHours(date.getHours() + 30)
 
-        if (date.getDay() !== 5) {
+        if (convertedJSON.danceDate.length === 0 || convertedJSON.dressColor.length === 0 || convertedJSON.firstName.length === 0 || convertedJSON.lastName.length === 0 || convertedJSON.phoneOne.length === 0 || convertedJSON.phoneTwo.length === 0 || convertedJSON.school.length === 0) {
+            console.log('something is empty')
+            alertService.warn('Please answer every question.', { autoClose: false, keepAfterRouteChange: false })
+            return
+        }
+
+        if (convertedJSON.phoneOne.length !== 10 || convertedJSON.phoneTwo.length !== 10) {
+            alertService.warn('A phone number is the wrong length.', { autoClose: false, keepAfterRouteChange: false })
+            return
+        }
+
+        if (date.getDay() !== 6) {
             // console.log(date.getDay())
             alertService.warn('Please pick a Saturday', { autoClose: false, keepAfterRouteChange: false })
+            return
+        }
+
+        if (convertedJSON.orderDate.getTime() > date.getTime()) {
+            alertService.warn('The dance date must be today or a future day.', { autoClose: false, keepAfterRouteChange: false })
             return
         }
 
