@@ -16,19 +16,19 @@ import { scrollToTop } from 'functions/utils'
 
 
 export default function Finalize() {
+    const router = useRouter()
+
+    const {orderNumber, setOrderNumber} = useContext(OrderContext)
+    const {danceNumber, setDanceNumber} = useContext(DanceContext)
+
     const [order, setOrder] = useState('')
     const [style, setStyle] = useState('')
     const [printOrder, setPrintOrder] = useState()
-    const router = useRouter()
-    const orderNum = useContext(OrderContext)
-    // const {orderNumber, setOrderNumber} = useContext(OrderContext)
-    const dance = useContext(DanceContext)
-
-    const [breadcrumbs, setBreadcrumbs] = useState([])
+    const [breadcrumbs, setBreadcrumbs] = useState([])  
 
     useEffect(() => {
 
-        if (orderNum.orderNumber === 'default') {
+        if (orderNumber === 'default') {
             router.push('/')
         }
 
@@ -38,7 +38,7 @@ export default function Finalize() {
 
         async function getOrder() {
             try {
-                const orderId = orderNum.orderNumber
+                const orderId = orderNumber
                 const response = await fetch(`/api/orders/${orderId}`)
                 const data = await response.json()
                 const order = data.orders[0]
@@ -54,22 +54,15 @@ export default function Finalize() {
         if (!router.isReady) {
             return
         } else {
-            const {
-                query: { paths }
-            } = router
-
+            const { query: { paths }} = router
             const crumbs = { paths }
-
-            if (crumbs.paths) {
-                setBreadcrumbs(JSON.parse(crumbs.paths))
-            }
+            crumbs.paths ? setBreadcrumbs(JSON.parse(crumbs.paths)) : setBreadcrumbs('none')
         }
 
-    }, [order, router, orderNum.orderNumber])
+    }, [order, router, orderNumber])
 
     async function onSubmit(event) {
         event.preventDefault()
-        // console.log('submit')
 
         const formData = new FormData(event.target),
             convertedJSON = {};
@@ -97,9 +90,6 @@ export default function Finalize() {
 
             if (res.result.ok) {
                 getNewOrder()
-                // setTimeout(() => {
-                //     window.print()
-                // }, 2000) 
 
                 if (convertedJSON.finishType === 'print') {
                     getNewOrder()
@@ -114,8 +104,8 @@ export default function Finalize() {
 
     const finish = () => {
         // unset context
-        orderNum.setOrderNumber('default')
-        dance.setDanceNumber('default')
+        setOrderNumber('default')
+        setDanceNumber('default')
         router.push('/')
     }
 

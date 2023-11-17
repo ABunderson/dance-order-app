@@ -13,13 +13,12 @@ import { useContext, useEffect } from 'react'
 
 export default function Information({ dances }) {
     const router = useRouter()
-    const order = useContext(OrderContext)
-    const dance = useContext(DanceContext)
+    const {orderNumber, setOrderNumber} = useContext(OrderContext)
+    const {danceNumber, setDanceNumber}= useContext(DanceContext)
 
     async function onSubmit(event) {
 
-        const path = window.location.pathname
-        const pathObj = [{ order: 1, locName: 'Info', path: path }]
+        const pathObj = [{ order: 1, locName: 'Info', path: window.location.pathname }]
         const pathString = JSON.stringify(pathObj)
 
         event.preventDefault()
@@ -69,9 +68,9 @@ export default function Information({ dances }) {
         })
 
         if (match.length === 1) {
-            dance.setDanceNumber(match[0]._id)
+            setDanceNumber(match[0]._id)
         } else {
-            dance.setDanceNumber('default')
+            setDanceNumber('default')
         }
 
         try {
@@ -83,7 +82,7 @@ export default function Information({ dances }) {
             res = await res.json()
             // console.log(res)
             // console.log(res._id)
-            order.setOrderNumber(res._id)
+            setOrderNumber(res._id)
         } catch (error) {
             alertService.warn('The database connection is not working.', { autoClose: false, keepAfterRouteChange: false })
             scrollToTop()

@@ -11,46 +11,37 @@ import OrderContext from 'context/OrderContext'
 import { Alert } from 'components/allPages/Alert'
 import { alertService } from 'services/alert.service'
 import { scrollToTop } from 'functions/utils'
+import { setCrumbs } from 'functions/orders'
 
 export default function GetStyles({ addons, ribbon }) {
     const [breadcrumbs, setBreadcrumbs] = useState([])
     const [orderInfo, setOrderInfo] = useState([])
     const router = useRouter()
-    const order = useContext(OrderContext)
+    const {orderNumber, setOrderNumber} = useContext(OrderContext)
 
     useEffect(() => {
 
         if (!router.isReady) {
             return
         } else {
-            const {
-                query: { paths }
-            } = router
-
+            const { query: { paths } } = router
             const crumbs = { paths }
-            if (crumbs && crumbs.paths !== 'empty' && typeof crumbs.paths !== 'undefined') {
-                // console.log(crumbs)
-                let pathObj = JSON.parse(crumbs.paths)
-
-                setBreadcrumbs(pathObj)
-            }
+            crumbs.paths ? setBreadcrumbs(JSON.parse(crumbs.paths)) : setBreadcrumbs('none')
         }
 
         if (orderInfo.length === 0) {
-            order.orderNumber === 'default' ? router.push('/') : getOrder()
+            orderNumber === 'default' ? router.push('/') : getOrder()
         }
 
         async function getOrder() {
-            const orderId = order.orderNumber
-
-            const response = await fetch(`/api/orders/${orderId}`)
+            const response = await fetch(`/api/orders/${orderNumber}`)
             const data = await response.json()
             const orderJson = data.orders[0]
 
             setOrderInfo(orderJson)
         }
 
-    }, [router, order, orderInfo.length])
+    }, [router, orderNumber, orderInfo.length])
 
     if (router.isFallback) {
         return <h1>Loading:</h1>
@@ -62,9 +53,7 @@ export default function GetStyles({ addons, ribbon }) {
     }
 
     async function onSubmit(event) {
-        // console.log('submit')
         event.preventDefault()
-
 
         if (typeof window !== undefined) {
             const formData = new FormData(event.target),
@@ -77,8 +66,7 @@ export default function GetStyles({ addons, ribbon }) {
                     convertedJSON[key] = value;
                 }
             });
-            // console.log(addons)
-            // console.log(convertedJSON)
+
             const addOnArr = []
 
             addons.map((addon) => {
@@ -112,15 +100,14 @@ export default function GetStyles({ addons, ribbon }) {
                     }
 
                 }
-                // console.log(newObj)
+
                 newObj.name ? addOnArr.push(newObj) : ''
             })
 
-            // console.log(addOnArr.length)
             let sendingThis = {}
             sendingThis.addon = addOnArr
 
-            const orderId = order.orderNumber
+            const orderId = orderNumber
 
             let res
 
@@ -133,22 +120,10 @@ export default function GetStyles({ addons, ribbon }) {
                 // console.log(res.result.ok)
                 // console.log(res._id)
 
-                let pathString = 'empty'
-                let pathObj
-
-                if (breadcrumbs) {
-                    pathObj = breadcrumbs
-
-                    const path = window.location.pathname
-                    pathObj.push({ order: 6, locName: 'Finishing Touches', path: path })
-
-                    pathString = JSON.stringify(pathObj)
-                }
-
                 if (res.result.ok === 1) {
                     router.push({
                         query: {
-                            paths: pathString
+                            paths: setCrumbs(breadcrumbs, { order: 6, locName: 'Finishing Touches', path: window.location.pathname })
                         },
                         pathname: `/order`,
                     }, `/order`)

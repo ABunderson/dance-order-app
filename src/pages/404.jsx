@@ -1,9 +1,5 @@
 import Layout from 'components/allPages/Layout'
 
-
-
-
-
 export default function PageNotFound() {
 
     return (

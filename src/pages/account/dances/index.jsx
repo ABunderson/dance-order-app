@@ -17,10 +17,10 @@ import { Alert } from 'components/allPages/Alert'
 
 export default function AllDances({ dances }) {
     const router = useRouter()
-    const user = useContext(UserContext)
+    const {userName, setUserName} = useContext(UserContext)
 
     useEffect(() => {
-        if (user.userName === 'default') {
+        if (userName === 'default') {
             router.push('/account/login')
         }
     }, )

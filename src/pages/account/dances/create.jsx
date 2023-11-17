@@ -19,10 +19,10 @@ export default function CreateDance({ styles, flowers }) {
 
     const router = useRouter();
 
-    const user = useContext(UserContext)
+    const {userName, setUserName} = useContext(UserContext)
 
     useEffect(() => {
-        if (user.userName === 'default') {
+        if (userName === 'default') {
             router.push('/account/login')
         }
     },)
@@ -41,6 +41,22 @@ export default function CreateDance({ styles, flowers }) {
 
         if (convertedJSON.schools.length === 0 || convertedJSON.danceDate.length === 0 || convertedJSON.name.length === 0) {
             alertService.warn('Please fill out each field.', { autoClose: false, keepAfterRouteChange: false })
+            scrollToTop()
+            return
+        }
+
+        try {
+
+            const response = await fetch(`/api/dances/date/${convertedJSON.danceDate}`)
+            const data = await response.json()
+            if (data.dances[0]) {
+                alertService.warn('There is already a dance created for that day.', { autoClose: false, keepAfterRouteChange: false })
+                scrollToTop()
+                return
+            }
+
+        } catch (error) {
+            alertService.warn('The check for other dances on the selected week failed.', { autoClose: false, keepAfterRouteChange: false })
             scrollToTop()
             return
         }

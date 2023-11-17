@@ -16,10 +16,6 @@ export default function App({ Component, pageProps }: AppProps) {
   const [orderNumber, setOrderNumber] = useState('default')
   const [danceNumber, setDanceNumber] = useState('default')
 
-  // const OrderContext = createContext({ orderNumber, setOrderNumber })
-  // const DanceContext = createContext({ danceNumber, setDanceNumber })
-  // const UserContext = createContext({ userName, setUserName })
-
   return (<>
     <UserContext.Provider value={{ userName, setUserName }}>
       <OrderContext.Provider value={{ orderNumber, setOrderNumber }}>

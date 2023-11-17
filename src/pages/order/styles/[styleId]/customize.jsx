@@ -14,6 +14,7 @@ import { capitalize } from 'functions/utils'
 import { Alert } from 'components/allPages/Alert'
 import { alertService } from 'services/alert.service'
 import { scrollToTop } from 'functions/utils'
+import { setCrumbs } from 'functions/orders'
 
 
 
@@ -22,25 +23,19 @@ export default function Customize({ style, flower, supplies }) {
     const [danceColors, setDanceColors] = useState([])
 
     const router = useRouter()
-    const order = useContext(OrderContext)
-    const dance = useContext(DanceContext)
+    const { orderNumber, setOrderNumber } = useContext(OrderContext)
+    const { danceNumber, setDanceNumber } = useContext(DanceContext)
 
     useEffect(() => {
 
         if (!router.isReady) return
         else {
-            const {
-                query: { paths }
-            } = router
-
+            const { query: { paths } } = router
             const crumbs = { paths }
-            // console.log(crumbs)
-            let pathObj = JSON.parse(crumbs.paths)
-
-            setBreadcrumbs(pathObj)
+            crumbs.paths ? setBreadcrumbs(JSON.parse(crumbs.paths)) : setBreadcrumbs('none')
         }
 
-        if (danceColors.length === 0 && dance.danceNumber !== 'default') {
+        if (danceColors.length === 0 && danceNumber !== 'default') {
             getOutputColors()
         }
 
@@ -48,7 +43,7 @@ export default function Customize({ style, flower, supplies }) {
 
             try {
 
-                const response = await fetch(`/api/dances/${dance.danceNumber}`)
+                const response = await fetch(`/api/dances/${danceNumber}`)
                 const data = await response.json()
                 const danceInfo = data.dances[0]
 
@@ -64,7 +59,7 @@ export default function Customize({ style, flower, supplies }) {
             }
         }
 
-    }, [router, dance.danceNumber, danceColors.length, flower])
+    }, [router, danceNumber, danceColors.length, flower])
 
 
     if (router.isFallback) {
@@ -88,7 +83,7 @@ export default function Customize({ style, flower, supplies }) {
                 convertedJSON[key] = value;
             });
 
-            const orderId = order.orderNumber
+            const orderId = orderNumber
             const styleObj = {}
             styleObj.style = { ...convertedJSON, name: style[0].name, type: style[0].type, price: style[0].price, flower: style[0].flower, pageColor: style[0].pageColor }
 
@@ -101,27 +96,9 @@ export default function Customize({ style, flower, supplies }) {
 
                 if (res.result.ok === 1) {
 
-                    const {
-                        query: { paths }
-                    } = router
-
-                    const crumbs = { paths }
-
-                    let pathString = 'empty'
-                    let pathObj
-
-                    if (crumbs && crumbs.paths !== 'empty' && typeof crumbs.paths !== 'undefined') {
-                        pathObj = JSON.parse(crumbs.paths)
-
-                        const path = window.location.pathname
-                        pathObj.push({ order: 5, locName: 'Customize', path: path })
-
-                        pathString = JSON.stringify(pathObj)
-                    }
-
                     router.push({
                         query: {
-                            paths: pathString
+                            paths: setCrumbs(breadcrumbs, { order: 5, locName: 'Customize', path: window.location.pathname })
                         },
                         pathname: `/order/styles/type/${style[0].type}/addons`,
                     }, `/order/styles/type/${style[0].type}/addons`)
@@ -141,7 +118,7 @@ export default function Customize({ style, flower, supplies }) {
         <Layout pageTitle={capitalize(`Customize ${style[0].name} ${style[0].type}`)}>
             <Alert />
 
-            <Breadcrumbs path={breadcrumbs}></Breadcrumbs>
+            {breadcrumbs ? <Breadcrumbs path={breadcrumbs}></Breadcrumbs> : <></>}
 
             <h1 style={{ textTransform: 'capitalize' }}>Customize {style[0].name} {style[0].type}</h1>
             <CustomizeForm backAction={goBack} forwardAction={onSubmit} flower={flower} flowerColors={danceColors} supplies={supplies} styleId={style[0]._id}></CustomizeForm>

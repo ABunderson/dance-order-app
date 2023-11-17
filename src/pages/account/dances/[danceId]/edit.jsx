@@ -19,13 +19,13 @@ export default function EditDance({ styles, flowers, dance }) {
 
     const router = useRouter();
 
-    const user = useContext(UserContext)
+    const {userName, setUserName} = useContext(UserContext)
 
-    // useEffect(() => {
-    //     if (user.userName === 'default') {
-    //         router.push('/account/login')
-    //     }
-    // },)
+    useEffect(() => {
+        if (userName === 'default') {
+            router.push('/account/login')
+        }
+    },)
 
     async function onSubmit(event) {
         event.preventDefault()
@@ -41,6 +41,21 @@ export default function EditDance({ styles, flowers, dance }) {
 
         if (convertedJSON.schools.length === 0 || convertedJSON.danceDate.length === 0 || convertedJSON.name.length === 0) {
             alertService.warn('Please fill out each field.', { autoClose: false, keepAfterRouteChange: false })
+            scrollToTop()
+            return
+        }
+
+        try {
+            const response = await fetch(`/api/dances/date/${convertedJSON.danceDate}`)
+            const data = await response.json()
+
+            if (data.dances[0]) {
+                alertService.warn('There is already a dance created for that day.', { autoClose: false, keepAfterRouteChange: false })
+                scrollToTop()
+                return
+            }
+        } catch (error) {
+            alertService.warn('The check for other dances on the selected week failed.', { autoClose: false, keepAfterRouteChange: false })
             scrollToTop()
             return
         }
@@ -64,13 +79,13 @@ export default function EditDance({ styles, flowers, dance }) {
             scrollToTop()
             return
         }
-        console.log(flowerTypes(flowers))
+
         convertedJSON.styles = findChecked('styles')
         convertedJSON.flowers = getSelectedFlowers(flowerTypes(flowers))
 
         const neededFlowers = findFlowersNeeded(convertedJSON.styles, styles)
 
-        let canContinue = checkFlowers(neededFlowers, convertedJSON.flowers)
+        const canContinue = checkFlowers(neededFlowers, convertedJSON.flowers)
 
         if (canContinue) {
 

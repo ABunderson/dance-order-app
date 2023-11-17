@@ -1,12 +1,12 @@
 import Image from 'next/image'
 import styles from '@/styles/Home.module.css'
-import Layout from 'components/allPages/Layout'
-import Button from 'components/Button'
+
 import { useRouter } from 'next/router'
 import { useEffect } from 'react'
-import {deleteBadOrders} from 'functions/orders'
+import { deleteBadOrders } from 'functions/orders'
 
-
+import Layout from 'components/allPages/Layout'
+import Button from 'components/Button'
 
 
 export default function Home() {

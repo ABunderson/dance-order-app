@@ -1,18 +1,14 @@
 import Layout from 'components/allPages/Layout'
 import NewUserForm from 'components/account/NewUserForm'
-import { hashPassword } from 'components/account/Hashing'
+import { hashPassword } from 'functions/account'
 import { useRouter } from 'next/router'
 
 import { alertService } from 'services/alert.service'
 import { Alert } from 'components/allPages/Alert'
 import { scrollToTop } from 'functions/utils'
 
-import UserContext from 'context/UserContext'
-import { useContext } from 'react'
-
 export default function LoginPage() {
     const router = useRouter()
-    const user = useContext(UserContext)
 
     async function onSubmit(event) {
         event.preventDefault()

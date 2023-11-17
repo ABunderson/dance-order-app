@@ -14,13 +14,13 @@ import { useRouter } from 'next/router'
 export default function AllStyles({ styles }) {
     const router = useRouter()
 
-    const user = useContext(UserContext)
+    const {userName, setUserName} = useContext(UserContext)
 
     useEffect(() => {
-        if (user.userName === 'default') {
+        if (userName === 'default') {
             router.push('/account/login')
         }
-    }, [router, user.userName])
+    }, [router, userName])
 
     return (
         <Layout pageTitle="Styles">

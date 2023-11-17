@@ -90,4 +90,6 @@ const findChecked = (className) => {
     return returnArray
 }
 
+
+
 export {findFlowersNeeded, checkFlowers, getSelectedFlowers, flowerTypes, findChecked}

@@ -23,12 +23,27 @@ const formatPhone = (phone) => {
 const deleteBadOrders = async () => {
 
     let res = await fetch(`/api/orders/delete`, {
-      method: 'POST',
+        method: 'POST',
     })
     res = await res.json()
     // console.log(res)
     // console.log('delete bad orders')
-  }
+}
+
+const setCrumbs = (breadcrumbs, loc) => {
+    let pathString = 'empty'
+    let pathObj
+    
+    if (breadcrumbs) {
+
+        pathObj = [...breadcrumbs]
+
+        pathObj.push(loc)
+
+        pathString = JSON.stringify(pathObj)
+    }
+    return pathString
+}
 
 
-export {setDate, getTotal, deleteBadOrders, formatPhone}
+export { setDate, getTotal, deleteBadOrders, formatPhone, setCrumbs }

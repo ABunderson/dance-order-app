@@ -5,6 +5,7 @@ import { useRouter } from 'next/router'
 import StyleInfo from 'components/orders/style/StyleInfo'
 import { useState, useEffect } from 'react'
 import { capitalize } from 'functions/utils'
+import { setCrumbs } from 'functions/orders'
 
 
 
@@ -15,26 +16,20 @@ export default function Style({ style }) {
 
     useEffect(() => {
 
-        if(!router.isReady) {return}
+        if (!router.isReady) { return }
         else {
-        const {
-            query: { paths }
-        } = router
-    
-        const crumbs = { paths }
-        // console.log(crumbs)
-        let pathObj = JSON.parse(crumbs.paths)
-
-        setBreadcrumbs(pathObj)
+            const { query: { paths } } = router
+            const crumbs = { paths }
+            crumbs.paths ? setBreadcrumbs(JSON.parse(crumbs.paths)) : setBreadcrumbs('none')
         }
 
-    }, [router])   
+    }, [router])
 
-    if(router.isFallback){
+    if (router.isFallback) {
         return <h1>The style is loading</h1>
     }
 
-    
+
     const goBack = () => {
         // console.log('want to go back')
         router.back()
@@ -42,29 +37,9 @@ export default function Style({ style }) {
 
     const pickStyle = () => {
 
-        const {
-            query: { paths }
-        } = router
-    
-        const crumbs = { paths }
-    
-        let pathString = 'empty'
-        let pathObj
-    
-        if (crumbs && crumbs.paths !== 'empty' && typeof crumbs.paths !== 'undefined') {
-            pathObj = JSON.parse(crumbs.paths)
-    
-            const path = window.location.pathname
-            pathObj.push({ order: 4, locName: style[0].name, path: path })
-            // console.log('below is pathObj')
-            // console.log(pathObj)
-    
-            pathString = JSON.stringify(pathObj)
-        }
-
         router.push({
             query: {
-                paths: pathString
+                paths: setCrumbs(breadcrumbs, { order: 4, locName: style[0].name, path: window.location.pathname })
             },
             pathname: `/order/styles/${style[0]._id}/customize`,
         }, `/order/styles/${style[0]._id}/customize`)
@@ -73,7 +48,7 @@ export default function Style({ style }) {
     return (
         <Layout pageTitle={capitalize(`${style[0].name} ${style[0].type}`)}>
 
-            <Breadcrumbs path={breadcrumbs}></Breadcrumbs>
+            {breadcrumbs ? <Breadcrumbs path={breadcrumbs}></Breadcrumbs> : <></>}
 
             <StyleInfo style={style[0]} backAction={goBack} forwardAction={pickStyle}></StyleInfo>
 

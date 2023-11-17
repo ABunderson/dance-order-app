@@ -20,10 +20,10 @@ export default function DeleteDance({ styles, dance }) {
 
     const router = useRouter();
 
-    const user = useContext(UserContext)
+    const {userName, setUserName} = useContext(UserContext)
 
     useEffect(() => {
-        if (user.userName === 'default') {
+        if (userName === 'default') {
             router.push('/account/login')
         }
     },)

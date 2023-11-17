@@ -19,18 +19,18 @@ import Line from 'components/Line'
 export default function ViewOrder({ orders }) {
     const router = useRouter();
 
-    const user = useContext(UserContext)
+    const {userName, setUserName} = useContext(UserContext)
     const [status, setStatus] = useState('')
 
     useEffect(() => {
-        if (user.userName === 'default') {
+        if (userName === 'default') {
             router.push('/account/login')
         }
 
         if (status.length === 0) {
             orders[0].finishType && status !== orders[0].finishType ? setStatus(orders[0].finishType) : setStatus('unknown')
         }
-    }, [status, orders, router, user.userName])
+    }, [status, orders, router, userName])
 
 
     if (router.isFallback) {
