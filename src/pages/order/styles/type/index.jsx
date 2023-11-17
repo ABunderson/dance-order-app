@@ -1,7 +1,7 @@
 import Layout from 'components/allPages/Layout'
 import Breadcrumbs from 'components/orders/Breadcrumbs'
 import Card from 'components/Card'
-import FlexRow from 'components/styles/flexRow'
+import FlexRow from 'components/styles/FlexRow'
 import Button from 'components/Button'
 import { useRouter } from 'next/router'
 import { useState } from 'react'
