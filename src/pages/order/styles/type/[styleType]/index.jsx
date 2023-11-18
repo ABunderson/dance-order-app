@@ -5,11 +5,11 @@ import Breadcrumbs from 'components/orders/Breadcrumbs'
 import { getStylesByType } from 'mongoDb/styles'
 import { useRouter } from 'next/router'
 import StyleCard from 'components/orders/style/StyleCard'
-import FlexGrid from 'components/styles/FlexGrid'
 import { useState, useEffect, useContext } from 'react'
 import DanceContext from 'context/DanceContext'
 import { capitalize } from 'functions/utils'
 import { setCrumbs } from 'functions/orders'
+import { GridDiv } from 'components/styles/Grid'
 
 export default function GetStyles({ styles }) {
 
@@ -83,11 +83,11 @@ export default function GetStyles({ styles }) {
 
             <h1 style={{ textTransform: 'capitalize' }}>Pick {styles[0].type} Style</h1>
 
-            <FlexGrid>
+            <GridDiv>
                 {shownStyles?.map((style) => {
                     return <StyleCard style={style} key={style._id} action={chooseStyle}></StyleCard>
                 })}
-            </FlexGrid>
+            </GridDiv>
 
             <Button text='Back' type='button' action={() => { router.back() }}></Button>
 

@@ -1,25 +1,9 @@
 import Image from "next/image"
 import styled from "styled-components"
+import { FieldsetGridDiv } from "components/styles/Grid"
 
 import { StyledFieldset } from "components/styles/FieldsetStyles"
 
-const GridDiv = styled.div`
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(8em, 12em));
-    justify-content: space-around;
-    gap: 10px;
-    row-gap: 30px;
-
-    @media (max-width: 650px) {
-        p {
-            text-align: center;
-        }
-        div {
-            width: 100%;
-            
-        }
-    }
-`
 const Fieldset = styled(StyledFieldset)`
 
     label {
@@ -47,7 +31,7 @@ const ArrayFieldset = ({ styles, dance }) => {
         <Fieldset>
             <legend>Styles</legend>
             <p>Green boxes mean the style is selected. {dance ? 'Prior selections for this dance start green.' : 'Default styles start out selected.'}</p>
-            <GridDiv>
+            <FieldsetGridDiv>
                 {styles?.map((style) => {
 
                     return (
@@ -78,7 +62,7 @@ const ArrayFieldset = ({ styles, dance }) => {
                         </div>
                     )
                 })}
-            </GridDiv>
+            </FieldsetGridDiv>
 
         </Fieldset>
     )

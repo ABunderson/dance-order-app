@@ -2,24 +2,8 @@ import Image from "next/image"
 import styled from "styled-components"
 
 import { StyledFieldset } from "components/styles/FieldsetStyles"
+import { FieldsetGridDiv } from "components/styles/Grid"
 
-const FlexDiv = styled.div`
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(8em, 12em));
-    justify-content: space-around;
-    gap: 10px;
-    row-gap: 30px;
-
-    @media (max-width: 650px) {
-        p {
-            text-align: center;
-        }
-        div {
-            width: 100%;
-            
-        }
-    }
-`
 const Fieldset = styled(StyledFieldset)`
     label {
         flex: 1 0 50%;
@@ -55,7 +39,7 @@ const FlowerFieldset = ({ flower, dance }) => {
         <Fieldset key={flower.name + 'Fieldset'}>
             <legend>{flower.name}</legend>
             <p>Pick the colors you want to be able to sell for the dance. {dance ? 'Prior selections for this dance start green' : 'Green boxes mean they are selected.'}</p>
-            <FlexDiv>
+            <FieldsetGridDiv>
                 {
                     flower.colors.map((color) => {
 
@@ -88,7 +72,7 @@ const FlowerFieldset = ({ flower, dance }) => {
                     })
                 }
 
-            </FlexDiv>
+            </FieldsetGridDiv>
         </Fieldset >
     )
 }
