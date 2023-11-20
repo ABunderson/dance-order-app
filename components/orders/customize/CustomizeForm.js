@@ -28,7 +28,10 @@ const CustomizeForm = ({ backAction, forwardAction, flower, supplies, styleId, f
         <StyledForm onSubmit={forwardAction}>
             <input type="hidden" name="styleId" value={styleId} />
             {flower[0] ? <Fieldset item={defaultFlower} type='flower'></Fieldset> : ''}
-            {supplies[0] ? <Fieldset item={supplies[0]} type={supplies[0].name}></Fieldset> : ''}
+
+            {supplies.map((supply) => {
+                return supply.name ? <Fieldset item={supply} type={supply.name} key={supply.name}></Fieldset> : <></>
+            })}
 
             <FlexButton>
                 <Button text='Back' type='button' action={backAction}></Button>

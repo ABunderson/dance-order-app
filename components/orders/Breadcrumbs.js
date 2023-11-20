@@ -13,7 +13,7 @@ const Breadcrumbs = ({ path }) => {
     const router = useRouter()
 
     // get rid of accidental duplicates caused by navigating with the path
-    path.map((item, index) => {
+    path?.map((item, index) => {
 
         if (item.order === index) {
 

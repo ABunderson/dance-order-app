@@ -16,13 +16,15 @@ const AddonRows = ({ style, order }) => {
 
                         if(item[key] < 1){
                             const price = item[key] * 100
-                            pieceArray.push(<tr key={`${item.name} + price`}><td>{key}:</td><td>{price}￠</td></tr>)
+                            pieceArray.push(<tr key={`${item.name} + ${key}`}><td>{key}:</td><td>{price}￠</td></tr>)
                         } else {
-                            pieceArray.push(<tr key={`${item.name} + price`}><td>{key}:</td><td>${item[key]}</td></tr>)
+                            pieceArray.push(<tr key={`${item.name} + ${key}`}><td>{key}:</td><td>${item[key]}</td></tr>)
                         }
+                        
                     } else {
-                        pieceArray.push(<tr key={`${item.name} + quantity`}><td>{key}:</td><td>{item[key]}</td></tr>)
+                        pieceArray.push(<tr key={`${item.name} + ${key}`}><td>{key}:</td><td>{item[key]}</td></tr>)
                     }
+
                 }
                 return (
                     <>

@@ -4,7 +4,7 @@ import { getStyle, getStyles } from 'mongoDb/styles'
 import { useRouter } from 'next/router'
 
 import { getFlowerByName } from 'mongoDb/flowers'
-import { getSupplyByNameArray } from 'mongoDb/supplies'
+import { getSupplyByIdArray } from 'mongoDb/supplies'
 import CustomizeForm from 'components/orders/customize/CustomizeForm'
 import OrderContext from 'context/OrderContext'
 import DanceContext from 'context/DanceContext'
@@ -118,7 +118,7 @@ export default function Customize({ style, flower, supplies }) {
         <Layout pageTitle={capitalize(`Customize ${style[0].name} ${style[0].type}`)}>
             <Alert />
 
-            {breadcrumbs ? <Breadcrumbs path={breadcrumbs}></Breadcrumbs> : <></>}
+            {/* {breadcrumbs ? <Breadcrumbs path={breadcrumbs}></Breadcrumbs> : <></>} */}
 
             <h1 style={{ textTransform: 'capitalize' }}>Customize {style[0].name} {style[0].type}</h1>
             <CustomizeForm backAction={goBack} forwardAction={onSubmit} flower={flower} flowerColors={danceColors} supplies={supplies} styleId={style[0]._id}></CustomizeForm>
@@ -175,14 +175,9 @@ export async function getStaticProps(context) {
 
         let supplyArray = []
 
-        if (styles[0].ribbon || styles[0].metalBack || styles[0].wristlet) {
+        if (styles[0].supplies.length >= 1) {
 
-            let searchArray = []
-            styles[0].ribbon ? searchArray.push('ribbon') : ''
-            styles[0].metalBack ? searchArray.push('metal back') : ''
-            styles[0].wristlet && styles[0].wristlet !== 'elastic' ? searchArray.push(styles[0].wristlet) : ''
-
-            const { supplies, error } = await getSupplyByNameArray(searchArray)
+            const { supplies, error } = await getSupplyByIdArray(styles[0].supplies)
             if (error) throw new Error(error)
             if (!styles) {
                 return {
@@ -198,8 +193,8 @@ export async function getStaticProps(context) {
                 flower: flowerArray,
                 supplies: supplyArray,
             }
-        }
-    } catch (error) {
+        } 
+    } catch (error) { 
         console.log('Error:' + error.message)
     }
 }
