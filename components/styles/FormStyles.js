@@ -7,7 +7,7 @@ export const StyledForm = styled.form`
     font-size: 1.2em;
     align-items: center;
 
-    & input {
+    & input, select, textarea {
         font-size: .75em;
         padding: 5px;
         background-color: gainsboro;
@@ -21,7 +21,7 @@ export const StyledForm = styled.form`
         max-width: 100%;
         width: 100%;
 
-        & input {
+        & input, select, textarea {
             flex-basis: 100%;
             width: 100%;
         }
@@ -41,8 +41,8 @@ export const StyledColumnForm = styled(StyledForm)`
 
 max-width: 400px;
 
-& input {
-    flex-basis: 50%;
+& input, select, textarea {
+    flex-basis: 60%;
 }
 
 & label {
@@ -57,7 +57,7 @@ max-width: 400px;
     max-width: 100%;
     width: 100%;
 
-    & input {
+    & input, select, textarea {
         flex-basis: 100%;
         width: 100%;
         max-width: 300px;

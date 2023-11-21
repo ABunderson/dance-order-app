@@ -14,7 +14,7 @@ import { useRouter } from 'next/router'
 export default function AllStyles({ styles }) {
     const router = useRouter()
 
-    const {userName, setUserName} = useContext(UserContext)
+    const { userName, setUserName } = useContext(UserContext)
 
     useEffect(() => {
         if (userName === 'default') {
@@ -27,11 +27,12 @@ export default function AllStyles({ styles }) {
 
             <h1>Styles</h1>
             <p>Here you can see, add, edit, or remove any styles.</p>
-           <Line></Line>
 
-            <ShowList objects={styles}></ShowList>
- 
+            <Line></Line>
 
+            <ShowList objects={styles} type='styles'></ShowList>
+
+            <Line></Line>
 
         </Layout>
 

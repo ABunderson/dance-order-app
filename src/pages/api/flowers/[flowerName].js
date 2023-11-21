@@ -1,7 +1,5 @@
 import { getFlowerByName } from "mongoDb/flowers"
 
-
-
 const handler = async (req, res) => {
     const { flowerName } = req.query
     // console.log(flowerName)

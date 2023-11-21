@@ -116,6 +116,10 @@ button {
   font-family: var(--font-serif);
 }
 
+.capitalize {
+  text-transform: capitalize;
+}
+
 #printA {
   display: none !important;
 }
