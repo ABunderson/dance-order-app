@@ -88,18 +88,18 @@ const StyleForm = ({ action, supplies, flowers, style, handleChange, image }) =>
     return (
         <StyledForm onSubmit={action}>
             <label htmlFor='name'>Name: </label>
-            <input type='text' name='name' id='name' placeholder="No Pin Rose" required defaultValue={style.name ? style.name : ''} />
-            <span>Don't put boutonniere or corsage in the style name.</span>
+            <input type='text' name='name' id='name' placeholder="No Pin Rose" required defaultValue={style ? style.name : ''} />
+            <span>{`Don't put boutonniere or corsage in the style name.`}</span>
             <SmallLine></SmallLine>
 
             <FlexDiv>
                 <p>Type: </p>
-                <input type='radio' name='type' id='boutonniere' value='boutonniere' defaultChecked={style.type === 'boutonniere' ? true : false}/>
+                <input type='radio' name='type' id='boutonniere' value='boutonniere' defaultChecked={style === 'boutonniere' ? true : false}/>
                 <label htmlFor='boutonniere'>
                     <p>Boutonniere</p>
                 </label>
 
-                <input type='radio' name='type' id='corsage' value='corsage' defaultChecked={style.type === 'corsage' ? true : false}/>
+                <input type='radio' name='type' id='corsage' value='corsage' defaultChecked={style === 'corsage' ? true : false}/>
                 <label htmlFor='corsage'>
                     <p>Corsage</p>
                 </label>
@@ -107,15 +107,15 @@ const StyleForm = ({ action, supplies, flowers, style, handleChange, image }) =>
             <SmallLine></SmallLine>
 
             <label htmlFor='flower'>Flower:</label>
-            <select name='flower' id='flower' defaultValue={style.flower ? style.flower : ''}>
-                {flowers.map((flower) => {
+            <select name='flower' id='flower' defaultValue={style ? style.flower : ''}>
+                {flowers?.map((flower) => {
                     return <option value={flower.name} key={flower.name}>{flower.name}</option>
                 })}
             </select>
             <SmallLine></SmallLine>
 
             <label htmlFor='price'>Price: </label>
-            <input type='number' name='price' id='price' placeholder="24.99" min={0} step='any' required defaultValue={style.price ? style.price : ''} />
+            <input type='number' name='price' id='price' placeholder="24.99" min={0} step='any' required defaultValue={style ? style.price : ''} />
             <SmallLine></SmallLine>
 
             <label htmlFor='description'>Description:</label>
@@ -125,7 +125,7 @@ const StyleForm = ({ action, supplies, flowers, style, handleChange, image }) =>
             <p>Supplies: </p>
             <span>You can select multiple. Green boxes indicate selected.</span>
             <FlexDiv>
-                {supplies.map((supply) => {
+                {supplies?.map((supply) => {
                     return (
                         <Fragment key={supply._id}>
                             <input  type='checkbox' name='supplies' id={supply.name} value={supply._id} className="supplies" defaultChecked={style ? style.supplies.includes(supply._id) ? true : false : ''}/>
@@ -140,12 +140,12 @@ const StyleForm = ({ action, supplies, flowers, style, handleChange, image }) =>
 
             <FlexDiv>
                 <p>Default Style: </p>
-                <input type='radio' name='defaultStyle' id='true' value={true} defaultChecked={style.defaultStyle === true ? true : false}/>
+                <input type='radio' name='defaultStyle' id='true' value={true} defaultChecked={style ? style.defaultStyle === true ? true : false : ''}/>
                 <label htmlFor='true'>
                     <p>Yes</p>
                 </label>
 
-                <input type='radio' name='defaultStyle' id='false' value={false} defaultChecked={style.defaultStyle === false ? true : false}/>
+                <input type='radio' name='defaultStyle' id='false' value={false} defaultChecked={style ? style.defaultStyle === false ? true : false: ''}/>
                 <label htmlFor='false'>
                     <p>No</p>
                 </label>

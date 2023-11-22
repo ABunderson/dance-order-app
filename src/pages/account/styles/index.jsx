@@ -22,7 +22,6 @@ export default function AllStyles({ styles }) {
         //     router.push('/account/login')
         // }
     }, [router, userName])
-    console.log(userName)
 
     return (
         <Layout pageTitle="Styles">
