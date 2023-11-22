@@ -101,7 +101,7 @@ export default function Account({ dances, styles, flowers, supplies, addons, ord
             <ShowList objects={styles} type='styles' place='main'></ShowList>
             <Line></Line>
 
-            <h2>Flowers</h2>
+            <Link href='account/flowers'><h2>Flowers</h2></Link>
             <p>These are the types of flowers that the styles use. Each flower can have multiple colors.</p>
             <ShowList objects={flowers} place='main'></ShowList>
             <Line></Line>
