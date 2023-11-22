@@ -35,7 +35,7 @@ export default function CreateStyle({ supplies, flowers }) {
     const handleOnChange = async (event) => {
         setFile('/no-image.jpg')
 
-        const newPath = `.,public,uploads,tempImage.jpg`
+        const newPath = `.,public,uploads,tempImg.jpg`
         // const newPath = `./public/uploads/tempImage.jpg`
         const response = await setImage(event.target.files[0], newPath)
 

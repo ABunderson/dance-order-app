@@ -21,9 +21,9 @@ async function handler(req, res) {
 
         // console.log(form)    
         form.parse(req, async function (err, fields, files) {
+            console.log(files.file)
             await saveFile(files.file, fixedPath);
             console.log('before return')
-            // console.log(res.status(201))
             return res.status(201).json({ status: true, 'result': 'Successfully added picture' });
         })
 
