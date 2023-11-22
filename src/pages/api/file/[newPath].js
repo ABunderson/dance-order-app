@@ -1,4 +1,3 @@
-// import formidable from "formidable";
 import fs from 'fs'
 
 const formidable = require('formidable')
@@ -10,19 +9,20 @@ export const config = {
 };
 
 const post = async (req, res) => {
+    const { newPath } = req.query
+    let fixedPath = newPath.split(',').join('/')
 
     const form = new formidable.IncomingForm();
-    console.log(form.newPath)
 
     form.parse(req, async function (err, fields, files) {
-        await saveFile(files.file);
+        await saveFile(files.file, fixedPath);
         return res.status(201).send("");
     });
 };
 
-const saveFile = async (file) => {
+const saveFile = async (file, fixedPath) => {
     const data = fs.readFileSync(file[0].filepath);
-    fs.writeFileSync(`./public/${'tryImage.jpg'}`, data);
+    fs.writeFileSync(fixedPath, data);
     await fs.unlinkSync(file[0].filepath);
     return;
 };

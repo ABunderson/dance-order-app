@@ -9,7 +9,7 @@ import Button from 'components/Button'
 import { FlexButton } from 'components/styles/ButtonStyles'
 import { StyledColumnForm } from "components/styles/FormStyles"
 import { SmallLine } from 'components/Line'
-import { useState } from "react"
+import { Fragment, useState } from "react"
 
 const FlexDiv = styled.div`
     padding-top: 10px;
@@ -77,31 +77,29 @@ const StyledForm = styled(StyledColumnForm)`
 
 `
 
-
-
-const StyleForm = ({ action, supplies, flowers, style, handleChange }) => {
+const StyleForm = ({ action, supplies, flowers, style, handleChange, image }) => {
     const router = useRouter()
-    const [file, setFile] = useState()
 
     if (style) {
         style = style[0]
     }
 
+    !style ? image ? image = `${image}?t=` + new Date().getTime() : image = `/no-image.jpg?t=` + new Date().getTime() : image ? image = `${image}?t=` + new Date().getTime() : image = `${style.image}?t=` + new Date().getTime()
     return (
         <StyledForm onSubmit={action}>
             <label htmlFor='name'>Name: </label>
-            <input type='text' name='name' id='name' placeholder="No Pin Rose" required defaultValue={style ? style.name : ''} />
+            <input type='text' name='name' id='name' placeholder="No Pin Rose" required defaultValue={style.name ? style.name : ''} />
             <span>Don't put boutonniere or corsage in the style name.</span>
             <SmallLine></SmallLine>
 
             <FlexDiv>
                 <p>Type: </p>
-                <input type='radio' name='type' id='boutonniere' value='boutonniere' />
+                <input type='radio' name='type' id='boutonniere' value='boutonniere' defaultChecked={style.type === 'boutonniere' ? true : false}/>
                 <label htmlFor='boutonniere'>
                     <p>Boutonniere</p>
                 </label>
 
-                <input type='radio' name='type' id='corsage' value='corsage' />
+                <input type='radio' name='type' id='corsage' value='corsage' defaultChecked={style.type === 'corsage' ? true : false}/>
                 <label htmlFor='corsage'>
                     <p>Corsage</p>
                 </label>
@@ -109,15 +107,15 @@ const StyleForm = ({ action, supplies, flowers, style, handleChange }) => {
             <SmallLine></SmallLine>
 
             <label htmlFor='flower'>Flower:</label>
-            <select name='flower' id='flower'>
+            <select name='flower' id='flower' defaultValue={style.flower ? style.flower : ''}>
                 {flowers.map((flower) => {
-                    return <option value={flower.name}>{flower.name}</option>
+                    return <option value={flower.name} key={flower.name}>{flower.name}</option>
                 })}
             </select>
             <SmallLine></SmallLine>
 
             <label htmlFor='price'>Price: </label>
-            <input type='number' name='price' id='price' placeholder="24.99" min={0} step='any' required defaultValue={style ? style.price : ''} />
+            <input type='number' name='price' id='price' placeholder="24.99" min={0} step='any' required defaultValue={style.price ? style.price : ''} />
             <SmallLine></SmallLine>
 
             <label htmlFor='description'>Description:</label>
@@ -129,25 +127,25 @@ const StyleForm = ({ action, supplies, flowers, style, handleChange }) => {
             <FlexDiv>
                 {supplies.map((supply) => {
                     return (
-                        <>
-                            <input key={supply._id} type='checkbox' name='supplies' id={supply.name} value={supply._id} />
+                        <Fragment key={supply._id}>
+                            <input  type='checkbox' name='supplies' id={supply.name} value={supply._id} className="supplies" defaultChecked={style ? style.supplies.includes(supply._id) ? true : false : ''}/>
                             <label htmlFor={supply.name}>
                                 <p>{supply.name}</p>
                             </label>
-                        </>
+                        </Fragment>
                     )
                 })}
             </FlexDiv>
             <SmallLine></SmallLine>
 
             <FlexDiv>
-                <p>Default Color: </p>
-                <input type='radio' name='defaultStyle' id='true' value={true} />
+                <p>Default Style: </p>
+                <input type='radio' name='defaultStyle' id='true' value={true} defaultChecked={style.defaultStyle === true ? true : false}/>
                 <label htmlFor='true'>
                     <p>Yes</p>
                 </label>
 
-                <input type='radio' name='type' id='false' value={false} />
+                <input type='radio' name='defaultStyle' id='false' value={false} defaultChecked={style.defaultStyle === false ? true : false}/>
                 <label htmlFor='false'>
                     <p>No</p>
                 </label>
@@ -160,21 +158,20 @@ const StyleForm = ({ action, supplies, flowers, style, handleChange }) => {
             <SmallLine></SmallLine>
 
             <label htmlFor='image'>Image: </label>
-            <input type='file' name='image' id='image' placeholder="rose-corsage.jpg" required defaultValue={style ? style.image : ''} onChange={handleChange} />
-            <span>Please use a .jpg or .jpeg image.</span>
+            <input type='file' name='image' id='image' placeholder="rose-corsage.jpg" required onChange={handleChange} />
+            <span>Please use a .jpg or .jpeg image. Square pictures are preferred.</span>
 
-            <Image
-                src='/no-image.jpg'
+            <Image 
+                src={image}
                 alt={`the uploaded image`}
                 title={`Image preview`}
                 width={500}
                 height={500}
-                priority
                 onError={(e) => {
                     if (e.target.src.includes('no-image')) {
                         e.target.onError = null
                     } else {
-                        color.colorImage = '/no-image.jpg'
+                        image = '/no-image.jpg'
                         e.target.alt = 'A placeholder image'
                         e.target.srcset = ''
                         e.target.src = '/no-image.jpg'

@@ -97,6 +97,7 @@ export default function Account({ dances, styles, flowers, supplies, addons, ord
 
             <Link href='account/styles'><h2>Styles</h2></Link>
             <p>A style is either a boutonniere or a corsage. Here you can also pick which styles are default styles which mean they show on any week where there is not a dance created.</p>
+            <Button text='Create' type='button' action={() => {router.push('/account/styles/create')}}></Button>
             <ShowList objects={styles} type='styles' place='main'></ShowList>
             <Line></Line>
 

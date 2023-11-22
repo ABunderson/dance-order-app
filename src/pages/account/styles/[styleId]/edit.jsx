@@ -1,5 +1,6 @@
 import { getSupplies } from 'mongoDb/supplies'
 import { getFlowers } from 'mongoDb/flowers'
+import { getStyles, getStyle } from 'mongoDb/styles'
 
 import { useRouter } from 'next/router'
 import UserContext from 'context/UserContext'
@@ -16,7 +17,7 @@ import Line from 'components/Line'
 
 
 
-export default function CreateStyle({ supplies, flowers }) {
+export default function CreateStyle({ supplies, flowers, style }) {
 
     const router = useRouter();
 
@@ -27,8 +28,8 @@ export default function CreateStyle({ supplies, flowers }) {
         // if (userName === 'default') {
         //     router.push('/account/login')
         // }
-        !file ? setFile('/no-image.jpg') : ''
-    }, [file, setFile])
+        !file ? setFile(style.image) : ''
+    }, [file, setFile, style])
 
 
 
@@ -36,7 +37,6 @@ export default function CreateStyle({ supplies, flowers }) {
         setFile('/no-image.jpg')
 
         const newPath = `.,public,uploads,tempImage.jpg`
-        // const newPath = `./public/uploads/tempImage.jpg`
         const response = await setImage(event.target.files[0], newPath)
 
         if (response.status === 201) {
@@ -48,6 +48,7 @@ export default function CreateStyle({ supplies, flowers }) {
     const setImage = async (file, path) => {
         const body = new FormData()
         body.append('file', file)
+
         const response = await fetch(`/api/file/${path}`, {
             method: 'POST',
             body
@@ -73,7 +74,6 @@ export default function CreateStyle({ supplies, flowers }) {
             convertedJSON[key] = value;
         });
 
-        // convertedJSON.editDate = new Date()
         canContinue.push(setAlert(!convertedJSON.defaultStyle || convertedJSON.description.length === 0 || convertedJSON.name.length === 0 || convertedJSON.flower.length === 0 || convertedJSON.pageColor.length === 0 || convertedJSON.price.length === 0 || !convertedJSON.type, 'Please fill out each field.'))
         convertedJSON.supplies = findChecked('supplies')
 
@@ -85,7 +85,6 @@ export default function CreateStyle({ supplies, flowers }) {
         if (canContinue.includes(false)) {
             return
         }
-
 
         // handle image path
         const end = convertedJSON.image.name.split('.')
@@ -124,19 +123,51 @@ export default function CreateStyle({ supplies, flowers }) {
     }
 
     return (
-        <Layout pageTitle='Create Style'>
+        <Layout pageTitle='Edit Style'>
             <Alert />
 
-            <h1>Create Style</h1>
+            <h1>Edit Style</h1>
             <Line></Line>
 
-            <StyleForm action={onSubmit} supplies={supplies} flowers={flowers} style={false} handleChange={handleOnChange} image={file}></StyleForm>
+            <StyleForm action={onSubmit} supplies={supplies} flowers={flowers} style={style} handleChange={handleOnChange} image={file}></StyleForm>
 
         </Layout>
     )
 }
 
-export async function getStaticProps() {
+export async function getStaticPaths() {
+    try {
+        const { styles, error } = await getStyles(0)
+        if (error) throw new Error(error)
+        let paths = []
+        paths = styles.map((style) => {
+            return {
+                params: { styleId: style._id },
+            }
+        })
+
+        return {
+            paths,
+            fallback: true
+        }
+    } catch (error) {
+        console.log('Error:' + error.message)
+    }
+}
+
+export async function getStaticProps(context) {
+    const { params } = context
+
+    let styleReturn
+    try {
+        const { styles, error } = await getStyle(params.styleId)
+        if (error) throw new Error(error)
+        styleReturn = styles
+    } catch (error) {
+        console.log('Error:' + error.message)
+    }
+
+
     let suppliesReturn
     try {
         const { supplies, error } = await getSupplies(0)
@@ -157,6 +188,7 @@ export async function getStaticProps() {
 
     return {
         props: {
+            style: styleReturn,
             supplies: suppliesReturn,
             flowers: flowersReturn,
         }
