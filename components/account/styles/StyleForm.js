@@ -94,12 +94,12 @@ const StyleForm = ({ action, supplies, flowers, style, handleChange, image }) =>
 
             <FlexDiv>
                 <p>Type: </p>
-                <input type='radio' name='type' id='boutonniere' value='boutonniere' defaultChecked={style === 'boutonniere' ? true : false}/>
+                <input type='radio' name='type' id='boutonniere' value='boutonniere' defaultChecked={style ? style.type === 'boutonniere' ? true : false : ''}/>
                 <label htmlFor='boutonniere'>
                     <p>Boutonniere</p>
                 </label>
 
-                <input type='radio' name='type' id='corsage' value='corsage' defaultChecked={style === 'corsage' ? true : false}/>
+                <input type='radio' name='type' id='corsage' value='corsage' defaultChecked={style ? style.type === 'corsage' ? true : false : ''}/>
                 <label htmlFor='corsage'>
                     <p>Corsage</p>
                 </label>
@@ -139,13 +139,14 @@ const StyleForm = ({ action, supplies, flowers, style, handleChange, image }) =>
             <SmallLine></SmallLine>
 
             <FlexDiv>
+                {console.log(style.defaultStyle)}
                 <p>Default Style: </p>
-                <input type='radio' name='defaultStyle' id='true' value={true} defaultChecked={style ? style.defaultStyle === true ? true : false : ''}/>
+                <input type='radio' name='defaultStyle' id='true' value={true} defaultChecked={style ? style.defaultStyle ? true : false : ''}/>
                 <label htmlFor='true'>
                     <p>Yes</p>
                 </label>
 
-                <input type='radio' name='defaultStyle' id='false' value={false} defaultChecked={style ? style.defaultStyle === false ? true : false: ''}/>
+                <input type='radio' name='defaultStyle' id='false' value={false} defaultChecked={style ? !style.defaultStyle ? true : false : ''}/>
                 <label htmlFor='false'>
                     <p>No</p>
                 </label>
@@ -158,7 +159,7 @@ const StyleForm = ({ action, supplies, flowers, style, handleChange, image }) =>
             <SmallLine></SmallLine>
 
             <label htmlFor='image'>Image: </label>
-            <input type='file' name='image' id='image' placeholder="rose-corsage.jpg" required onChange={handleChange} />
+            <input type='file' name='image' id='image' placeholder="rose-corsage.jpg" onChange={handleChange} />
             <span>Please use a .jpg or .jpeg image. Square pictures are preferred.</span>
 
             <Image 

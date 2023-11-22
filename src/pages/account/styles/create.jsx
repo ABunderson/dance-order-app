@@ -52,7 +52,7 @@ export default function CreateStyle({ supplies, flowers }) {
             method: 'POST',
             body
         })
-        console.log(response)
+        // console.log(response)
 
         return response
     }

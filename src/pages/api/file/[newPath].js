@@ -14,16 +14,16 @@ async function handler(req, res) {
     const { newPath } = req.query
     let fixedPath = newPath.split(',').join('/')
 
-    console.log(req.method)
+    // console.log(req.method)
     if (req.method === 'POST') {
 
         const form = new formidable.IncomingForm();
 
         // console.log(form)    
         form.parse(req, async function (err, fields, files) {
-            console.log(files.file)
+            // console.log(files.file)
             await saveFile(files.file, fixedPath);
-            console.log('before return')
+            // console.log('before return')
             return res.status(201).json({ status: true, 'result': 'Successfully added picture' });
         })
 
@@ -51,7 +51,7 @@ async function handler(req, res) {
 // };
 
 const saveFile = async (file, fixedPath) => {
-    console.log('in save file')
+    // console.log('in save file')
     const data = fs.readFileSync(file[0].filepath);
     fs.writeFileSync(fixedPath, data);
     await fs.unlinkSync(file[0].filepath);

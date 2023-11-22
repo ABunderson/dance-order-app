@@ -79,22 +79,27 @@ export default function CreateStyle({ supplies, flowers, style }) {
 
         canContinue.push(setAlert(convertedJSON.name.includes(','), 'The name cannot include commas.'))
 
-        // only jpg
-        canContinue.push(setAlert(convertedJSON.image.type !== 'image/jpeg', 'The image is not the right type. Please upload a jpg or jpeg file.'))
+        if (convertedJSON.image.name.length !== 0) {
 
-        if (canContinue.includes(false)) {
-            return
+            // only jpg
+            canContinue.push(setAlert(convertedJSON.image.type !== 'image/jpeg', 'The image is not the right type. Please upload a jpg or jpeg file.'))
+
+            if (canContinue.includes(false)) {
+                return
+            }
+
+            // handle image path
+            const end = convertedJSON.image.name.split('.')
+            const path = `.,public,styles,${convertedJSON.type},${convertedJSON.name.split(' ').join('-')}.${end[end.length - 1]}`
+
+            // save image
+            const response = await setImage(convertedJSON.image, path)
+            convertedJSON.image = `/styles/${convertedJSON.type}/${convertedJSON.name.split(' ').join('-')}.${end[end.length - 1]}`
+
+            canContinue.push(setAlert(response.status !== 201, 'Something went wrong uploading the image'))
+        } else {
+            delete convertedJSON.image
         }
-
-        // handle image path
-        const end = convertedJSON.image.name.split('.')
-        const path = `.,public,styles,${convertedJSON.type},${convertedJSON.name.split(' ').join('-')}.${end[end.length - 1]}`
-
-        // save image
-        const response = await setImage(convertedJSON.image, path)
-        convertedJSON.image = `/styles/${convertedJSON.type}/${convertedJSON.name.split(' ').join('-')}.${end[end.length - 1]}`
-
-        canContinue.push(setAlert(response.status !== 201, 'Something went wrong uploading the image'))
 
         if (canContinue.includes(false)) {
             return
@@ -102,15 +107,15 @@ export default function CreateStyle({ supplies, flowers, style }) {
 
         try {
 
-            let res = await fetch('/api/styles', {
+            let res = await fetch(`/api/styles/${style[0]._id}/update`, {
                 method: 'POST',
                 body: JSON.stringify(convertedJSON),
             })
 
             res = await res.json()
 
-            if (res._id) {
-                alertService.warn('Succesfully added style!', { autoClose: false, keepAfterRouteChange: true })
+            if (res.ok === 1) {
+                alertService.warn('Succesfully edited style!', { autoClose: false, keepAfterRouteChange: true })
                 router.back()
             }
         } catch (error) {

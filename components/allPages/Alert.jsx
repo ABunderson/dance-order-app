@@ -10,21 +10,20 @@ export { Alert };
 const StyledAlert = styled.div`
 
   width: 100%;
-
-  
-  text-align: center;
-  line-height: 100px;
+  text-align: left;
 
   div {
     margin-bottom: 10px;
     display: flex;
     flex-direction: row-reverse;
     justify-content: space-between;
-    padding-left: 2rem;
-    padding-right: 2rem;
+    padding: 2rem;
+
     background-color: lightpink;
+    
     font-size: 1.5rem;
-    height: 100px;
+    min-height: 100px;
+    height: auto;
   }
   a {
     cursor: pointer;
