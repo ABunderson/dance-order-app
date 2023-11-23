@@ -103,6 +103,7 @@ export default function Account({ dances, styles, flowers, supplies, addons, ord
 
             <Link href='account/flowers'><h2>Flowers</h2></Link>
             <p>These are the types of flowers that the styles use. Each flower can have multiple colors.</p>
+            <Button text='Add' type='button' action={() => {router.push('/account/flowers/create')}}></Button>
             <ShowList objects={flowers} place='main'></ShowList>
             <Line></Line>
 
