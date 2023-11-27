@@ -1,9 +1,10 @@
+import Button from 'components/Button'
+import RibbonFieldset from 'components/orders/addons/RibbonFieldset'
+import SingleFieldset from 'components/orders/addons/SingleFieldset'
+import ArrayFieldset from 'components/orders/addons/ArrayFieldset'
+
 import { StyledForm } from 'components/styles/FormStyles'
 import { FlexButton } from 'components/styles/ButtonStyles'
-import Button from 'components/Button'
-import RibbonFieldset from "./RibbonFieldset"
-import SingleFieldset from './SingleFieldset'
-import ArrayFieldset from './ArrayFieldset'
 
 const AddonForm = ({ backAction, forwardAction, addons, ribbon, order }) => {
 

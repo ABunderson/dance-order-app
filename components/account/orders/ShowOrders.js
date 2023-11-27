@@ -1,65 +1,52 @@
-import Link from "next/link"
-import styled from "styled-components"
-import { useRouter } from "next/router"
-import { Fragment } from "react"
+import Link from 'next/link'
+import { useRouter } from 'next/router'
+import { Fragment } from 'react'
 
 import { SmallButton } from 'components/Button'
-import { FlexButton } from 'components/styles/ButtonStyles'
 import { SmallLine } from 'components/Line'
+
+import styled from 'styled-components'
+import { FlexButton } from 'components/styles/ButtonStyles'
+import { ItemList } from 'components/styles/BasicFlex'
 
 import { setDate } from 'functions/orders'
 
-const CrudDiv = styled.div`
-width: 100%;
-display: flex;
-justify-content: space-between;
-align-items: flex-start;
-p {
-    font-size: 1.3rem;
-}
-
-@media (max-width: 400px){
-    display: block;
-
-    & div {
-        padding-top: 20px;
-    }
-}
-
+const CrudDiv = styled(ItemList)`
+    align-items: flex-start;
 `
 
-const ShowOrder = ({ objects, place, printAction }) => {
+const ShowOrders = ({ objects, place, printAction }) => {
     const router = useRouter()
-    // console.log(printAction)
 
     return (
         <>
-            {
-                objects.map((item, index) => {
+            {objects.map((item, index) => {
+                return (
+                    <Fragment key={item._id}>
 
-                    return (
-                        <Fragment key={item._id}>
-                            {place === 'main' ? <SmallLine></SmallLine> : index === 0 ? <></> : <SmallLine></SmallLine>}
-                            <CrudDiv>
-                                <Link href={`/account/orders/${item._id}`} style={{ textTransform: 'capitalize' }}>
-                                    <p>Name: {item.firstName} {item.lastName}</p>
-                                    <p>Dance Date: {setDate(item.danceDate)}</p>
-                                    <p>Order Date: {setDate(item.orderDate)}</p>
-                                    <p>Status: {item.finishType === 'print' ? 'printed' : 'not printed'}</p>
-                                </Link>
-                                <FlexButton>
-                                    <SmallButton text='Print' type='button' action={() => { printAction(item)}}></SmallButton>
-                                    <SmallButton text='Delete' type='button' action={() => { router.push(`/account/orders/${item._id}/delete`) }}></SmallButton>
-                                </FlexButton>
+                        {place === 'main' ? <SmallLine></SmallLine> : index === 0 ? <></> : <SmallLine></SmallLine>}
 
-                            </CrudDiv>
+                        <CrudDiv>
 
-                        </Fragment>
-                    )
-                })
-            }
+                            <Link href={`/account/orders/${item._id}`} style={{ textTransform: 'capitalize' }}>
+                                <p>Name: {item.firstName} {item.lastName}</p>
+                                <p>Dance Date: {setDate(item.danceDate)}</p>
+                                <p>Order Date: {setDate(item.orderDate)}</p>
+                                <p>Status: {item.finishType === 'print' ? 'printed' : 'not printed'}</p>
+                            </Link>
+
+                            <FlexButton>
+                                <SmallButton text='Print' type='button' action={() => { printAction(item) }}></SmallButton>
+                                <SmallButton text='Delete' type='button' action={() => { router.push(`/account/orders/${item._id}/delete`) }}></SmallButton>
+                            </FlexButton>
+
+                        </CrudDiv>
+
+                    </Fragment>
+                )
+            })}
         </>
     )
 }
 
-export default ShowOrder
+export default ShowOrders

@@ -4,29 +4,30 @@ import AddonRows from "./AddonRows"
 import { setDate, formatPhone } from 'functions/orders'
 
 const OutputDiv = styled.div`
-    // display: flex;
-    // gap: 15px;
+
     width: 100%;
     
     table {
         width: 100%;
         border: 4px solid var(--main-green);
     }
+
     table, th, td {
         border-collapse: collapse;
         // border: 1px solid black;
-      }
+    }
 
-      td, th {
+    td, th {
         padding: 5px;
         border: 1px solid black;
         text-transform: capitalize;
-      }
-      th {
+    }
+
+    th {
         padding-top: 10px;
         padding-bottom: 10px;
         text-align: left;
-      }
+    }
 
     > div {
         width: 50%;

@@ -1,44 +1,11 @@
-import styled from "styled-components";
-import Image from "next/image";
-
-const StyleBlock = styled.div`
-display: flex;
-flex-direction: column;
-border: 1px solid black;
-border-radius: 15px;
-align-items: center;
-padding: 1rem;
-width: auto;
-max-width: 244px;
-flex: 1 0 50%;
-
-p {
-    text-align: center;
-    text-transform: capitalize;
-}
-
-img, p {
-    max-width: 200px;
-    width: 100%;
-    height: auto;
-}
-
-@media (max-width: 425px) {
-    max-width: 100%;
-
-    img {
-        max-width: 100%;
-        height: auto;
-    }
-
-}
-`
+import Image from 'next/image'
+import { Card } from 'components/styles/BasicFlex'
 
 const StyleDiv = (style) => {
     style = style.style
 
     return (
-        <StyleBlock key={style._id}>
+        <Card key={style._id}>
             <p>{style.name}</p>
 
             <Image
@@ -60,9 +27,8 @@ const StyleDiv = (style) => {
                 }}
             />
 
-        </StyleBlock>
+        </Card>
     )
-
 }
 
 export default StyleDiv

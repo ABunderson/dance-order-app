@@ -1,6 +1,5 @@
-
-
 import Image from 'next/image'
+
 import styled from 'styled-components'
 import { StyledCard } from 'components/Card'
 

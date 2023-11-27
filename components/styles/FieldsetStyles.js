@@ -60,3 +60,26 @@ label {
     }
 }
 `
+
+// use II
+const DanceFieldset = styled(StyledFieldset)`
+
+    label {
+        height: 100%;
+        img, p {
+            text-align: center;
+            max-width: 250px;
+            width: 100%;
+            height: auto;
+        }
+    }
+    @media (max-width: 650px) {
+        label {
+            img {
+                max-width: 100%;
+                height: auto;
+            } 
+        }
+    }
+`
+export { DanceFieldset }

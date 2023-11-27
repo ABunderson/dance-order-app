@@ -7,10 +7,6 @@ const FlexDiv = styled.div`
     display: flex;
     gap: 20px;
 
-    > * {
-        // background-color: red;
-    }
-
     div:first-child {
         flex-basis: 85%;
         // background-color: blue;
@@ -33,9 +29,6 @@ const FlexInfo = styled.div`
     gap: 20px;
     flex-direction: column;
 `
-
-
-
 
 const StyleInfo = ({ style, backAction, forwardAction }) => {
 

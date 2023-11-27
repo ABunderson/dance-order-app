@@ -1,10 +1,9 @@
-import { Fragment } from "react"
+import { Fragment } from 'react'
 
 
 const StyleRows = ({ style, order }) => {
 
     return (
-        
         <>
         {Object.entries(style).map((item) => {
 

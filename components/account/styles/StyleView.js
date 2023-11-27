@@ -1,6 +1,8 @@
-import Image from "next/image"
-import styled from 'styled-components'
+import Image from 'next/image'
+
 import { SmallLine } from 'components/Line'
+
+import styled from 'styled-components'
 
 const FlexDiv = styled.div`
     width: 100%;
@@ -32,9 +34,6 @@ const FlexInfo = styled.div`
     gap: 20px;
     flex-direction: column;
 `
-
-
-
 
 const StyleView = ({ style, supplies }) => {
 

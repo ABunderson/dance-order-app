@@ -1,6 +1,4 @@
-
 const AddonRows = ({ style, order }) => {
-
     const addons = order.addon
 
     return (
@@ -11,7 +9,7 @@ const AddonRows = ({ style, order }) => {
                 for (let key of Object.keys(item)) {
 
                     if (key === 'name') {
-                        pieceArray.push(<tr className="addonHead" key={`${item.name} + head`}><td colSpan={2}>{item.name}</td></tr>)
+                        pieceArray.push(<tr className='addonHead' key={`${item.name} + head`}><td colSpan={2}>{item.name}</td></tr>)
                     } else if (key === 'price'){
 
                         if(item[key] < 1){

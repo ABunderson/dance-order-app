@@ -25,8 +25,6 @@ export const StyledCard = styled.div`
 
 `
 
-
-
 const Card = ({ title, src, alt, imageTitle, description, action }) => {
     return (
         <StyledCard onClick={action}>

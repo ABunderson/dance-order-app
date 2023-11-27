@@ -1,80 +1,53 @@
-import styled from "styled-components"
-import { useRouter } from "next/router"
-import Image from "next/image"
+import { useRouter } from 'next/router'
+import Image from 'next/image'
+import { Fragment } from 'react'
 
 import Button from 'components/Button'
-// import StyleFieldset from 'components/account/dances/StyleFieldset'
-// import FlowerFieldset from "./FlowerFieldset"
-
-import { FlexButton } from 'components/styles/ButtonStyles'
-import { StyledColumnForm } from "components/styles/FormStyles"
 import { SmallLine } from 'components/Line'
-import { Fragment, useState } from "react"
 
-const FlexDiv = styled.div`
+import styled from 'styled-components'
+import { FlexButton } from 'components/styles/ButtonStyles'
+import { StyledColumnForm, RadioRules } from 'components/styles/FormStyles'
+
+const FlexDiv = styled(RadioRules)`
     padding-top: 10px;
     padding-bottom: 10px;
     align-items: center;
     display: flex;
     gap: 15px;
     width: 100%;
+    max-width: 100%;
 
-    > p {
+    p {
         max-width: 150px;
     } 
 
     @media (max-width: 650px) {
-        > p {
+        p {
             max-width: 100%;
         }
+
         flex-wrap: wrap;
     }
-    
-    input[type='radio'], input[type='checkbox'] {
-        display: none;
-    }
-
-    input[type='radio']:checked+label{
-        background-color: var(--main-green);
-    }
-
-    input[type='checkbox']:checked+label{
-        background-color: var(--main-green);
-    }
-
-label {
-    flex-grow: 2;
-    display: block;
-    border: 1px solid black;
-    border-radius: 15px;
-    height: auto;
-    padding: 1rem;
-    width: auto;
-
-    p {
-        text-align: center;
-        text-transform: capitalize;
-    }
-
-}
 `
 
 const StyledForm = styled(StyledColumnForm)`
     max-width: 500px;
+    width: 100%;
 
-    & span {
+    span {
         width: 100%;  
         font-size: 1rem;
     }  
 
-    & input {
-        width: 100%;
-    }
-       
-    p {
+    input, p {
         width: 100%;
     }
 
+    img {
+        max-width: 100%;
+        height: auto;
+    }
 `
 
 const StyleForm = ({ action, supplies, flowers, style, handleChange, image }) => {
@@ -88,7 +61,7 @@ const StyleForm = ({ action, supplies, flowers, style, handleChange, image }) =>
     return (
         <StyledForm onSubmit={action}>
             <label htmlFor='name'>Name: </label>
-            <input type='text' name='name' id='name' placeholder="No Pin Rose" required defaultValue={style ? style.name : ''} />
+            <input type='text' name='name' id='name' placeholder='No Pin Rose' required defaultValue={style ? style.name : ''} />
             <span>{`Don't put boutonniere or corsage in the style name.`}</span>
             <SmallLine></SmallLine>
 
@@ -115,7 +88,7 @@ const StyleForm = ({ action, supplies, flowers, style, handleChange, image }) =>
             <SmallLine></SmallLine>
 
             <label htmlFor='price'>Price: </label>
-            <input type='number' name='price' id='price' placeholder="24.99" min={0} step='any' required defaultValue={style ? style.price : ''} />
+            <input type='number' name='price' id='price' placeholder='24.99' min={0} step='any' required defaultValue={style ? style.price : ''} />
             <SmallLine></SmallLine>
 
             <label htmlFor='description'>Description:</label>
@@ -128,7 +101,7 @@ const StyleForm = ({ action, supplies, flowers, style, handleChange, image }) =>
                 {supplies?.map((supply) => {
                     return (
                         <Fragment key={supply._id}>
-                            <input  type='checkbox' name='supplies' id={supply.name} value={supply._id} className="supplies" defaultChecked={style ? style.supplies.includes(supply._id) ? true : false : ''}/>
+                            <input  type='checkbox' name='supplies' id={supply.name} value={supply._id} className='supplies' defaultChecked={style ? style.supplies.includes(supply._id) ? true : false : ''}/>
                             <label htmlFor={supply.name}>
                                 <p>{supply.name}</p>
                             </label>
@@ -139,7 +112,6 @@ const StyleForm = ({ action, supplies, flowers, style, handleChange, image }) =>
             <SmallLine></SmallLine>
 
             <FlexDiv>
-                {console.log(style.defaultStyle)}
                 <p>Default Style: </p>
                 <input type='radio' name='defaultStyle' id='true' value={true} defaultChecked={style ? style.defaultStyle ? true : false : ''}/>
                 <label htmlFor='true'>
@@ -154,12 +126,12 @@ const StyleForm = ({ action, supplies, flowers, style, handleChange, image }) =>
             <SmallLine></SmallLine>
 
             <label htmlFor='pageColor'>Border Color: </label>
-            <input type='text' name='pageColor' id='pageColor' placeholder="red" required defaultValue={style ? style.pageColor : ''} />
+            <input type='text' name='pageColor' id='pageColor' placeholder='red' required defaultValue={style ? style.pageColor : ''} />
             <span>This helps people see the style of an order at a glance.</span>
             <SmallLine></SmallLine>
 
             <label htmlFor='image'>Image: </label>
-            <input type='file' name='image' id='image' placeholder="rose-corsage.jpg" onChange={handleChange} />
+            <input type='file' name='image' id='image' placeholder='rose-corsage.jpg' onChange={handleChange} />
             <span>Please use a .jpg or .jpeg image. Square pictures are preferred.</span>
 
             <Image 

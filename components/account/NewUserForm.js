@@ -2,6 +2,7 @@ import { useRouter } from 'next/router'
 import { useState } from 'react'
 
 import Button from 'components/Button'
+
 import { StyledColumnForm } from 'components/styles/FormStyles'
 
 const NewUserForm = ({ action }) => {

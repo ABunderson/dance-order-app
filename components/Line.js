@@ -32,5 +32,3 @@ const SmallLine = () => {
 export default Line
 
 export { SmallLine }
-
-{/* <hr style={{width:'100%', height: '5px', color: var(--main-green)}}/> */}

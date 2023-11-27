@@ -7,12 +7,6 @@ const FlexDiv = styled.div`
     flex-wrap: wrap; 
     justify-content: start;
     gap: 15px;
-
-    // @media (max-width: 650px) {
-    //     div {
-    //         width: 100%;
-    //     }
-    // }
 `
 
 

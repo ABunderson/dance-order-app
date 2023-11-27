@@ -1,34 +1,12 @@
-import Image from "next/image"
-import styled from "styled-components"
-import { FieldsetGridDiv } from "components/styles/Grid"
+import Image from 'next/image'
 
-import { StyledFieldset } from "components/styles/FieldsetStyles"
+import { FieldsetGridDiv } from 'components/styles/Grid'
+import { DanceFieldset } from 'components/styles/FieldsetStyles'
 
-const Fieldset = styled(StyledFieldset)`
-
-    label {
-        height: 100%;
-        img, p {
-            text-align: center;
-            max-width: 250px;
-            width: 100%;
-            height: auto;
-        }
-    }
-    @media (max-width: 650px) {
-        label {
-            img {
-                max-width: 100%;
-                height: auto;
-            } 
-        }
-    }
-`
-
-const ArrayFieldset = ({ styles, dance }) => {
+const StyleFieldset = ({ styles, dance }) => {
 
     return (
-        <Fieldset>
+        <DanceFieldset>
             <legend>Styles</legend>
             <p>Green boxes mean the style is selected. {dance ? 'Prior selections for this dance start green.' : 'Default styles start out selected.'}</p>
             <FieldsetGridDiv>
@@ -61,11 +39,11 @@ const ArrayFieldset = ({ styles, dance }) => {
                             </label>
                         </div>
                     )
-                })}
+                })}   
             </FieldsetGridDiv>
 
-        </Fieldset>
+        </DanceFieldset>
     )
 }
 
-export default ArrayFieldset
+export default StyleFieldset

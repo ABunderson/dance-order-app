@@ -4,9 +4,9 @@ import styled from 'styled-components'
 import { useRouter } from 'next/router';
 
 const StyledDiv = styled.div`
-text-transform: capitalize;
-cursor: pointer;
-font-size: 1rem;
+    text-transform: capitalize;
+    cursor: pointer;
+    font-size: 1rem;
 `
 
 const Breadcrumbs = ({ path }) => {

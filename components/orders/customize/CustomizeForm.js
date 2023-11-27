@@ -1,7 +1,8 @@
+import Button from 'components/Button'
+import Fieldset from 'components/orders/customize/Fieldset'
+
 import { StyledForm } from 'components/styles/FormStyles'
 import { FlexButton } from 'components/styles/ButtonStyles'
-import Button from 'components/Button'
-import Fieldset from "./Fieldset"
 
 const CustomizeForm = ({ backAction, forwardAction, flower, supplies, styleId, flowerColors }) => {
 
@@ -26,7 +27,7 @@ const CustomizeForm = ({ backAction, forwardAction, flower, supplies, styleId, f
 
     return (
         <StyledForm onSubmit={forwardAction}>
-            <input type="hidden" name="styleId" value={styleId} />
+            <input type='hidden' name='styleId' value={styleId} />
             {flower[0] ? <Fieldset item={defaultFlower} type='flower'></Fieldset> : ''}
 
             {supplies.map((supply) => {
