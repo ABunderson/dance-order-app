@@ -109,41 +109,41 @@ p {
 }
 `
 
-const ColorInput = ({ image, position, removeColor, handleChange }) => {
+const ColorInput = ({ file, position, removeColor, handleChange, number }) => {
 
-    image ? image = `${image}?t=` + new Date().getTime() : image = `/no-image.jpg?t=` + new Date().getTime()
+    file ? file === '/no-image.jpg' ? file : file = `${file}?t=` + new Date().getTime() : file = `/no-image.jpg`
 
     return ( 
-        <FormStyling>
+        <FormStyling key={position ? 'colorArea' + position : 'colorArea'}> 
             <SmallLine></SmallLine>
-            <h4>Color {position + 1}</h4>
+            <h4>Color {number}</h4>
             <SmallLine></SmallLine>
 
-            <label htmlFor={`colorName-${position}`}>Color: </label>
-            <input type='text' name={`colorName-${position}`} id={`colorName-${position}`} placeholder="Red" required />
+            <label htmlFor={position ? `colorName-${position}`: 'colorName'}>Color: </label>
+            <input type='text' name={position ? `colorName-${position}`: 'colorName'} id={position ? `colorName-${position}`: 'colorName'} placeholder="Red" required />
             {/* defaultValue={flower ? flower.name : ''}  */}
 
             <FlexDiv>
-
-                <p>Default Style: </p>
-                <input type='radio' name={`defaultColor-${position}`} id={`true-${position}`} value={true} />
-                <label htmlFor={`true-${position}`}>
+                <p>Default Color: </p>
+                <input type='radio' name={position ? `defaultColor-${position}` : 'defaultColor'} id={position ? `true-${position}`: 'true'} value={true} />
+                <label htmlFor={position ? `true-${position}` : 'true'}>
                     <p>Yes</p>
                 </label>
 
-                <input type='radio' name={`defaultColor-${position}`} id={`false-${position}`} value={false} />
+                <input type='radio' name={position ? `defaultColor-${position}` : 'defaultColor'} id={position ? `false-${position}`: 'false'} value={false} />
                 {/* defaultChecked={flower ? !flower.defaultStyle ? true : false : ''} */}
-                <label htmlFor={`false-${position}`}>
+                <label htmlFor={position ? `false-${position}`: 'false'}>
                     <p>No</p>
                 </label>
             </FlexDiv>
 
-            <label htmlFor={`image-${position}`}>Image: </label>
-            <input type='file' name={`image-${position}`} id={`image-${position}`} placeholder="pink-rose.jpg" onChange={handleChange} />
+            <label htmlFor={position ? `colorImage-${position}` : 'colorImage'}>Image: </label>
+            <input type='file' name={position ? `colorImage-${position}` : 'colorImage'} id={position ? `colorImage-${position}` : 'colorImage'} placeholder="pink-rose.jpg" onChange={handleChange} />
             <span>Please use a .jpg or .jpeg image. Square pictures are preferred.</span>
 
             <Image
-                src={image}
+                src={file}
+                // src='/uploads/tempImg0.jpg'
                 alt={`the uploaded image`}
                 title={`Image preview`}
                 width={200}
@@ -152,7 +152,7 @@ const ColorInput = ({ image, position, removeColor, handleChange }) => {
                     if (e.target.src.includes('no-image')) {
                         e.target.onError = null
                     } else {
-                        image = '/no-image.jpg'
+                        file = '/no-image.jpg'
                         e.target.alt = 'A placeholder image'
                         e.target.srcset = ''
                         e.target.src = '/no-image.jpg'
@@ -160,9 +160,10 @@ const ColorInput = ({ image, position, removeColor, handleChange }) => {
                 }}
             />
 
-            {position === 0 ? '' : <SmallButton text={`Remove Color ${position + 1}`} type='button' action={() => {removeColor(position)}}></SmallButton>}
+            {position ? position === 0 ? '' : <SmallButton text={`Remove Color ${position + 1}`} type='button' action={() => {removeColor(position)}}></SmallButton> : ''}
             <SmallLine></SmallLine>
-        </FormStyling>)
+        </FormStyling>
+        )
     
 }
 

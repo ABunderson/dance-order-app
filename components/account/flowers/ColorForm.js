@@ -32,10 +32,8 @@ export const StyledForm = styled(StyledColumnForm)`
 
 `
 
-const FlowerForm = ({ action, handleChange, image, colorArray, addColor, removeColor, flower }) => {
+const ColorForm = ({ action, handleChange, image, removeColor, flower, position }) => {
     const router = useRouter()
-
-    console.log(colorArray)
 
     if (flower) {
         flower = flower[0]
@@ -44,36 +42,15 @@ const FlowerForm = ({ action, handleChange, image, colorArray, addColor, removeC
     // !style ? image ? image = `${image}?t=` + new Date().getTime() : image = `/no-image.jpg?t=` + new Date().getTime() : image ? image = `${image}?t=` + new Date().getTime() : image = `${style.image}?t=` + new Date().getTime()
     return (
         <StyledForm onSubmit={action}>
-            <label htmlFor='name'>Flower Name: </label>
-            <input type='text' name='name' id='name' placeholder="Rose" required defaultValue={colorArray.length !==0 ? colorArray[0].flower : ''} />
-            <SmallLine></SmallLine>
 
-            <label htmlFor='description'>Description:</label>
-            <textarea name='description' rows='4' defaultValue={flower ? flower.description : ''}></textarea>
-            <SmallLine></SmallLine>
-            <SmallLine></SmallLine>
-
-            <h2>Colors:</h2>
-            <span>When you remove a color that color and all colors after it will be removed.</span>
-            <SmallLine></SmallLine>
-
-            <ColorInput file={image} position={0} removeColor={removeColor} handleChange={handleChange}></ColorInput>
-
-            {colorArray?.map((colorSet) => {
-                // return (colorSet)
-            })}
-
-            <SmallLine></SmallLine>
-
-            <SmallButton text='Add Color' type='button' action={addColor}></SmallButton>
-
+            <ColorInput file={image} position={position} number={2} removeColor={removeColor} handleChange={handleChange}></ColorInput>
             <SmallLine></SmallLine>
 
             <FlexButton>
-                <Button type='submit' text={flower ? 'Update' : 'Add'}></Button><Button text='Back' type='button' action={() => { router.back() }}></Button>
+                <Button type='submit' text={flower ? 'Update' : 'Add'}></Button><Button text='Cancel' type='button' action={() => { router.back() }}></Button>
             </FlexButton>
         </StyledForm>
     )
 }
 
-export default FlowerForm
+export default ColorForm

@@ -6,4 +6,16 @@ async function  hashPassword(value) {
     return result
 }
 
-export {hashPassword}
+const setColorObject = (colors) => {
+    let pathString = 'empty'
+    let pathObj
+    
+    if (colors) {
+        pathObj = [...colors]
+
+        pathString = JSON.stringify({pathObj})
+    }
+    return pathString
+}
+
+export {hashPassword, setColorObject}
