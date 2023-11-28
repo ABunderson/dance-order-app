@@ -124,6 +124,17 @@ button {
   display: none !important;
 }
 
+.active {
+  background-color: var(--third-pink) !important;
+  border-color: var(--third-pink) !important;
+
+  &:hover {
+    background-color: var(--second-pink) !important;
+    border-color: var(--second-pink) !important;
+    box-shadow: 2px 2px var(--second-pink) !important;
+  }
+}
+
 @media print {
 
   header,
@@ -133,7 +144,7 @@ button {
   main h2,
   main h3,
   main p,
-  main button, 
+  main button,
   main hr,
   form {
     display: none !important;
@@ -146,7 +157,8 @@ button {
     font-size: 1rem;
   }
 
-  #printA hr, main section hr{
+  #printA hr,
+  main section hr {
     display: block !important;
   }
 

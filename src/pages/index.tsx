@@ -49,7 +49,7 @@ export default function Home() {
         priority
       />
 
-      <Button text='Order now!' type='button' action={buttonClick}></Button>
+      <Button text='Order now!' type='button' action={buttonClick} id='order'></Button>
 
       <h1>What We Do</h1>
       <p>This site makes ordering a boutonniere or corsage for yourself or your child an easy painless process. The choices for style, flower, and color choice have pictures to show what you will be getting, and you can pick how styles are arranged based on what is important to you. This site is only available at the florists and will not be available from other locations/wi-fi networks.</p>

@@ -1,7 +1,6 @@
 import styled from 'styled-components'
 
 export const StyledButton = styled.button`
-
     color: black;
     background-color: var(--main-green);
     border-color: var(--main-green);
@@ -21,6 +20,7 @@ export const StyledButton = styled.button`
         border-color: var(--lighter-green);
         box-shadow: 2px 2px var(--main-blue);   
     }
+
 `;
 
 export const StyledLargeButton = styled(StyledButton)`

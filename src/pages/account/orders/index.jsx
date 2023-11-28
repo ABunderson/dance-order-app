@@ -1,12 +1,10 @@
-
-
-
 import { getOrders } from 'mongoDb/orders'
 
 import { useRouter } from 'next/router'
-import UserContext from 'context/UserContext'
 import { useContext, useEffect } from 'react'
 import { useState } from 'react'
+
+import UserContext from 'context/UserContext'
 
 import Layout from 'components/allPages/Layout'
 import Line from 'components/Line'
@@ -37,6 +35,12 @@ export default function AllOrders({ orders }) {
     },)
 
     const filterPrint = (filter) => {
+        if (document.querySelector('#print').classList.contains('active')) document.querySelector('#print').classList.remove('active')
+        if (document.querySelector('#wait').classList.contains('active')) document.querySelector('#wait').classList.remove('active')
+        if (document.querySelector('#name').classList.contains('active')) document.querySelector('#name').classList.remove('active')
+        if (document.querySelector('#dance').classList.contains('active')) document.querySelector('#dance').classList.remove('active')
+        if (document.querySelector('#order').classList.contains('active')) document.querySelector('#order').classList.remove('active')
+        document.querySelector(`#${filter}`).classList.add('active')
 
         const ordersCopy = [...orders]
         const newArray = ordersCopy.filter((order) => {
@@ -48,9 +52,9 @@ export default function AllOrders({ orders }) {
     const print = async (order) => {
         const sendObject = {}
 
+
         try {
             sendObject.finishType = 'print'
-
 
             let res = await fetch(`/api/orders/${order._id}/update`, {
                 method: 'POST',
@@ -80,6 +84,11 @@ export default function AllOrders({ orders }) {
     // products.sort((p1, p2) => (p1.FinalPrice > p2.FinalPrice) ? 1 : (p1.FinalPrice < p2.FinalPrice) ? -1 : 0);
 
     const sort = async (value) => {
+
+        if (document.querySelector('#name').classList.contains('active')) document.querySelector('#name').classList.remove('active')
+        if (document.querySelector('#dance').classList.contains('active')) document.querySelector('#dance').classList.remove('active')
+        if (document.querySelector('#order').classList.contains('active')) document.querySelector('#order').classList.remove('active')
+        document.querySelector(`#${value}`).classList.add('active')
 
         const sortList = [...ordersList]
         let match = true
@@ -128,6 +137,15 @@ export default function AllOrders({ orders }) {
         setOrdersList(sortList)
     }
 
+    const reset = async (orders) => {
+        setOrdersList(orders)
+        if (document.querySelector('#print').classList.contains('active')) document.querySelector('#print').classList.remove('active')
+        if (document.querySelector('#wait').classList.contains('active')) document.querySelector('#wait').classList.remove('active')
+        if (document.querySelector('#name').classList.contains('active')) document.querySelector('#name').classList.remove('active')
+        if (document.querySelector('#dance').classList.contains('active')) document.querySelector('#dance').classList.remove('active')
+        if (document.querySelector('#order').classList.contains('active')) document.querySelector('#order').classList.remove('active')
+    }
+
     return (
         <Layout pageTitle="Orders">
             <Alert />
@@ -137,18 +155,18 @@ export default function AllOrders({ orders }) {
             <h2>Filter: </h2>
 
             <SmallFlexButton>
-                <SmallButton text='Printed' type='button' action={() => { filterPrint('print') }}></SmallButton>
-                <SmallButton text='Not Printed' type='button' action={() => { filterPrint('wait') }}></SmallButton>
-                <SmallButton text='Reset' type='button' action={() => { setOrdersList(orders) }}></SmallButton>
+                <SmallButton text='Printed' type='button' action={() => { filterPrint('print') }} id='print'></SmallButton>
+                <SmallButton text='Not Printed' type='button' action={() => { filterPrint('wait') }} id='wait'></SmallButton>
+                <SmallButton text='Reset' type='button' action={() => { reset(orders) }}></SmallButton>
             </SmallFlexButton>
 
             <h2>Sort: </h2>
 
             <SmallFlexButton>
-                <SmallButton text='Name' type='button' action={() => { sort('name') }}></SmallButton>
-                <SmallButton text='Dance Date' type='button' action={() => { sort('dance') }}></SmallButton>
-                <SmallButton text='Order Date' type='button' action={() => { sort('order') }}></SmallButton>
-                <SmallButton text='Reset' type='button' action={() => { setOrdersList(orders) }}></SmallButton>
+                <SmallButton text='Name' type='button' action={() => { sort('name') }} id='name'></SmallButton>
+                <SmallButton text='Dance Date' type='button' action={() => { sort('dance') }} id='dance'></SmallButton>
+                <SmallButton text='Order Date' type='button' action={() => { sort('order') }} id='order'></SmallButton>
+                <SmallButton text='Reset' type='button' action={() => { reset(orders) }}></SmallButton>
             </SmallFlexButton>
 
             <Line></Line>
