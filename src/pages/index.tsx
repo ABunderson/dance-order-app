@@ -2,20 +2,35 @@ import Image from 'next/image'
 import styles from '@/styles/Home.module.css'
 
 import { useRouter } from 'next/router'
-import { useEffect } from 'react'
+import { useEffect, useContext } from 'react'
 import { deleteBadOrders } from 'functions/orders'
 
 import Layout from 'components/allPages/Layout'
 import Button from 'components/Button'
 
+import MessageContext from 'context/MessageContext'
+import { alertService } from 'services/alert.service'
+import { Alert } from 'components/allPages/Alert'
+
 
 export default function Home() {
 
-  const router = useRouter();
+  const router = useRouter()
+  const { message, setMessage } = useContext(MessageContext)
+  let count = 0
 
   useEffect(() => {
     deleteBadOrders()
+
+    if (message !== 'default') {
+      if (count === 0) alertService.warn(message, { autoClose: false, keepAfterRouteChange: false })
+      setMessage('default')
+      count += 1
+    }
+
   }, [])
+
+
 
   const buttonClick = () => {
     router.push('/order/information')
@@ -23,6 +38,8 @@ export default function Home() {
 
   return (
     <Layout pageTitle='Home'>
+      <Alert />
+
       <Image
         className={styles.hero}
         src="/hero.jpg"

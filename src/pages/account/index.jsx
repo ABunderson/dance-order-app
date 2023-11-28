@@ -9,6 +9,7 @@ import Link from 'next/link'
 import { useContext, useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
 import UserContext from 'context/UserContext'
+import MessageContext from 'context/MessageContext'
 
 import Layout from 'components/allPages/Layout'
 import Line from 'components/Line'
@@ -29,16 +30,18 @@ export default function Account({ dances, styles, flowers, supplies, addons, ord
     const [ordersList, setOrdersList] = useState(orders)
 
     const { userName, setUserName } = useContext(UserContext)
+    const { message, setMessage } = useContext(MessageContext)
 
     useEffect(() => {
-        if (userName === 'default') {
+        if (userName === 'default' && message !== 'Successfully logged out.') {
             router.push('/account/login')
         }
         deleteBadOrders()
     }, [router, userName])
 
     const logOut = () => {
-        setUserName('default')
+        setUserName('default')  
+        setMessage('Successfully logged out.')
         router.push('/')
     }
 
