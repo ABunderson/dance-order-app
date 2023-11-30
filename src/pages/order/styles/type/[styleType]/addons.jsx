@@ -1,23 +1,26 @@
-// all the styles either bout or cor
-import Layout from 'components/allPages/Layout'
-import Breadcrumbs from 'components/orders/Breadcrumbs'
+import { getAddonsByType } from 'mongodb/addons'
+import { getSupplyByName } from 'mongodb/supplies'
+
 import { useRouter } from 'next/router'
-import { getAddonsByType } from 'mongoDb/addons'
-import AddonForm from 'components/orders/addons/AddonForm'
-import { getSupplyByName } from 'mongoDb/supplies'
 import { useState, useEffect, useContext } from 'react'
+
 import OrderContext from 'context/OrderContext'
 
+import Layout from 'components/allPages/Layout'
+import Breadcrumbs from 'components/orders/Breadcrumbs'
+import AddonForm from 'components/orders/addons/AddonForm'
 import { Alert } from 'components/allPages/Alert'
-import { alertService } from 'services/alert.service'
-import { scrollToTop } from 'functions/utils'
+
+import { setWarning } from 'functions/utils'
 import { setCrumbs } from 'functions/orders'
 
 export default function GetStyles({ addons, ribbon }) {
-    const [breadcrumbs, setBreadcrumbs] = useState([])
-    const [orderInfo, setOrderInfo] = useState([])
     const router = useRouter()
-    const {orderNumber, setOrderNumber} = useContext(OrderContext)
+
+    const { orderNumber, setOrderNumber } = useContext(OrderContext)
+    
+    const [ breadcrumbs, setBreadcrumbs ] = useState([])
+    const [ orderInfo, setOrderInfo ] = useState([])    
 
     useEffect(() => {
 
@@ -33,6 +36,8 @@ export default function GetStyles({ addons, ribbon }) {
             orderNumber === 'default' ? router.push('/') : getOrder()
         }
 
+        try {
+
         async function getOrder() {
             const response = await fetch(`/api/orders/${orderNumber}`)
             const data = await response.json()
@@ -40,16 +45,16 @@ export default function GetStyles({ addons, ribbon }) {
 
             setOrderInfo(orderJson)
         }
+    } catch (error){
+        console.log('Error: ' + error)
+        setWarning('Something has gone wrong with the database connection')
+        return
+    }
 
     }, [router, orderNumber, orderInfo.length])
 
     if (router.isFallback) {
         return <h1>Loading:</h1>
-    }
-
-
-    const goBack = () => {
-        router.back()
     }
 
     async function onSubmit(event) {
@@ -98,7 +103,6 @@ export default function GetStyles({ addons, ribbon }) {
                             }
                         }
                     }
-
                 }
 
                 newObj.name ? addOnArr.push(newObj) : ''
@@ -107,18 +111,12 @@ export default function GetStyles({ addons, ribbon }) {
             let sendingThis = {}
             sendingThis.addon = addOnArr
 
-            const orderId = orderNumber
-
-            let res
-
             try {
-                res = await fetch(`/api/orders/${orderId}/update`, {
+                let res = await fetch(`/api/orders/${orderNumber}/update`, {
                     method: 'POST',
                     body: JSON.stringify(sendingThis),
                 })
                 res = await res.json()
-                // console.log(res.result.ok)
-                // console.log(res._id)
 
                 if (res.result.ok === 1) {
                     router.push({
@@ -130,8 +128,7 @@ export default function GetStyles({ addons, ribbon }) {
                 }
             } catch (error) {
                 console.log('Error: ' + error.message)
-                alertService.warn('Something has gone wrong with the database connection.', { autoClose: false, keepAfterRouteChange: false })
-                scrollToTop()
+                setWarning('Something has gone wrong with the database connection')
             }
         }
     }
@@ -139,11 +136,11 @@ export default function GetStyles({ addons, ribbon }) {
     return (
         <Layout pageTitle='Finishing Touches'>
             <Alert />
-            {breadcrumbs ? <Breadcrumbs path={breadcrumbs}></Breadcrumbs> : <></>}
+            {breadcrumbs && breadcrumbs !== 'none' ? <Breadcrumbs path={breadcrumbs}></Breadcrumbs> : <></>}
 
             <h1 style={{ textTransform: 'capitalize' }}>Finishing Touches</h1>
 
-            <AddonForm backAction={goBack} forwardAction={onSubmit} addons={addons} ribbon={ribbon} order={orderInfo}></AddonForm>
+            <AddonForm backAction={() => {router.back()}} forwardAction={onSubmit} addons={addons} ribbon={ribbon} order={orderInfo}></AddonForm>
 
 
         </Layout>

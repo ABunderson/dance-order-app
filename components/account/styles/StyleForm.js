@@ -43,14 +43,10 @@ const StyledForm = styled(StyledColumnForm)`
     input, p {
         width: 100%;
     }
-
-    img {
-        max-width: 100%;
-        height: auto;
-    }
 `
-
+ 
 const StyleForm = ({ action, supplies, flowers, style, handleChange, image }) => {
+
     const router = useRouter()
 
     if (style) {
@@ -58,6 +54,7 @@ const StyleForm = ({ action, supplies, flowers, style, handleChange, image }) =>
     }
 
     !style ? image ? image = `${image}?t=` + new Date().getTime() : image = `/no-image.jpg?t=` + new Date().getTime() : image ? image = `${image}?t=` + new Date().getTime() : image = `${style.image}?t=` + new Date().getTime()
+
     return (
         <StyledForm onSubmit={action}>
             <label htmlFor='name'>Name: </label>
@@ -77,6 +74,7 @@ const StyleForm = ({ action, supplies, flowers, style, handleChange, image }) =>
                     <p>Corsage</p>
                 </label>
             </FlexDiv>
+
             <SmallLine></SmallLine>
 
             <label htmlFor='flower'>Flower:</label>
@@ -85,18 +83,22 @@ const StyleForm = ({ action, supplies, flowers, style, handleChange, image }) =>
                     return <option value={flower.name} key={flower.name}>{flower.name}</option>
                 })}
             </select>
+
             <SmallLine></SmallLine>
 
             <label htmlFor='price'>Price: </label>
             <input type='number' name='price' id='price' placeholder='24.99' min={0} step='any' required defaultValue={style ? style.price : ''} />
+
             <SmallLine></SmallLine>
 
             <label htmlFor='description'>Description:</label>
             <textarea name='description' rows='4' defaultValue={style ? style.description : ''}></textarea>
+
             <SmallLine></SmallLine>
 
             <p>Supplies: </p>
             <span>You can select multiple. Green boxes indicate selected.</span>
+
             <FlexDiv>
                 {supplies?.map((supply) => {
                     return (
@@ -109,6 +111,7 @@ const StyleForm = ({ action, supplies, flowers, style, handleChange, image }) =>
                     )
                 })}
             </FlexDiv>
+
             <SmallLine></SmallLine>
 
             <FlexDiv>
@@ -123,11 +126,13 @@ const StyleForm = ({ action, supplies, flowers, style, handleChange, image }) =>
                     <p>No</p>
                 </label>
             </FlexDiv>
+
             <SmallLine></SmallLine>
 
             <label htmlFor='pageColor'>Border Color: </label>
             <input type='text' name='pageColor' id='pageColor' placeholder='red' required defaultValue={style ? style.pageColor : ''} />
             <span>This helps people see the style of an order at a glance.</span>
+            
             <SmallLine></SmallLine>
 
             <label htmlFor='image'>Image: </label>
@@ -140,6 +145,7 @@ const StyleForm = ({ action, supplies, flowers, style, handleChange, image }) =>
                 title={`Image preview`}
                 width={500}
                 height={500}
+                style={{ height:'auto', width: '500px', maxWidth: '100%'}}
                 onError={(e) => {
                     if (e.target.src.includes('no-image')) {
                         e.target.onError = null
@@ -149,12 +155,13 @@ const StyleForm = ({ action, supplies, flowers, style, handleChange, image }) =>
                         e.target.srcset = ''
                         e.target.src = '/no-image.jpg'
                     }
-                }}
+                }} 
             />
 
             <FlexButton>
                 <Button type='submit' text={style ? 'Update' : 'Create'}></Button><Button text='Back' type='button' action={() => { router.back() }}></Button>
             </FlexButton>
+
         </StyledForm>
     )
 }

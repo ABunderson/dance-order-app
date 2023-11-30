@@ -4,6 +4,8 @@ import { SmallLine } from 'components/Line'
 
 import styled from 'styled-components'
 
+import { FlexInfo } from 'components/styles/BasicFlex'
+
 const FlexDiv = styled.div`
     width: 100%;
     display: flex;
@@ -27,12 +29,6 @@ const FlexDiv = styled.div`
         width: 500px;
         height: auto;
     }
-`
-
-const FlexInfo = styled.div`
-    display: flex;
-    gap: 20px;
-    flex-direction: column;
 `
 
 const StyleView = ({ style, supplies }) => {

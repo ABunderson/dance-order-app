@@ -1,17 +1,18 @@
+import { useRouter } from 'next/router'
+import { useState, useEffect } from 'react'
+
 import Layout from 'components/allPages/Layout'
 import Breadcrumbs from 'components/orders/Breadcrumbs'
 import Card from 'components/Card'
-import FlexRow from 'components/styles/FlexRow'
 import Button from 'components/Button'
+
+import FlexRow from 'components/styles/FlexRow'
 
 import { setCrumbs } from 'functions/orders'
 
-import { useRouter } from 'next/router'
-import { useState } from 'react'
-import { useEffect } from 'react'
-
 export default function ChooseType() {
     const router = useRouter()
+    
     const [breadcrumbs, setBreadcrumbs] = useState([])
 
     useEffect(() => {
@@ -25,33 +26,22 @@ export default function ChooseType() {
 
     }, [router])
 
-    const corClick = () => {
-        // console.log('go to cor styles')
+    const onClick = (type) => {
         router.push({
             query: {
                 paths: setCrumbs(breadcrumbs, { order: 2, locName: 'Type', path: window.location.pathname })
             },
-            pathname: '/order/styles/type/corsage',
-        }, '/order/styles/type/corsage')
-    }
-
-    const boutClick = () => {
-        // console.log('go to bout styles')
-        router.push({
-            query: {
-                paths: setCrumbs(breadcrumbs, { order: 2, locName: 'Type', path: window.location.pathname })
-            },
-            pathname: '/order/styles/type/boutonniere',
-        }, '/order/styles/type/boutonniere')
+            pathname: `/order/styles/type/${type}`,
+        }, `/order/styles/type/${type}`)
     }
 
     return (
         <Layout pageTitle='Choose Type'>
-            {breadcrumbs ? <Breadcrumbs path={breadcrumbs}></Breadcrumbs> : <></>}
+            {breadcrumbs && breadcrumbs !== 'none' ? <Breadcrumbs path={breadcrumbs}></Breadcrumbs> : <></>}
             <h1>Boutonniere or Corsage</h1>
             <FlexRow>
                 <Card
-                    action={boutClick}
+                    action={() => {onClick('boutonniere')}}
                     title='Boutonniere'
                     src='/styles/boutonniere/full-rose.jpg'
                     alt='A boutonniere'
@@ -60,7 +50,7 @@ export default function ChooseType() {
                 >
                 </Card>
                 <Card
-                    action={corClick}
+                    action={() => {onClick('corsage')}}
                     title='Corsage'
                     src='/styles/corsage/rose.jpg'
                     alt='A corsage'

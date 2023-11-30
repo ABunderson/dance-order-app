@@ -1,26 +1,24 @@
-import { getDances } from 'mongoDb/dances'
+import { getDances } from 'mongodb/dances'
 
-import Layout from 'components/allPages/Layout'
-import InformationForm from 'components/orders/InformationForm'
 import { useRouter } from 'next/router'
-import { alertService } from 'services/alert.service'
-import { Alert } from 'components/allPages/Alert'
-import { scrollToTop } from 'functions/utils'
+import { useContext} from 'react'
 
 import OrderContext from 'context/OrderContext'
 import DanceContext from 'context/DanceContext'
-import { useContext, useEffect } from 'react'
+
+import Layout from 'components/allPages/Layout'
+import InformationForm from 'components/orders/InformationForm'
+import { Alert } from 'components/allPages/Alert'
+
+import { setWarning } from 'functions/utils'
 
 export default function Information({ dances }) {
     const router = useRouter()
-    const {orderNumber, setOrderNumber} = useContext(OrderContext)
-    const {danceNumber, setDanceNumber}= useContext(DanceContext)
+    
+    const { orderNumber, setOrderNumber } = useContext(OrderContext)
+    const { danceNumber, setDanceNumber } = useContext(DanceContext)
 
     async function onSubmit(event) {
-
-        const pathObj = [{ order: 1, locName: 'Info', path: window.location.pathname }]
-        const pathString = JSON.stringify(pathObj)
-
         event.preventDefault()
 
         const formData = new FormData(event.target),
@@ -32,33 +30,33 @@ export default function Information({ dances }) {
 
         convertedJSON.orderDate = new Date()
 
+        // converting to a date picked a different day so hours were added to fix it
         let date = new Date(convertedJSON.danceDate)
         date.setHours(date.getHours() + 30)
 
+        // backend validation
         if (convertedJSON.danceDate.length === 0 || convertedJSON.dressColor.length === 0 || convertedJSON.firstName.length === 0 || convertedJSON.lastName.length === 0 || convertedJSON.phoneOne.length === 0 || convertedJSON.phoneTwo.length === 0 || convertedJSON.school.length === 0) {
-            console.log('something is empty')
-            alertService.warn('Please answer every question.', { autoClose: false, keepAfterRouteChange: false })
+            setWarning('All fields are required')
             return
         }
 
         if (convertedJSON.phoneOne.length !== 10 || convertedJSON.phoneTwo.length !== 10) {
-            alertService.warn('A phone number is the wrong length.', { autoClose: false, keepAfterRouteChange: false })
+            setWarning('A phone number is the wrong length')
             return
         }
 
         if (date.getDay() !== 6) {
-            // console.log(date.getDay())
-            alertService.warn('Please pick a Saturday', { autoClose: false, keepAfterRouteChange: false })
+            setWarning('Please pick a Saturday')
             return
         }
 
         if (convertedJSON.orderDate.getTime() > date.getTime()) {
-            alertService.warn('The dance date must be today or a future day.', { autoClose: false, keepAfterRouteChange: false })
+            setWarning('The dance date must be today or a future day')
             return
         }
 
         if (convertedJSON.phoneOne === convertedJSON.phoneTwo) {
-            alertService.warn('Phone numbers cannot match', { autoClose: false, keepAfterRouteChange: false })
+            setWarning('Phone numbers cannot match')
             return
         }
 
@@ -74,21 +72,23 @@ export default function Information({ dances }) {
         }
 
         try {
-
             let res = await fetch('/api/orders', {
                 method: 'POST',
                 body: JSON.stringify(convertedJSON),
             })
+
             res = await res.json()
-            // console.log(res)
-            // console.log(res._id)
             setOrderNumber(res._id)
+
         } catch (error) {
-            alertService.warn('The database connection is not working.', { autoClose: false, keepAfterRouteChange: false })
-            scrollToTop()
+            setWarning('The database connection is not working')
             return
         }
 
+        // breadcrumbs
+
+        const pathObj = [{ order: 1, locName: 'Info', path: window.location.pathname }]
+        const pathString = JSON.stringify(pathObj)
 
         router.push({
             query: {
@@ -104,6 +104,7 @@ export default function Information({ dances }) {
             <Alert />
 
             <h1>Personal Information</h1>
+            <p>All fields are required.</p>
 
             <InformationForm action={onSubmit}></InformationForm>
 

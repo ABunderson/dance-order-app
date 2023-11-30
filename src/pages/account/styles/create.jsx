@@ -36,11 +36,10 @@ export default function CreateStyle({ supplies, flowers }) {
         setFile('/no-image.jpg')
 
         const newPath = `.,public,uploads,tempImg.jpg`
-        // const newPath = `./public/uploads/tempImage.jpg`
         const response = await setImage(event.target.files[0], newPath)
 
         if (response.status === 201) {
-            setFile(`/uploads/tempImage.jpg`)
+            setFile(`/uploads/tempImg.jpg`)
             reloadImg(file)
         }
     }
@@ -52,7 +51,6 @@ export default function CreateStyle({ supplies, flowers }) {
             method: 'POST',
             body
         })
-        // console.log(response)
 
         return response
     }

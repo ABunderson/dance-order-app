@@ -1,7 +1,9 @@
-import Image from "next/image"
-import styled from "styled-components"
+import Image from 'next/image'
+import styled from 'styled-components'
+import { FlexDiv } from 'components/styles/BasicFlex'
+// import { StyledFieldset } from 'components/styles/FieldsetStyles'
 
-const StyledFieldset = styled.fieldset`
+export const StyledFieldset = styled.fieldset`
 cursor: pointer;
 width: 100%;
 border: 4px solid var(--main-green);
@@ -13,11 +15,11 @@ legend {
     padding: 5px;
 }
 
-input[type='radio'] {
+input[type='radio'], input[type='checkbox'] {
     display: none;
 }
 
-input[type='radio']:checked+label{
+input[type='radio']:checked+label, input[type='checkbox']:checked+label{
    background-color: var(--main-green);
 }
 
@@ -33,7 +35,6 @@ p {
 .ribbonLabel {
     display: inline-block;
     border-radius: 0;
-    // padding: 0;
     border: none;
 }
 
@@ -61,8 +62,8 @@ label {
 
     img {
         width: 100%;
-        height: auto; 
-        max-width: 256px;
+        height: auto;
+        max-width: 100%;
         min-width: 150px;
     }
 }
@@ -74,22 +75,7 @@ label {
         }
     }
 }
-
 `
-
-const FlexDiv = styled.div`
-    display: flex;
-    flex-wrap: wrap; 
-    justify-content: space-around;
-    gap: 15px;
-
-    @media (max-width: 650px) {
-        div {
-            width: 100%;
-        }
-    }
-`
-
 
 const Fieldset = ({ item, type }) => {
 
@@ -127,9 +113,9 @@ const Fieldset = ({ item, type }) => {
                     item.colors[0].map((color, index) => {
                         return <div key={color + item.name}>
                             {index === 0 ? <input type='radio' name={radioGroup} id={item.name + color} value={color} required defaultChecked/>:<input type='radio' name={radioGroup} id={item.name + color} value={color} required />}
-                            <label htmlFor={item.name + color} className="ribbonColors">
+                            <label htmlFor={item.name + color} className='ribbonColors'>
                                 <p>{color}</p>
-                                <section className="colorDiv" style={{ background: `${color === "peach" ? "peachpuff" : color.split(" ").join('')}` }}>
+                                <section className='colorDiv' style={{ background: `${color === 'peach' ? 'peachpuff' : color.split(' ').join('')}` }}>
 
                                 </section>
                             </label>
@@ -171,8 +157,8 @@ const Fieldset = ({ item, type }) => {
 
             {type === 'ribbon' ? (
                 <>
-                    <label htmlFor='ribbonColor' className="ribbonLabel">Ribbon Color: </label>
-                    <input name='ribbonColor' type="text" required />
+                    <label htmlFor='ribbonColor' className='ribbonLabel'>Ribbon Color: </label>
+                    <input name='ribbonColor' type='text' required />
                 </>
             ) : (
                 <></>

@@ -1,15 +1,16 @@
-import Image from "next/image"
+import Image from 'next/image'
 import styled from 'styled-components'
 import Button from 'components/Button'
-import { FlexButton } from 'components/styles/ButtonStyles'
 
-const FlexDiv = styled.div`
+import { FlexButton } from 'components/styles/ButtonStyles'
+import { FlexInfo } from 'components/styles/BasicFlex'
+
+const StyleFlexDiv = styled.div`
     display: flex;
     gap: 20px;
 
     div:first-child {
         flex-basis: 85%;
-        // background-color: blue;
         padding-bottom: 15px;
     }
 
@@ -24,12 +25,6 @@ const FlexDiv = styled.div`
     }
 `
 
-const FlexInfo = styled.div`
-    display: flex;
-    gap: 20px;
-    flex-direction: column;
-`
-
 const StyleInfo = ({ style, backAction, forwardAction }) => {
 
     style.flower = (style.flower === 'fullRose' ? 'full sized rose': style.flower)
@@ -38,7 +33,7 @@ const StyleInfo = ({ style, backAction, forwardAction }) => {
         <>
             <h1 style={{ textTransform: 'capitalize', paddingBottom: '15px' }}>{style.name} {style.type}</h1>
 
-            <FlexDiv>
+            <StyleFlexDiv>
 
                 <div>
                     <Image
@@ -68,7 +63,7 @@ const StyleInfo = ({ style, backAction, forwardAction }) => {
                     <p>{style.description}</p>
                 </FlexInfo>
 
-            </FlexDiv>
+            </StyleFlexDiv>
 
             <FlexButton>
                 <Button text='Back' type='button' action={backAction}></Button>

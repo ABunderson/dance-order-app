@@ -1,8 +1,9 @@
 import { useRouter } from 'next/router'
-
 import { Fragment, useContext, useEffect, useState } from 'react'
+
 import OrderContext from 'context/OrderContext'
 import DanceContext from 'context/DanceContext'
+import MessageContext from 'context/MessageContext'
 
 import Layout from 'components/allPages/Layout'
 import Breadcrumbs from 'components/orders/Breadcrumbs'
@@ -11,15 +12,14 @@ import FinalizeOutput from 'components/orders/finalize/FinalizeOutput'
 import FinalizeForm from 'components/orders/finalize/FinalizeForm'
 
 import { Alert } from 'components/allPages/Alert'
-import { alertService } from 'services/alert.service'
-import { scrollToTop } from 'functions/utils'
-
+import { setWarning } from 'functions/utils'
 
 export default function Finalize() {
     const router = useRouter()
 
-    const {orderNumber, setOrderNumber} = useContext(OrderContext)
-    const {danceNumber, setDanceNumber} = useContext(DanceContext)
+    const { orderNumber, setOrderNumber } = useContext(OrderContext)
+    const { danceNumber, setDanceNumber } = useContext(DanceContext)
+    const { message, setMessage } = useContext(MessageContext)
 
     const [order, setOrder] = useState('')
     const [style, setStyle] = useState('')
@@ -29,6 +29,7 @@ export default function Finalize() {
     useEffect(() => {
 
         if (orderNumber === 'default') {
+            setMessage('The order was lost or did not exist')
             router.push('/')
         }
 
@@ -47,7 +48,8 @@ export default function Finalize() {
 
             } catch (error) {
                 console.log('Error: ' + error.message)
-                alertService.warn('The order information has been lost.', { autoClose: false, keepAfterRouteChange: false })
+                setWarning("The order cannot be found")
+                return
             }
         }
 
@@ -71,16 +73,16 @@ export default function Finalize() {
             convertedJSON[key] = value;
         });
 
-
+        // backend validation 
         if (!convertedJSON.finishType || !convertedJSON.saveFlower || !convertedJSON.pickupDay || !convertedJSON.payTime) {
-            alertService.warn('Please select a choice for each question at the bottom.', { autoClose: false, keepAfterRouteChange: false })
-            scrollToTop()
+            setWarning('Please select a choice for each question at the bottom')
             return
         } else if (!convertedJSON.initials) {
-            alertService.warn('employee initials are required.', { autoClose: false, keepAfterRouteChange: false })
-            scrollToTop()
+            setWarning('Employee initials are required')
             return
         }
+
+        // add the new information to the order and then print it
         try {
             let res = await fetch(`/api/orders/${order._id}/update`, {
                 method: 'POST',
@@ -90,7 +92,9 @@ export default function Finalize() {
 
             if (res.result.ok) {
                 getNewOrder()
-
+                
+                // This is awkward but it gets the information available before it trys to print
+                // without it the print view does not have the updated information from the form
                 if (convertedJSON.finishType === 'print') {
                     getNewOrder()
                         .then(function () { print(convertedJSON.finishType) })
@@ -99,11 +103,14 @@ export default function Finalize() {
                     finish()
                 }
             }
-        } catch (error) { }
+        } catch (error) { 
+            console.log('Error: ' + error)
+            setWarning('Something went wrong with the database connection')
+            return
+        }
     }
 
     const finish = () => {
-        // unset context
         setOrderNumber('default')
         setDanceNumber('default')
         router.push('/')
@@ -118,8 +125,7 @@ export default function Finalize() {
             setPrintOrder(newOrder[0])
 
         } catch (error) {
-            alertService.warn('The order could not be updated to print.', { autoClose: false, keepAfterRouteChange: false })
-            scrollToTop()
+            setWarning('The order could not be updated')
             return
         }
     }
@@ -135,7 +141,7 @@ export default function Finalize() {
             <Layout pageTitle='Finalize'>
                 <Alert />
 
-                {breadcrumbs ? <Breadcrumbs path={breadcrumbs}></Breadcrumbs> : <></>}
+                {breadcrumbs && breadcrumbs !== 'none' ? <Breadcrumbs path={breadcrumbs}></Breadcrumbs> : <></>}
 
                 <h1>Finalize</h1>
                 <h2>You are not done yet! Please follow the steps below.</h2>

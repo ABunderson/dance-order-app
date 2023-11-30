@@ -1,19 +1,20 @@
+import { getStyle, getStyles } from 'mongodb/styles'
+
+import { useRouter } from 'next/router'
+import { useState, useEffect } from 'react'
+
 import Layout from 'components/allPages/Layout'
 import Breadcrumbs from 'components/orders/Breadcrumbs'
-import { getStyle, getStyles } from 'mongoDb/styles'
-import { useRouter } from 'next/router'
 import StyleInfo from 'components/orders/style/StyleInfo'
-import { useState, useEffect } from 'react'
+
 import { capitalize } from 'functions/utils'
 import { setCrumbs } from 'functions/orders'
 
-
-
 export default function Style({ style }) {
-    // // only use below if you want to use fallback: true,
-    const [breadcrumbs, setBreadcrumbs] = useState([])
     const router = useRouter()
 
+    const [ breadcrumbs, setBreadcrumbs ] = useState([])
+    
     useEffect(() => {
 
         if (!router.isReady) { return }
@@ -29,14 +30,7 @@ export default function Style({ style }) {
         return <h1>The style is loading</h1>
     }
 
-
-    const goBack = () => {
-        // console.log('want to go back')
-        router.back()
-    }
-
     const pickStyle = () => {
-
         router.push({
             query: {
                 paths: setCrumbs(breadcrumbs, { order: 4, locName: style[0].name, path: window.location.pathname })
@@ -48,9 +42,9 @@ export default function Style({ style }) {
     return (
         <Layout pageTitle={capitalize(`${style[0].name} ${style[0].type}`)}>
 
-            {breadcrumbs ? <Breadcrumbs path={breadcrumbs}></Breadcrumbs> : <></>}
+            {breadcrumbs && breadcrumbs !== 'none' ? <Breadcrumbs path={breadcrumbs}></Breadcrumbs> : <></>}
 
-            <StyleInfo style={style[0]} backAction={goBack} forwardAction={pickStyle}></StyleInfo>
+            <StyleInfo style={style[0]} backAction={() => {router.back()}} forwardAction={pickStyle}></StyleInfo>
 
         </Layout>
     )

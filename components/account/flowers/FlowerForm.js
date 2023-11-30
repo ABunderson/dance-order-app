@@ -10,9 +10,10 @@ import Button, { SmallButton } from 'components/Button'
 
 import { FlexButton } from 'components/styles/ButtonStyles'
 import { StyledColumnForm } from "components/styles/FormStyles"
-import { SmallLine } from 'components/Line'
+import Line, { SmallLine } from 'components/Line'
 import { Fragment, useState } from "react"
 import ColorInput from "./ColorInput"
+import ColorShow from "./ColorShow";
 
 export const StyledForm = styled(StyledColumnForm)`
     max-width: 500px;
@@ -36,6 +37,9 @@ const FlowerForm = ({ action, handleChange, image, colorArray, addColor, removeC
     const router = useRouter()
 
     console.log(colorArray)
+    let outputThese = [...colorArray]
+    outputThese.shift()
+    console.log(outputThese)
 
     if (flower) {
         flower = flower[0]
@@ -45,23 +49,26 @@ const FlowerForm = ({ action, handleChange, image, colorArray, addColor, removeC
     return (
         <StyledForm onSubmit={action}>
             <label htmlFor='name'>Flower Name: </label>
-            <input type='text' name='name' id='name' placeholder="Rose" required defaultValue={colorArray.length !==0 ? colorArray[0].flower : ''} />
+            <input type='text' name='name' id='name' placeholder="Rose" required defaultValue={colorArray.length !== 0 ? colorArray[0].flower : ''} />
             <SmallLine></SmallLine>
 
             <label htmlFor='description'>Description:</label>
             <textarea name='description' rows='4' defaultValue={flower ? flower.description : ''}></textarea>
-            <SmallLine></SmallLine>
+            <Line></Line>
             <SmallLine></SmallLine>
 
             <h2>Colors:</h2>
             <span>When you remove a color that color and all colors after it will be removed.</span>
             <SmallLine></SmallLine>
 
+            {colorArray?.map((colorSet, index) => {
+                console.log(colorSet)
+                // <ColorShow color={colorSet} index={index} removeColor={removeColor}></ColorShow>
+            })}
+
             <ColorInput file={image} position={0} removeColor={removeColor} handleChange={handleChange}></ColorInput>
 
-            {colorArray?.map((colorSet) => {
-                // return (colorSet)
-            })}
+
 
             <SmallLine></SmallLine>
 

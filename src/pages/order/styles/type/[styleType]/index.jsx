@@ -1,23 +1,28 @@
-// all the styles either bout or cor
+import { getStylesByType } from 'mongodb/styles'
+
+import { useRouter } from 'next/router'
+import { useState, useEffect, useContext } from 'react'
+
+import DanceContext from 'context/DanceContext'
+
 import Layout from 'components/allPages/Layout'
 import Button from 'components/Button'
 import Breadcrumbs from 'components/orders/Breadcrumbs'
-import { getStylesByType } from 'mongoDb/styles'
-import { useRouter } from 'next/router'
 import StyleCard from 'components/orders/style/StyleCard'
-import { useState, useEffect, useContext } from 'react'
-import DanceContext from 'context/DanceContext'
-import { capitalize } from 'functions/utils'
-import { setCrumbs } from 'functions/orders'
+
 import { GridDiv } from 'components/styles/Grid'
 
+import { capitalize, setWarning } from 'functions/utils'
+import { setCrumbs } from 'functions/orders'
+
 export default function GetStyles({ styles }) {
-
     const router = useRouter()
-    const [breadcrumbs, setBreadcrumbs] = useState([])
-    const {danceNumber, setDanceNumber} = useContext(DanceContext)
-    const [shownStyles, setShownStyles] = useState([])
 
+    const {danceNumber, setDanceNumber} = useContext(DanceContext)
+
+    const [breadcrumbs, setBreadcrumbs] = useState([])
+    const [shownStyles, setShownStyles] = useState([])
+    
     useEffect(() => {
 
         if (!router.isReady) { return }
@@ -33,7 +38,6 @@ export default function GetStyles({ styles }) {
 
         async function getOutputStyles() {
 
-
             if (danceNumber !== 'default') {
 
                 try {
@@ -47,9 +51,9 @@ export default function GetStyles({ styles }) {
                     })
 
                     setShownStyles(danceStyles)
+
                 } catch (error) {
-                    alertService.warn('The styles for the dance did not load.', { autoClose: false, keepAfterRouteChange: false })
-                    scrollToTop()
+                    setWarning('The styles for the dance did not load')
                     return
                 }
 
@@ -79,7 +83,7 @@ export default function GetStyles({ styles }) {
 
     return (
         <Layout pageTitle={capitalize(`${styles[0].type}s`)}>
-            {breadcrumbs ? <Breadcrumbs path={breadcrumbs}></Breadcrumbs> : <></>}
+            {breadcrumbs  && breadcrumbs !== 'none' ? <Breadcrumbs path={breadcrumbs}></Breadcrumbs> : <></>}
 
             <h1 style={{ textTransform: 'capitalize' }}>Pick {styles[0].type} Style</h1>
 

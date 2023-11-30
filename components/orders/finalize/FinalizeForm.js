@@ -1,4 +1,5 @@
-import styled from "styled-components"
+import styled from 'styled-components'
+
 import Button from 'components/Button'
 import Line from 'components/Line'
 
@@ -24,12 +25,12 @@ textarea {
 }
 
 input[type='text'] {   
-    max-width: 260px;
+    max-width: 278px;
 }
 
 button {
     margin-top: 10px;
-    max-width: 300px;
+    max-width: 278px;
 }
 
 h2 {
@@ -87,19 +88,10 @@ const FlexDiv = styled.div`
     display: flex;
     gap: 15px;
 
-    > div {
-        width: 50%;
-    }
-
     @media (max-width: 650px) {
         flex-wrap: wrap;
-
-        > div {
-            width: 100%;
-        }
     }
 `
-
 
 const FinalizeForm = ({ submitAction }) => {
 

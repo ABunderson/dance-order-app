@@ -1,25 +1,12 @@
-import Image from "next/image"
-import styled from "styled-components"
-import { StyledFieldset } from "components/styles/FieldsetStyles"
+import Image from 'next/image'
 
-const FlexDiv = styled.div`
-    display: flex;
-    flex-wrap: wrap; 
-    justify-content: space-around;
-    gap: 15px;
-
-    @media (max-width: 650px) {
-        div {
-            width: 100%;
-        }
-    }
-`
-
+import { StyledFieldset } from 'components/styles/FieldsetStyles'
+import { FlexDiv } from 'components/styles/BasicFlex'
 
 const ArrayFieldset = ({ item, keyValue }) => {
 
     let name = item.name
-    name = name.split(" ").join('')
+    name = name.split(' ').join('')
     const radioGroup = name + 'Color'
     let price = item.price
     let sign = '$'
@@ -37,40 +24,45 @@ const ArrayFieldset = ({ item, keyValue }) => {
             <p>{sign === '$' ? `${sign}${price}` : `${price}${sign} `}{item.limit ? '' : ' each'}</p>
             <FlexDiv key={keyValue + 'div'}>
                 {item.colors.map((color) => {
-                    return <div key={color.colorName + item.name}>
-                        
-                        <input type='checkbox' name={radioGroup} id={name + color.colorName} value={color.colorName} />
-                        <label htmlFor={name + color.colorName}>
-                            <p>{color.colorName}</p>
-                            <Image
-                                src={color.colorImage}
-                                alt={`${color.colorName} ${item.name}`}
-                                title={`Click to select ${color.colorName} ${item.name}`}
-                                width={250}
-                                height={250}
-                                priority
-                                onError={(e) => {
-                                    if (e.target.src.includes('no-image')) {
-                                        e.target.onError = null
-                                    } else {
-                                        color.colorImage = '/no-image.jpg'
-                                        e.target.alt = 'A placeholder image'
-                                        e.target.srcset = ''
-                                        e.target.src = '/no-image.jpg'
-                                    }
-                                }}
-                            />
-                        </label>
-                    </div>
-                })}
+                    return (
+                        <div key={color.colorName + item.name}>
 
+                            <input type='checkbox' name={radioGroup} id={name + color.colorName} value={color.colorName} />
+
+                            <label htmlFor={name + color.colorName}>
+                                <p>{color.colorName}</p>
+
+                                <Image
+                                    src={color.colorImage}
+                                    alt={`${color.colorName} ${item.name}`}
+                                    title={`Click to select ${color.colorName} ${item.name}`}
+                                    width={250}
+                                    height={250}
+                                    priority
+                                    onError={(e) => {
+                                        if (e.target.src.includes('no-image')) {
+                                            e.target.onError = null
+                                        } else {
+                                            color.colorImage = '/no-image.jpg'
+                                            e.target.alt = 'A placeholder image'
+                                            e.target.srcset = ''
+                                            e.target.src = '/no-image.jpg'
+                                        }
+                                    }}
+                                />
+
+                            </label>
+
+                        </div>
+                    )
+                })}
 
             </FlexDiv>
 
             {!item.limit ? (
                 <div key={keyValue + 'LimitDiv'}>
-                    <label htmlFor={name + 'Quantity'} className="ribbonLabel">Amount: </label>
-                    <input name={name + 'Quantity'} type="number" defaultValue='0' min="0" />
+                    <label htmlFor={name + 'Quantity'} className='ribbonLabel'>Amount: </label>
+                    <input name={name + 'Quantity'} type='number' defaultValue='0' min='0' />
                 </div>
             ) : (
                 <></>

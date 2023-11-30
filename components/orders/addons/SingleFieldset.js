@@ -1,20 +1,17 @@
-import Image from "next/image"
-import styled from "styled-components"
-import { StyledFieldset } from "components/styles/FieldsetStyles"
+import Image from 'next/image'
+import styled from 'styled-components'
 
-const FlexDiv = styled.div`
-    display: flex;
-    flex-wrap: wrap; 
-    justify-content: start;
-    gap: 15px;
+import { StyledFieldset } from 'components/styles/FieldsetStyles'
+import { BasicFlex } from 'components/styles/BasicFlex'
+
+const FlexDiv = styled(BasicFlex)`
+    font-size: 1em;
 `
-
-
 
 const SingleFieldset = ({ item, keyValue }) => {
 
     let name = item.name
-    name = name.split(" ").join('')
+    name = name.split(' ').join('')
 
     let price = item.price
     let sign = '$'
@@ -24,10 +21,7 @@ const SingleFieldset = ({ item, keyValue }) => {
         sign = '￠'
     }
 
-
-
     return (
-        // <p key={keyValue}>ribbon</p>)
         <StyledFieldset>
             <legend>{item.name} {item.name === 'slap' || item.name === 'pearl' ? 'bracelet' : ''}</legend>
             <p>{item.description}</p>

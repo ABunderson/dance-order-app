@@ -23,7 +23,7 @@ const FlexCol = styled.div`
     }
 `
 
-// use I
+// use II
 const Card = styled.div`
     display: flex;
     flex-direction: column;
@@ -34,6 +34,7 @@ const Card = styled.div`
     width: auto;
     max-width: 244px;
     flex: 1 0 50%;
+    cursor: pointer;
 
     p {
         text-align: center;
@@ -81,4 +82,34 @@ const ItemList= styled.div`
     }
 `
 
-export {BasicFlex, FlexCol, Card, ItemList}
+// use II
+const FlexInfo = styled.div`
+    display: flex;
+    gap: 20px;
+    flex-direction: column;
+`
+
+// use II
+const FlexDiv = styled.div`
+    display: flex;
+    flex-wrap: wrap; 
+    justify-content: space-around;
+    gap: 15px;
+
+    .colorDiv {
+        background-color: peach;
+        height: 50px;
+        width: 50px;
+        margin-left: auto;
+        margin-right: auto;
+        border: 1px solid black;
+    }
+
+    @media (max-width: 650px) {
+        div {
+            width: 100%;
+        }
+    }
+`
+
+export {BasicFlex, FlexCol, Card, ItemList, FlexInfo, FlexDiv}

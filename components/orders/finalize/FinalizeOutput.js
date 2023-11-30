@@ -1,10 +1,11 @@
-import styled from "styled-components"
-import StyleRows from "./StyleRows"
-import AddonRows from "./AddonRows"
+import styled from 'styled-components'
+
+import StyleRows from 'components/orders/finalize/StyleRows'
+import AddonRows from 'components/orders/finalize/AddonRows'
+
 import { setDate, formatPhone } from 'functions/orders'
 
 const OutputDiv = styled.div`
-
     width: 100%;
     
     table {
@@ -14,7 +15,6 @@ const OutputDiv = styled.div`
 
     table, th, td {
         border-collapse: collapse;
-        // border: 1px solid black;
     }
 
     td, th {

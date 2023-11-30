@@ -23,4 +23,9 @@ const setAlert = (condition, message) => {
     return true
 }
 
-export {setAlert}
+const setWarning = (message) => {
+    alertService.warn(message, { autoClose: false, keepAfterRouteChange: false })
+    scrollToTop()
+}
+
+export {setAlert, setWarning}

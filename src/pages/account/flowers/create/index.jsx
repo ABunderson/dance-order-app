@@ -42,14 +42,13 @@ export default function AddFlower() {
             let tempColors = {}
             const { query: { paths } } = router
             const colors = { paths }
-            colors.paths ? tempColors = JSON.parse(colors.paths) : ''
-            colorArray.length === 0  && tempColors.pathObj.length > 0 ? setColorArray(tempColors.pathObj) : ''
-            console.log(colorArray)
+            if (colors.paths) {
+                tempColors = JSON.parse(colors.paths)
+                colorArray.length === 0  && tempColors.pathObj.length > 0 ? setColorArray(tempColors.pathObj) : ''
+            }
+
         }
 
-        // if (colorArray.length === 0) {
-        //     setColorArray([<ColorInput image={file} position={colorArray.length} removeColor={removeColor} handleChange={handleOnChange}></ColorInput>])
-        // } 
     }, [setColorArray, file])
 
     const addColor = async () => {

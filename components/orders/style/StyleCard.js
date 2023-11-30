@@ -1,10 +1,18 @@
 import Image from 'next/image'
 
 import styled from 'styled-components'
-import { StyledCard } from 'components/Card'
+import { Card } from 'components/styles/BasicFlex'
 
-const StyledStyleCard = styled(StyledCard)`
+const StyledStyleCard = styled(Card)`
     max-width: 260px;
+    justify-content: space-between;
+    min-height: 363px;
+    align-items: flex-start !important;
+
+    p {
+        text-align: left;
+        padding-top: 5px;
+    }
 
     img {
         max-width: 450px;
