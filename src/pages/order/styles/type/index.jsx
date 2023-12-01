@@ -34,7 +34,7 @@ export default function ChooseType() {
             crumbs.paths ? setBreadcrumbs(JSON.parse(crumbs.paths)) : setBreadcrumbs('none')
         }
 
-    }, [router])
+    }, [router, setMessage, orderNumber])
 
     const onClick = (type) => {
         router.push({

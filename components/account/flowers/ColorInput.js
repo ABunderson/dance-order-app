@@ -24,6 +24,12 @@ const FlexDiv = styled.div`
         }
         flex-wrap: wrap;
     }
+
+    span {
+        display: block;
+        text-align: center;
+        font-size: 1.4rem !important;
+    }
     
     input[type='radio'], input[type='checkbox'] {
         display: none;
@@ -127,18 +133,18 @@ const ColorInput = ({ file, position, removeColor, handleChange, number }) => {
                 <p>Default Color: </p>
                 <input type='radio' name={position ? `defaultColor-${position}` : 'defaultColor'} id={position ? `true-${position}`: 'true'} value={true} />
                 <label htmlFor={position ? `true-${position}` : 'true'}>
-                    <p>Yes</p>
+                    <span>Yes</span>
                 </label>
 
                 <input type='radio' name={position ? `defaultColor-${position}` : 'defaultColor'} id={position ? `false-${position}`: 'false'} value={false} />
                 {/* defaultChecked={flower ? !flower.defaultStyle ? true : false : ''} */}
                 <label htmlFor={position ? `false-${position}`: 'false'}>
-                    <p>No</p>
+                    <span>No</span>
                 </label>
             </FlexDiv>
 
             <label htmlFor={position ? `colorImage-${position}` : 'colorImage'}>Image: </label>
-            <input type='file' name={position ? `colorImage-${position}` : 'colorImage'} id={position ? `colorImage-${position}` : 'colorImage'} placeholder="pink-rose.jpg" onChange={handleChange} />
+            <input type='file' name={position ? `colorImage-${position}` : 'colorImage'} id={position ? `colorImage-${position}` : 'colorImage'} onChange={handleChange} />
             <span>Please use a .jpg or .jpeg image. Square pictures are preferred.</span>
 
             <Image

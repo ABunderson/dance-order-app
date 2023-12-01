@@ -14,9 +14,9 @@ const StyleFieldset = ({ styles, dance }) => {
 
                     return (
                         <div key={style._id} className='item'>
-                            <input type='checkbox' className='styles' name='styles' id={'styles ' + style._id} value={style._id} defaultChecked={dance ? dance.styles.includes(style._id) : style.defaultStyle} />
-                            <label htmlFor={'styles ' + style._id}>
-                                <p>{style.name} {style.type}</p>
+                            <input type='checkbox' className='styles' name='styles' id={'styles' + style._id} value={style._id} defaultChecked={dance ? dance.styles.includes(style._id) : style.defaultStyle} />
+                            <label htmlFor={'styles' + style._id}>
+                                <span>{style.name} {style.type}</span>
                                 <Image
 
                                     src={style.image}

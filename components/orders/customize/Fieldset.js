@@ -40,7 +40,6 @@ export const StyledFieldset = styled.fieldset`
     }
 
     .colorDiv {
-        background-color: peach;
         height: 50px;
         width: 50px;
         margin-left: auto;
@@ -122,7 +121,7 @@ const Fieldset = ({ item, type }) => {
                             {index === 0 ? <input type='radio' name={radioGroup} id={item.name + idColor} value={color} required defaultChecked /> : <input type='radio' name={radioGroup} id={item.name + idColor} value={color} required />}
                             <label htmlFor={item.name + idColor} className='ribbonColors'>
                                 <span>{color}</span>
-                                <span className='colorDiv' style={{ backgroundColor: `${color === 'peach' ? 'peachpuff' : color.split(' ').join('')}` }}>
+                                <span className='colorDiv' style={color === 'peach' ? { background: 'peachpuff'} : { background: `${color.split(' ').join('')}` }}>
 
                                 </span>
                             </label>

@@ -42,7 +42,7 @@ export default function AddFlower() {
 
         !file ? setFile('/no-image.jpg') : ''
 
-    }, [file, router, setColorArray])
+    }, [file, router, setColorArray, colorArray.length])
 
     const removeColor = (position) => {
         fileArray.splice(position, 1)

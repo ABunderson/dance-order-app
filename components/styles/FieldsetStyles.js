@@ -37,7 +37,6 @@ const StyledFieldset = styled.fieldset`
     }
 
     .colorDiv {
-        background-color: peach;
         height: 50px;
         width: 50px;
         margin-left: auto;

@@ -34,7 +34,7 @@ export default function Style({ style }) {
             crumbs.paths ? setBreadcrumbs(JSON.parse(crumbs.paths)) : setBreadcrumbs('none')
         }
 
-    }, [router])
+    }, [router, orderNumber, setMessage])
 
     if (router.isFallback) {
         return <h1>The style is loading</h1>

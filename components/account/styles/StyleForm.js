@@ -22,6 +22,12 @@ const FlexDiv = styled(RadioRules)`
         max-width: 150px;
     } 
 
+    span {
+        display: block;
+        text-align: center;
+        font-size: 1.4rem !important; 
+    }
+
     @media (max-width: 650px) {
         p {
             max-width: 100%;
@@ -66,12 +72,12 @@ const StyleForm = ({ action, supplies, flowers, style, handleChange, image }) =>
                 <p>Type: </p>
                 <input type='radio' name='type' id='boutonniere' value='boutonniere' defaultChecked={style ? style.type === 'boutonniere' ? true : false : ''}/>
                 <label htmlFor='boutonniere'>
-                    <p>Boutonniere</p>
+                    <span>Boutonniere</span>
                 </label>
 
                 <input type='radio' name='type' id='corsage' value='corsage' defaultChecked={style ? style.type === 'corsage' ? true : false : ''}/>
                 <label htmlFor='corsage'>
-                    <p>Corsage</p>
+                    <span>Corsage</span>
                 </label>
             </FlexDiv>
 
@@ -92,7 +98,7 @@ const StyleForm = ({ action, supplies, flowers, style, handleChange, image }) =>
             <SmallLine></SmallLine>
 
             <label htmlFor='description'>Description:</label>
-            <textarea name='description' rows='4' defaultValue={style ? style.description : ''}></textarea>
+            <textarea id='description' name='description' rows='4' defaultValue={style ? style.description : ''}></textarea>
 
             <SmallLine></SmallLine>
 
@@ -103,9 +109,9 @@ const StyleForm = ({ action, supplies, flowers, style, handleChange, image }) =>
                 {supplies?.map((supply) => {
                     return (
                         <Fragment key={supply._id}>
-                            <input  type='checkbox' name='supplies' id={supply.name} value={supply._id} className='supplies' defaultChecked={style ? style.supplies.includes(supply._id) ? true : false : ''}/>
-                            <label htmlFor={supply.name}>
-                                <p>{supply.name}</p>
+                            <input  type='checkbox' name='supplies' id={supply.name.split(' ').join('')} value={supply._id} className='supplies' defaultChecked={style ? style.supplies.includes(supply._id) ? true : false : ''}/>
+                            <label htmlFor={supply.name.split(' ').join('')}>
+                                <span>{supply.name}</span>
                             </label>
                         </Fragment>
                     )
@@ -118,12 +124,12 @@ const StyleForm = ({ action, supplies, flowers, style, handleChange, image }) =>
                 <p>Default Style: </p>
                 <input type='radio' name='defaultStyle' id='true' value={true} defaultChecked={style ? style.defaultStyle ? true : false : ''}/>
                 <label htmlFor='true'>
-                    <p>Yes</p>
+                    <span>Yes</span>
                 </label>
 
                 <input type='radio' name='defaultStyle' id='false' value={false} defaultChecked={style ? !style.defaultStyle ? true : false : ''}/>
                 <label htmlFor='false'>
-                    <p>No</p>
+                    <span>No</span>
                 </label>
             </FlexDiv>
 
@@ -136,7 +142,7 @@ const StyleForm = ({ action, supplies, flowers, style, handleChange, image }) =>
             <SmallLine></SmallLine>
 
             <label htmlFor='image'>Image: </label>
-            <input type='file' name='image' id='image' placeholder='rose-corsage.jpg' onChange={handleChange} />
+            <input type='file' name='image' id='image' onChange={handleChange} />
             <span>Please use a .jpg or .jpeg image. Square pictures are preferred.</span>
 
             <Image 

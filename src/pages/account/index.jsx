@@ -37,7 +37,7 @@ export default function Account({ dances, styles, flowers, supplies, addons, ord
             router.push('/account/login')
         }
         deleteBadOrders()
-    }, [router, userName])
+    }, [router, userName, message])
 
     const logOut = () => {
         setUserName('default')  

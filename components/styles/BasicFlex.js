@@ -97,7 +97,6 @@ const FlexDiv = styled.div`
     gap: 15px;
 
     .colorDiv {
-        background-color: peach;
         height: 50px;
         width: 50px;
         margin-left: auto;

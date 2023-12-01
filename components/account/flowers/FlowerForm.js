@@ -53,7 +53,7 @@ const FlowerForm = ({ action, handleChange, image, colorArray, addColor, removeC
             <SmallLine></SmallLine>
 
             <label htmlFor='description'>Description:</label>
-            <textarea name='description' rows='4' defaultValue={flower ? flower.description : ''}></textarea>
+            <textarea id='description' name='description' rows='4' defaultValue={flower ? flower.description : ''}></textarea>
             <Line></Line>
             <SmallLine></SmallLine>
 
@@ -67,8 +67,6 @@ const FlowerForm = ({ action, handleChange, image, colorArray, addColor, removeC
             })}
 
             <ColorInput file={image} position={0} removeColor={removeColor} handleChange={handleChange}></ColorInput>
-
-
 
             <SmallLine></SmallLine>
 

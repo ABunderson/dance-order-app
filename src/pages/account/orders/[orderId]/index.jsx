@@ -101,7 +101,7 @@ export default function ViewOrder({ orders }) {
 
             <Line></Line>
             <h3>This order has {status === 'print' ? 'been printed.' : 'not been printed.'}</h3>
-            <PrintView order={orders[0]} id=''></PrintView>
+            <PrintView order={orders[0]} id='noPrint'></PrintView>
 
             <FlexButton>
                 <Button text="Back" type="button" action={() => { router.back() }}></Button>

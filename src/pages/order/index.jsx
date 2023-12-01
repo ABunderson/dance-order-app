@@ -61,7 +61,7 @@ export default function Finalize() {
             crumbs.paths ? setBreadcrumbs(JSON.parse(crumbs.paths)) : setBreadcrumbs('none')
         }
 
-    }, [order, router, orderNumber])
+    }, [order, router, orderNumber, setMessage])
 
     async function onSubmit(event) {
         event.preventDefault()

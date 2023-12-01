@@ -65,7 +65,7 @@ export default function Customize({ style, flower, supplies }) {
             }
         }
 
-    }, [router, danceNumber, danceColors.length, flower])
+    }, [router, danceNumber, danceColors.length, flower, orderNumber, setMessage])
 
 
     if (router.isFallback) {

@@ -19,7 +19,7 @@ export default function Home() {
   const { orderNumber, setOrderNumber } = useContext(OrderContext)
   const { danceNumber, setDanceNumber } = useContext(DanceContext)
   const { message, setMessage } = useContext(MessageContext)
-  
+
   let count = 0
 
   useEffect(() => {

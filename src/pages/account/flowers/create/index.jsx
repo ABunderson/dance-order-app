@@ -49,7 +49,7 @@ export default function AddFlower() {
 
         }
 
-    }, [setColorArray, file])
+    }, [setColorArray, file, colorArray.length, router])
 
     const addColor = async () => {
         if (setAlert(!document.querySelector('#name').value, 'A flower name needs to be uploaded. If you change this after you add colors there will be problems.')) {

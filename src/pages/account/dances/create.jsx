@@ -7,13 +7,11 @@ import { useContext, useEffect } from 'react'
 
 import { alertService } from 'services/alert.service'
 import { Alert } from 'components/allPages/Alert'
-import { scrollToTop } from 'functions/utils'
-import { findFlowersNeeded, checkFlowers, getSelectedFlowers, flowerTypes, findChecked } from 'functions/newDance'
-
 import Layout from 'components/allPages/Layout'
 import DanceForm from 'components/account/dances/DanceForm'
 
-
+import { scrollToTop } from 'functions/utils'
+import { findFlowersNeeded, checkFlowers, getSelectedFlowers, flowerTypes, findChecked } from 'functions/newDance'
 
 export default function CreateDance({ styles, flowers }) {
 

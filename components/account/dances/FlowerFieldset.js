@@ -25,9 +25,9 @@ const FlowerFieldset = ({ flower, dance }) => {
                 {flower.colors.map((color) => {
                     return (
                         <div key={color.colorName + flower.name}>
-                            <input type='checkbox' name={flower.name.split(' ').join('')} id={flower.name + color.colorName} value={color.colorName} defaultChecked={getDefualtColor(color)} className={flower.name.split(' ').join('')} />
-                            <label htmlFor={flower.name + color.colorName}>
-                                <p>{color.colorName}</p>
+                            <input type='checkbox' name={flower.name.split(' ').join('')} id={flower.name.split(' ').join('') + color.colorName.split(' ').join('')} value={color.colorName} defaultChecked={getDefualtColor(color)} className={flower.name.split(' ').join('')} />
+                            <label htmlFor={flower.name.split(' ').join('') + color.colorName.split(' ').join('')}>
+                                <span>{color.colorName}</span>
 
                                 <Image
                                     src={color.colorImage}

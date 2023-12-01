@@ -34,7 +34,7 @@ export default function ViewDance({ styles, dance }) {
             <Alert />
             <h1>View Dance</h1>
 
-            <DanceView dance={dance} styles={styles}></DanceView>
+            <DanceView dance={dance} styles={styles} ></DanceView>
             <FlexButton><Button text="Back" type="button" action={() => {router.back()}}></Button></FlexButton>
 
         </Layout>

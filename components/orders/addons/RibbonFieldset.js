@@ -32,7 +32,7 @@ const RibbonFieldset = ({ item, ribbon, keyValue, order }) => {
                             <input type='radio' name={radioGroup} id={color.split(' ').join('')} value={color} />
                             <label htmlFor={color.split(' ').join('')} className='ribbonColors'>
                                 <span>{color}</span>
-                                <span className='colorDiv' style={{ background: `${color === 'peach' ? 'peachpuff' : color.split(' ').join('')}` }}>
+                                <span className='colorDiv' style={color === 'peach' ? { background: 'peachpuff'} : { background: `${color.split(' ').join('')}` }}>
 
                                 </span>
                             </label>

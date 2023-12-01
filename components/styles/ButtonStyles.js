@@ -53,7 +53,7 @@ export const SmallFlexButton = styled(FlexButton)`
     @media (max-width: 670px){
         flex-direction: row;
         gap: 30px;
-        padding-bottom: auto;
+        padding-bottom: inherit;
     }
 
     @media (max-width: 400px){

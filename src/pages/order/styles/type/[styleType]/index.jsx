@@ -74,7 +74,7 @@ export default function GetStyles({ styles }) {
             }
         }
 
-    }, [router, danceNumber, shownStyles, styles])
+    }, [router, danceNumber, shownStyles, styles, orderNumber, setMessage])
 
     if (router.isFallback) {
         return <h1>Loading:</h1>
