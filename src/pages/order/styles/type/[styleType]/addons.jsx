@@ -5,6 +5,7 @@ import { useRouter } from 'next/router'
 import { useState, useEffect, useContext } from 'react'
 
 import OrderContext from 'context/OrderContext'
+import MessageContext from 'context/MessageContext'
 
 import Layout from 'components/allPages/Layout'
 import Breadcrumbs from 'components/orders/Breadcrumbs'
@@ -18,11 +19,16 @@ export default function GetStyles({ addons, ribbon }) {
     const router = useRouter()
 
     const { orderNumber, setOrderNumber } = useContext(OrderContext)
-    
-    const [ breadcrumbs, setBreadcrumbs ] = useState([])
-    const [ orderInfo, setOrderInfo ] = useState([])    
+    const { message, setMessage } = useContext(MessageContext)
+
+    const [breadcrumbs, setBreadcrumbs] = useState([])
+    const [orderInfo, setOrderInfo] = useState([])
 
     useEffect(() => {
+        if (orderNumber === 'default') {
+            setMessage('The order was lost or did not exist')
+            router.push('/')
+        }
 
         if (!router.isReady) {
             return
@@ -32,24 +38,24 @@ export default function GetStyles({ addons, ribbon }) {
             crumbs.paths ? setBreadcrumbs(JSON.parse(crumbs.paths)) : setBreadcrumbs('none')
         }
 
-        if (orderInfo.length === 0) {
-            orderNumber === 'default' ? router.push('/') : getOrder()
-        }
-
         try {
+            if (orderInfo.length === 0) {
+                orderNumber === 'default' ? router.push('/') : getOrder()
+            }
 
-        async function getOrder() {
-            const response = await fetch(`/api/orders/${orderNumber}`)
-            const data = await response.json()
-            const orderJson = data.orders[0]
+            async function getOrder() {
+                const response = await fetch(`/api/orders/${orderNumber}`)
+                const data = await response.json()
+                const orderJson = data.orders[0]
 
-            setOrderInfo(orderJson)
+                setOrderInfo(orderJson)
+            }
+
+        } catch (error) {
+            console.log('Error: ' + error)
+            setWarning('Something has gone wrong with the database connection')
+            return
         }
-    } catch (error){
-        console.log('Error: ' + error)
-        setWarning('Something has gone wrong with the database connection')
-        return
-    }
 
     }, [router, orderNumber, orderInfo.length])
 
@@ -140,7 +146,7 @@ export default function GetStyles({ addons, ribbon }) {
 
             <h1 style={{ textTransform: 'capitalize' }}>Finishing Touches</h1>
 
-            <AddonForm backAction={() => {router.back()}} forwardAction={onSubmit} addons={addons} ribbon={ribbon} order={orderInfo}></AddonForm>
+            <AddonForm backAction={() => { router.back() }} forwardAction={onSubmit} addons={addons} ribbon={ribbon} order={orderInfo}></AddonForm>
 
 
         </Layout>

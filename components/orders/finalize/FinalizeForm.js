@@ -9,7 +9,6 @@ flex-direction: column;
 width: 100%;
 row-gap: 15px;
 font-size: 1.2em;
-align-items: left;
 
 input[type='text'], textarea {
     font-size: .75em;
@@ -56,9 +55,10 @@ label {
     margin: 10px;
     max-width: 250px;
 
-    p {
+    span {
         text-align: center;
         text-transform: capitalize;
+        display: block;
     }
 }
 
@@ -103,14 +103,14 @@ const FinalizeForm = ({ submitAction }) => {
             <FlexDiv>
                 <input type='radio' name='pickupDay' id='pickupFri' value='friday' />
                 <label htmlFor='pickupFri'>
-                    <p>Friday</p>
-                    <p>3 pm - 6 pm</p>
+                    <span>Friday</span>
+                    <span>3 pm - 6 pm</span>
                 </label>
 
                 <input type='radio' name='pickupDay' id='pickupSat' value='saturday' />
                 <label htmlFor='pickupSat'>
-                    <p>Saturday</p>
-                    <p>9 am - 2 pm</p>
+                    <span>Saturday</span>
+                    <span>9 am - 2 pm</span>
                 </label>
             </FlexDiv>
 
@@ -119,12 +119,12 @@ const FinalizeForm = ({ submitAction }) => {
             <FlexDiv>
                 <input type='radio' name='payTime' id='payNow' value='now' />
                 <label htmlFor='payNow'>
-                    <p>Pay now</p>
+                    <span>Pay now</span>
                 </label>
 
                 <input type='radio' name='payTime' id='payLater' value='later' />
                 <label htmlFor='payLater'>
-                    <p>Pay when Pick Up</p>
+                    <span>Pay when Pick Up</span>
                 </label>
             </FlexDiv>
             <Line></Line>
@@ -135,12 +135,12 @@ const FinalizeForm = ({ submitAction }) => {
             <FlexDiv>
                 <input type='radio' name='finishType' id='print' value='print' />
                 <label htmlFor='print'>
-                    <p>Print</p>
+                    <span>Print</span>
                 </label>
 
                 <input type='radio' name='finishType' id='wait' value='wait' />
                 <label htmlFor='wait'>
-                    <p>Wait to Print</p>
+                    <span>Wait to Print</span>
                 </label>
             </FlexDiv>
 
@@ -149,12 +149,12 @@ const FinalizeForm = ({ submitAction }) => {
             <FlexDiv>
                 <input type='radio' name='saveFlower' id='yes' value='yes' />
                 <label htmlFor='yes'>
-                    <p>Yes</p>
+                    <span>Yes</span>
                 </label>
 
                 <input type='radio' name='saveFlower' id='no' value='no' />
                 <label htmlFor='no'>
-                    <p>No</p>
+                    <span>No</span>
                 </label>
             </FlexDiv>
 

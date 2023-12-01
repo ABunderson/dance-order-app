@@ -1,7 +1,7 @@
 import Image from 'next/image'
 
 import { StyledFieldset } from 'components/styles/FieldsetStyles'
-import { FlexDiv } from 'components/styles/BasicFlex'
+import { FieldsetGridDiv } from 'components/styles/Grid'
 
 const ArrayFieldset = ({ item, keyValue }) => {
 
@@ -22,7 +22,7 @@ const ArrayFieldset = ({ item, keyValue }) => {
             <legend>{item.name} {item.name === 'slap' || item.name === 'pearl' ? 'bracelet' : ''}</legend>
             <p>{item.description}</p>
             <p>{sign === '$' ? `${sign}${price}` : `${price}${sign} `}{item.limit ? '' : ' each'}</p>
-            <FlexDiv key={keyValue + 'div'}>
+            <FieldsetGridDiv key={keyValue + 'div'}>
                 {item.colors.map((color) => {
                     return (
                         <div key={color.colorName + item.name}>
@@ -30,7 +30,7 @@ const ArrayFieldset = ({ item, keyValue }) => {
                             <input type='checkbox' name={radioGroup} id={name + color.colorName} value={color.colorName} />
 
                             <label htmlFor={name + color.colorName}>
-                                <p>{color.colorName}</p>
+                                <span>{color.colorName}</span>
 
                                 <Image
                                     src={color.colorImage}
@@ -57,12 +57,12 @@ const ArrayFieldset = ({ item, keyValue }) => {
                     )
                 })}
 
-            </FlexDiv>
+            </FieldsetGridDiv>
 
             {!item.limit ? (
                 <div key={keyValue + 'LimitDiv'}>
                     <label htmlFor={name + 'Quantity'} className='ribbonLabel'>Amount: </label>
-                    <input name={name + 'Quantity'} type='number' defaultValue='0' min='0' />
+                    <input name={name + 'Quantity'} id={name + 'Quantity'} type='number' defaultValue='0' min='0' />
                 </div>
             ) : (
                 <></>

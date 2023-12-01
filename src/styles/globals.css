@@ -127,12 +127,12 @@ button {
 .active {
   background-color: var(--third-pink) !important;
   border-color: var(--third-pink) !important;
+}
 
-  &:hover {
-    background-color: var(--second-pink) !important;
-    border-color: var(--second-pink) !important;
-    box-shadow: 2px 2px var(--second-pink) !important;
-  }
+.active:hover {
+  background-color: var(--second-pink) !important;
+  border-color: var(--second-pink) !important;
+  box-shadow: 2px 2px var(--second-pink) !important;
 }
 
 @media print {

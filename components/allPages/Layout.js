@@ -25,9 +25,9 @@ export default function Layout({ pageTitle, children }) {
         <>
             <Head>
                 <title style={{ textTransform: 'capitalize' }}>{`TPD Dance Orders | ${pageTitle}`}</title>
-                <meta name="description" content="Order a Boutonniere or Corsage with TPD Florist" />
-                <meta name="viewport" content="width=device-width, initial-scale=1" />
-                <link rel="icon" href="/icons/favicon.png" />
+                <meta name="description" content="Order a Boutonniere or Corsage with TPD Florist"></meta>
+                <meta name="viewport" content="width=device-width, initial-scale=1"></meta>
+                <link rel="icon" href="/icons/favicon.png"></link>
             </Head>
             <Header></Header>
             <StyledMain>{children}</StyledMain>

@@ -1,5 +1,8 @@
 import { useRouter } from 'next/router'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useContext } from 'react'
+
+import MessageContext from 'context/MessageContext'
+import OrderContext from 'context/OrderContext'
 
 import Layout from 'components/allPages/Layout'
 import Breadcrumbs from 'components/orders/Breadcrumbs'
@@ -12,10 +15,17 @@ import { setCrumbs } from 'functions/orders'
 
 export default function ChooseType() {
     const router = useRouter()
-    
+
+    const { message, setMessage } = useContext(MessageContext)
+    const { orderNumber, setOrderNumber } = useContext(OrderContext)
+
     const [breadcrumbs, setBreadcrumbs] = useState([])
 
     useEffect(() => {
+        if (orderNumber === 'default') {
+            setMessage('The order was lost or did not exist')
+            router.push('/')
+        }
 
         if (!router.isReady) { return }
         else {

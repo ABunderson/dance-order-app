@@ -4,6 +4,8 @@ import { useRouter } from 'next/router'
 import { useState, useEffect, useContext } from 'react'
 
 import DanceContext from 'context/DanceContext'
+import MessageContext from 'context/MessageContext'
+import OrderContext from 'context/OrderContext'
 
 import Layout from 'components/allPages/Layout'
 import Button from 'components/Button'
@@ -19,11 +21,17 @@ export default function GetStyles({ styles }) {
     const router = useRouter()
 
     const {danceNumber, setDanceNumber} = useContext(DanceContext)
+    const { message, setMessage } = useContext(MessageContext)
+    const { orderNumber, setOrderNumber } = useContext(OrderContext)
 
     const [breadcrumbs, setBreadcrumbs] = useState([])
     const [shownStyles, setShownStyles] = useState([])
     
     useEffect(() => {
+        if (orderNumber === 'default') {
+            setMessage('The order was lost or did not exist')
+            router.push('/')
+        }
 
         if (!router.isReady) { return }
         else {

@@ -32,7 +32,7 @@ const SingleFieldset = ({ item, keyValue }) => {
                 <div key={item.name}>
                     <input type='checkbox' name={name} id={name} value={item.name} />
                     <label htmlFor={name}>
-                        <p>{item.name}</p>
+                        <span>{item.name}</span>
 
                         <Image
                             src={item.mainImage}

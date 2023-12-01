@@ -7,6 +7,7 @@ import { useState, useEffect, useContext } from 'react'
 
 import OrderContext from 'context/OrderContext'
 import DanceContext from 'context/DanceContext'
+import MessageContext from 'context/MessageContext'
 
 import Layout from 'components/allPages/Layout'
 import Breadcrumbs from 'components/orders/Breadcrumbs'
@@ -21,11 +22,16 @@ export default function Customize({ style, flower, supplies }) {
 
     const { orderNumber, setOrderNumber } = useContext(OrderContext)
     const { danceNumber, setDanceNumber } = useContext(DanceContext)
+    const { message, setMessage } = useContext(MessageContext)
 
     const [ breadcrumbs, setBreadcrumbs ] = useState([])
     const [ danceColors, setDanceColors ] = useState([])
 
     useEffect(() => {
+        if (orderNumber === 'default') {
+            setMessage('The order was lost or did not exist')
+            router.push('/')
+        }
 
         if (!router.isReady) return
         else {
@@ -67,7 +73,6 @@ export default function Customize({ style, flower, supplies }) {
     }
 
     async function onSubmit(event) {
-
         event.preventDefault()
 
         if (typeof window !== undefined) {
@@ -82,6 +87,7 @@ export default function Customize({ style, flower, supplies }) {
             styleObj.style = { ...convertedJSON, name: style[0].name, type: style[0].type, price: style[0].price, flower: style[0].flower, pageColor: style[0].pageColor }
 
             try {
+
                 let res = await fetch(`/api/orders/${orderNumber}/update`, {
                     method: 'POST',
                     body: JSON.stringify(styleObj),

@@ -38,7 +38,6 @@ const OutputDiv = styled.div`
     }
 
     @media (max-width: 650px) {
-        flex-wrap: wrap;
 
         > div {
             width: 100%;
@@ -98,7 +97,7 @@ const FinalizeOutput = ({ order, style }) => {
                     <tr>
                         <th colSpan={2}>Finishing Touches</th>
                     </tr>
-                    <AddonRows order={order} style={style} key={'addonRows'}></AddonRows>
+                    <AddonRows order={order} key={'addonRows'}></AddonRows>
                     <tr>
                         <th>Total Cost:</th><th>${totalPrice.toFixed(2)} + tax</th>
                     </tr>

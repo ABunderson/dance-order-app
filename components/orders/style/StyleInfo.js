@@ -17,12 +17,6 @@ const StyleFlexDiv = styled.div`
     @media (max-width: 850px) {
         display: block;
     }
-
-    img {
-        max-width: 500px;
-        width: 100%;
-        height: auto;
-    }
 `
 
 const StyleInfo = ({ style, backAction, forwardAction }) => {
@@ -43,6 +37,7 @@ const StyleInfo = ({ style, backAction, forwardAction }) => {
                         width={500}
                         height={500}
                         priority
+                        style={{ height:'auto', width: '100%', maxWidth: '500px'}}
                         onError={(e) => {            
                             if (e.target.src.includes('no-image')) {
                                 e.target.onError = null

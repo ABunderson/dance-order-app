@@ -24,23 +24,24 @@ const RibbonFieldset = ({ item, ribbon, keyValue, order }) => {
             <p>{sign === '$' ? `${sign}${price}`: `${price}${sign} `}{item.limit ? '':' each'}</p>
             <FlexDiv key={keyValue + 'div'}>
                 {ribbon.colors[0].map((color) => {
+
                     let keyName = color + item.name;
                     keyName = keyName.split(' ').join('')
                     return (
                         <div key={keyName}>
-                            <input type='radio' name={radioGroup} id={color} value={color} />
-                            <label htmlFor={color} className='ribbonColors'>
-                                <p>{color}</p>
-                                <section className='colorDiv' style={{ background: `${color === 'peach' ? 'peachpuff' : color.split(' ').join('')}` }}>
+                            <input type='radio' name={radioGroup} id={color.split(' ').join('')} value={color} />
+                            <label htmlFor={color.split(' ').join('')} className='ribbonColors'>
+                                <span>{color}</span>
+                                <span className='colorDiv' style={{ background: `${color === 'peach' ? 'peachpuff' : color.split(' ').join('')}` }}>
 
-                                </section>
+                                </span>
                             </label>
                         </div>
                         )
                 })}
             </FlexDiv>
             <label htmlFor='ribbonColor' className='ribbonLabel'>Ribbon Color: </label>
-            <input name='ribbonColor' type='text'/>
+            <input name='ribbonColor' id='ribbonColor' type='text'/>
          </StyledFieldset >
      )
 }

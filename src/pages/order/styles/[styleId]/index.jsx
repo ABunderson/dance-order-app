@@ -1,7 +1,10 @@
 import { getStyle, getStyles } from 'mongodb/styles'
 
 import { useRouter } from 'next/router'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useContext } from 'react'
+
+import OrderContext from 'context/OrderContext'
+import MessageContext from 'context/MessageContext'
 
 import Layout from 'components/allPages/Layout'
 import Breadcrumbs from 'components/orders/Breadcrumbs'
@@ -13,9 +16,16 @@ import { setCrumbs } from 'functions/orders'
 export default function Style({ style }) {
     const router = useRouter()
 
+    const { orderNumber, setOrderNumber } = useContext(OrderContext)
+    const { message, setMessage } = useContext(MessageContext)
+
     const [ breadcrumbs, setBreadcrumbs ] = useState([])
     
     useEffect(() => {
+        if (orderNumber === 'default') {
+            setMessage('The order was lost or did not exist')
+            router.push('/')
+        }
 
         if (!router.isReady) { return }
         else {

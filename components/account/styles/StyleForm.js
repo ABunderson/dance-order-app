@@ -132,7 +132,7 @@ const StyleForm = ({ action, supplies, flowers, style, handleChange, image }) =>
             <label htmlFor='pageColor'>Border Color: </label>
             <input type='text' name='pageColor' id='pageColor' placeholder='red' required defaultValue={style ? style.pageColor : ''} />
             <span>This helps people see the style of an order at a glance.</span>
-            
+
             <SmallLine></SmallLine>
 
             <label htmlFor='image'>Image: </label>
@@ -145,7 +145,7 @@ const StyleForm = ({ action, supplies, flowers, style, handleChange, image }) =>
                 title={`Image preview`}
                 width={500}
                 height={500}
-                style={{ height:'auto', width: '500px', maxWidth: '100%'}}
+                style={{ height:'auto', width: '100%', maxWidth: '500px'}}
                 onError={(e) => {
                     if (e.target.src.includes('no-image')) {
                         e.target.onError = null

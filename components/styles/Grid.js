@@ -4,9 +4,15 @@ export const GridDiv = styled.div`
     width: 100%;
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(12em, 15em));
+
+    label {
+        height: 100%;
+    }
+
     > div {
         width: auto;
     }
+
     justify-content: space-evenly;
     gap: 10px;
     row-gap: 30px;
@@ -16,8 +22,7 @@ export const GridDiv = styled.div`
             text-align: center;
         }
         div {
-            width: 100%;
-            
+            width: 100%; 
         }
     }
 `

@@ -13,7 +13,7 @@ const ShowPrintDiv = styled.div`
     .printDiv {
         display: flex !important;
         justify-content: space-between;
-        flexwrap: wrap;
+        flex-wrap: wrap;
 
         @media (max-width: 350px) {
             flex-direction: column;
@@ -117,7 +117,7 @@ const PrintView = ({order, id}) => {
     }
 
     return (
-        <ShowPrintDiv style={{ border: `8px solid ${order?.style?.pageColor}` }} id={id}>
+        <ShowPrintDiv style={order?.style?.pageColor !== 'undefined' ? { border: `8px solid ${order?.style?.pageColor}` } : {border: `8px solid black`}} id={id}>
 
             <section>
                 <p>Name: </p>

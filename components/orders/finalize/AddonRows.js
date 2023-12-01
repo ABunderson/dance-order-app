@@ -1,9 +1,11 @@
-const AddonRows = ({ style, order }) => {
+import { Fragment } from "react"
+
+const AddonRows = ({ order }) => {
     const addons = order.addon
 
     return (
         <>
-            {addons?.map((item) => {
+            {addons?.map((item, index) => {
                 const pieceArray = []
 
                 for (let key of Object.keys(item)) {
@@ -24,13 +26,14 @@ const AddonRows = ({ style, order }) => {
                     }
 
                 }
+
                 return (
-                    <>
+                    <Fragment key={item.name}>
                         {pieceArray.map((item) => {
                             return item
                         })}
 
-                    </>
+                    </Fragment>
                 )
             })}
         </>

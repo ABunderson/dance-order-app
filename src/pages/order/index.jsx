@@ -24,13 +24,13 @@ export default function Finalize() {
     const [order, setOrder] = useState('')
     const [style, setStyle] = useState('')
     const [printOrder, setPrintOrder] = useState()
-    const [breadcrumbs, setBreadcrumbs] = useState([])  
+    const [breadcrumbs, setBreadcrumbs] = useState([])
 
     useEffect(() => {
 
         if (orderNumber === 'default') {
             setMessage('The order was lost or did not exist')
-            router.push('/')
+            // router.push('/')
         }
 
         if (!order) {
@@ -56,7 +56,7 @@ export default function Finalize() {
         if (!router.isReady) {
             return
         } else {
-            const { query: { paths }} = router
+            const { query: { paths } } = router
             const crumbs = { paths }
             crumbs.paths ? setBreadcrumbs(JSON.parse(crumbs.paths)) : setBreadcrumbs('none')
         }
@@ -92,7 +92,7 @@ export default function Finalize() {
 
             if (res.result.ok) {
                 getNewOrder()
-                
+
                 // This is awkward but it gets the information available before it trys to print
                 // without it the print view does not have the updated information from the form
                 if (convertedJSON.finishType === 'print') {
@@ -103,7 +103,7 @@ export default function Finalize() {
                     finish()
                 }
             }
-        } catch (error) { 
+        } catch (error) {
             console.log('Error: ' + error)
             setWarning('Something went wrong with the database connection')
             return
@@ -111,8 +111,7 @@ export default function Finalize() {
     }
 
     const finish = () => {
-        setOrderNumber('default')
-        setDanceNumber('default')
+        setMessage('Order successfully created')
         router.push('/')
     }
 
