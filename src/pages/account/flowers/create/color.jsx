@@ -1,27 +1,26 @@
 import { useRouter } from 'next/router'
-import UserContext from 'context/UserContext'
 import { useContext, useEffect, useState } from 'react'
 
-import { alertService } from 'services/alert.service'
-import { Alert } from 'components/allPages/Alert'
-import { scrollToTop, setAlert } from 'functions/utils'
-import { findChecked } from 'functions/newDance'
-import ColorInput from "components/account/flowers/ColorInput"
+import UserContext from 'context/UserContext'
 
+import { Alert } from 'components/allPages/Alert'
+import ColorInput from 'components/account/flowers/ColorInput'
 import Layout from 'components/allPages/Layout'
 import Line, { SmallLine } from 'components/Line'
 import ColorForm from 'components/account/flowers/ColorForm'
 import Button, { SmallButton } from 'components/Button'
 import { FlexButton } from 'components/styles/ButtonStyles'
+
+import { alertService } from 'services/alert.service'
+import { scrollToTop, setAlert } from 'functions/utils'
+import { findChecked } from 'functions/newDance'
 import { setColorObject } from 'functions/account'
 
-
-
 export default function AddFlower() {
-
     const router = useRouter();
 
     const { userName, setUserName } = useContext(UserContext)
+
     const [file, setFile] = useState('/no-image.jpg')
     const [colorArray, setColorArray] = useState([])
 

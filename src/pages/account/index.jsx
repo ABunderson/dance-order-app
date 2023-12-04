@@ -1,47 +1,57 @@
-import { getDances } from 'mongoDb/dances'
-import { getStyles } from 'mongoDb/styles'
-import { getFlowers } from 'mongoDb/flowers'
-import { getSupplies } from 'mongoDb/supplies'
-import { getAddons } from 'mongoDb/addons'
-import { getOrders } from 'mongoDb/orders'
+import { getDances } from 'mongodb/dances'
+import { getStyles } from 'mongodb/styles'
+import { getFlowers } from 'mongodb/flowers'
+import { getSupplies } from 'mongodb/supplies'
+import { getAddons } from 'mongodb/addons'
+import { getOrders } from 'mongodb/orders'
 
 import Link from 'next/link'
 import { useContext, useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
+
 import UserContext from 'context/UserContext'
 import MessageContext from 'context/MessageContext'
 
 import Layout from 'components/allPages/Layout'
+import { Alert } from 'components/allPages/Alert'
 import Line from 'components/Line'
 import Button from 'components/Button'
-
 import ShowList from 'components/account/ShowList'
 import ShowOrder from 'components/account/orders/ShowOrders'
 import PrintView from 'components/orders/finalize/PrintView'
-import { deleteBadOrders } from 'functions/orders'
 
-import { alertService } from 'services/alert.service'
-import { Alert } from 'components/allPages/Alert'
-import { scrollToTop } from 'functions/utils'
+import { deleteBadOrders } from 'functions/orders'
+import { setWarning } from 'functions/utils'
 
 export default function Account({ dances, styles, flowers, supplies, addons, orders }) {
     const router = useRouter()
-    const [printOrder, setPrintOrder] = useState(orders[0])
-    const [ordersList, setOrdersList] = useState(orders)
 
     const { userName, setUserName } = useContext(UserContext)
     const { message, setMessage } = useContext(MessageContext)
 
+    const [printOrder, setPrintOrder] = useState(orders[0])
+    const [ordersList, setOrdersList] = useState(orders)
+
+    let count = 1
+
     useEffect(() => {
+        // if you click on the account button when not logged in it goes to the login page
         if (userName === 'default' && message !== 'Successfully logged out.') {
             router.push('/account/login')
         }
+
+        if (message !== 'default') {
+            if (count === 0) alertService.warn(message, { autoClose: false, keepAfterRouteChange: false })
+            setMessage('default')
+            count += 1
+        }
+
         deleteBadOrders()
     }, [router, userName, message])
 
     const logOut = () => {
-        setUserName('default')  
         setMessage('Successfully logged out.')
+        setUserName('default')
         router.push('/')
     }
 
@@ -50,35 +60,33 @@ export default function Account({ dances, styles, flowers, supplies, addons, ord
         sendObject.finishType = 'print'
 
         try {
+            let res = await fetch(`/api/orders/${order._id}/update`, {
+                method: 'POST',
+                body: JSON.stringify(sendObject),
+            })
+            res = await res.json()
 
-        let res = await fetch(`/api/orders/${order._id}/update`, {
-            method: 'POST',
-            body: JSON.stringify(sendObject),
-        })
-        res = await res.json()
-        // console.log(res)
+            const response = await fetch(`/api/orders`)
+            const data = await response.json()
+            const newOrders = data.data
+            newOrders.splice(5)
 
-        const response = await fetch(`/api/orders`)
-        const data = await response.json()
-        const newOrders = data.data
-        newOrders.splice(5)
+            setOrdersList(newOrders)
 
-        setOrdersList(newOrders)
-
-        if (res.ok) {
-            setPrintOrder(order)
-            window.print()
+            if (res.ok) {
+                setPrintOrder(order)
+                window.print()
+            }
+        } catch (error) {
+            console.log('Error: ' + error.message)
+            setWarning('Something went wrong with the database connection')
+            return
         }
-    } catch (error){
-        console.log('Error: ' + error.message)
-        alertService.warn('Something went wrong with the database connection.', { autoClose: false, keepAfterRouteChange: false })
-        scrollToTop()
-        return
-    }
     }
 
     return (
         <Layout pageTitle="Account">
+
             <Alert />
 
             <h1>Welcome {userName}</h1>
@@ -100,13 +108,13 @@ export default function Account({ dances, styles, flowers, supplies, addons, ord
 
             <Link href='account/styles'><h2>Styles</h2></Link>
             <p>A style is either a boutonniere or a corsage. Here you can also pick which styles are default styles which mean they show on any week where there is not a dance created.</p>
-            <Button text='Create' type='button' action={() => {router.push('/account/styles/create')}}></Button>
+            <Button text='Create' type='button' action={() => { router.push('/account/styles/create') }}></Button>
             <ShowList objects={styles} type='styles' place='main'></ShowList>
             <Line></Line>
 
             <Link href='account/flowers'><h2>Flowers</h2></Link>
             <p>These are the types of flowers that the styles use. Each flower can have multiple colors.</p>
-            <Button text='Add' type='button' action={() => {router.push('/account/flowers/create')}}></Button>
+            <Button text='Add' type='button' action={() => { router.push('/account/flowers/create') }}></Button>
             <ShowList objects={flowers} place='main'></ShowList>
             <Line></Line>
 
@@ -121,7 +129,6 @@ export default function Account({ dances, styles, flowers, supplies, addons, ord
             <Line></Line>
 
         </Layout>
-
     )
 }
 
@@ -134,6 +141,7 @@ export async function getStaticProps() {
         dancesReturn = dances
     } catch (error) {
         console.log('Error:' + error.message)
+        return
     }
 
     let ordersReturn
@@ -143,6 +151,7 @@ export async function getStaticProps() {
         ordersReturn = orders
     } catch (error) {
         console.log('Error:' + error.message)
+        return
     }
 
     let stylesReturn
@@ -152,6 +161,7 @@ export async function getStaticProps() {
         stylesReturn = styles
     } catch (error) {
         console.log('Error:' + error.message)
+        return
     }
 
     let flowersReturn
@@ -161,6 +171,7 @@ export async function getStaticProps() {
         flowersReturn = flowers
     } catch (error) {
         console.log('Error:' + error.message)
+        return
     }
 
     let suppliesReturn
@@ -170,6 +181,7 @@ export async function getStaticProps() {
         suppliesReturn = supplies
     } catch (error) {
         console.log('Error:' + error.message)
+        return
     }
 
     let addonsReturn
@@ -179,6 +191,7 @@ export async function getStaticProps() {
         addonsReturn = addons
     } catch (error) {
         console.log('Error:' + error.message)
+        return
     }
 
     return {

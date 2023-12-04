@@ -18,4 +18,10 @@ const setColorObject = (colors) => {
     return pathString
 }
 
-export {hashPassword, setColorObject}
+async function login(userName, password) {
+    const response = await fetch(`/api/users/${userName}/${password}`)
+    const data = await response.json()
+    return data.users.length === 1 ? true : false
+}
+
+export {hashPassword, setColorObject, login}

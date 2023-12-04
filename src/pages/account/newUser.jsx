@@ -1,14 +1,25 @@
+import { useRouter } from 'next/router'
+import { useContext, useEffect } from 'react'
+
+import UserContext from 'context/UserContext'
+
 import Layout from 'components/allPages/Layout'
 import NewUserForm from 'components/account/NewUserForm'
-import { hashPassword } from 'functions/account'
-import { useRouter } from 'next/router'
-
-import { alertService } from 'services/alert.service'
 import { Alert } from 'components/allPages/Alert'
-import { scrollToTop } from 'functions/utils'
+
+import { hashPassword, login } from 'functions/account'
+import { setWarning } from 'functions/utils'
 
 export default function LoginPage() {
     const router = useRouter()
+
+    const { userName, setUserName } = useContext(UserContext)
+
+    useEffect(() => {
+        if (userName !== 'default') {
+            router.push('/account')
+        }
+    }, [router, userName])
 
     async function onSubmit(event) {
         event.preventDefault()
@@ -21,27 +32,27 @@ export default function LoginPage() {
         });
 
         if (convertedJSON.username.length === 0 || convertedJSON.password.length === 0 || convertedJSON.shopCode.length === 0 || convertedJSON.shop.length === 0) {
-            alertService.warn('Please fill in all fields.', { autoClose: false, keepAfterRouteChange: false })
+            setWarning('Please fill in all fields')
             return
         }
 
         try {
-
             if (await checkUserName(convertedJSON.username)) {
-                alertService.warn('That username is already being used. Please pick a different one.', { autoClose: false, keepAfterRouteChange: false })
+                setWarning('That username is already being used. Please pick a different one')
                 return
             }
 
             const pattern = /^(.{0,7}|[^0-9]*|[^A-Z]*|[a-zA-Z0-9]*)$/
+
             if (pattern.test(convertedJSON.password)) {
-                alertService.warn(`That password doesn't meet the requirements`, { autoClose: false, keepAfterRouteChange: false })
+                setWarning(`That password doesn't meet the requirements`)
                 return
             }
 
             // convert the shopcode to password hash and check
             convertedJSON.shopCode = await hashPassword(convertedJSON.shopCode)
-            if (! await fetchUser(convertedJSON.shop, convertedJSON.shopCode)) {
-                alertService.warn(`The shop information is not correct.`, { autoClose: false, keepAfterRouteChange: false })
+            if (! await login(convertedJSON.shop, convertedJSON.shopCode)) {
+                setWarning('The shop information is not correct')
                 return
             }
 
@@ -54,29 +65,19 @@ export default function LoginPage() {
                 method: 'POST',
                 body: JSON.stringify(convertedJSON),
             })
-
             res = await res.json()
-            // console.log(res)
-            // console.log(res._id)
 
             if (res._id) {
                 router.push('/account')
             } else {
-                alertService.warn(`Something unexpected went wrong. Try waiting or contacting the site creator.`, { autoClose: false, keepAfterRouteChange: false })
+                setWarning('New user creation failed')
                 return
             }
         } catch (error) {
             console.log('Error: ' + error.message)
-            alertService.warn('The database could not be reached', { autoClose: false, keepAfterRouteChange: false })
-            scrollToTop()
+            setWarning('Something went wrong with the database connection')
             return
         }
-    }
-
-    async function fetchUser(userName, password) {
-        const response = await fetch(`/api/users/${userName}/${password}`)
-        const data = await response.json()
-        return data.users.length === 1 ? true : false
     }
 
     async function checkUserName(userName) {
@@ -86,15 +87,17 @@ export default function LoginPage() {
     }
 
     return (
-        <Layout pageTitle="New User">
+        <Layout pageTitle="Create User">
+
             <Alert />
+
             <h1>Create User</h1>
             <p>This page is only for florists affiliated with this site. If you are not a florist please go back to the home page by clicking on the logo at the top.</p>
             <p>To ensure that only florists affiliated with this site can make new accounts you must know the secret code for your floral shop along with the used shop name.</p>
+            
             <NewUserForm action={onSubmit}></NewUserForm>
 
         </Layout>
-
     )
 }
 

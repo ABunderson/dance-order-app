@@ -1,37 +1,37 @@
-import { getSupplies } from 'mongoDb/supplies'
-import { getFlowers } from 'mongoDb/flowers'
-import { getStyles, getStyle } from 'mongoDb/styles'
+import { getSupplies } from 'mongodb/supplies'
+import { getFlowers } from 'mongodb/flowers'
+import { getStyles, getStyle } from 'mongodb/styles'
 
 import { useRouter } from 'next/router'
-import UserContext from 'context/UserContext'
 import { useContext, useEffect, useState } from 'react'
 
-import { alertService } from 'services/alert.service'
-import { Alert } from 'components/allPages/Alert'
-import { scrollToTop, setAlert } from 'functions/utils'
-import { findChecked } from 'functions/newDance'
+import UserContext from 'context/UserContext'
+import MessageContext from 'context/MessageContext'
 
+import { Alert } from 'components/allPages/Alert'
 import Layout from 'components/allPages/Layout'
 import StyleForm from 'components/account/styles/StyleForm'
 import Line from 'components/Line'
 
-
+import { scrollToTop, setAlert, setWarning } from 'functions/utils'
+import { findChecked } from 'functions/newDance'
+import { setImage, reloadImg } from 'functions/images'
 
 export default function CreateStyle({ supplies, flowers, style }) {
-
     const router = useRouter();
 
     const { userName, setUserName } = useContext(UserContext)
+    const { message, setMessage } = useContext(MessageContext)
+
     const [file, setFile] = useState('')
 
     useEffect(() => {
-        // if (userName === 'default') {
-        //     router.push('/account/login')
-        // }
+        if (userName === 'default') {
+            router.push('/account/login')
+        }
+
         !file ? setFile(style.image) : ''
     }, [file, setFile, style])
-
-
 
     const handleOnChange = async (event) => {
         setFile('/no-image.jpg')
@@ -45,24 +45,6 @@ export default function CreateStyle({ supplies, flowers, style }) {
         }
     }
 
-    const setImage = async (file, path) => {
-        const body = new FormData()
-        body.append('file', file)
-
-        const response = await fetch(`/api/file/${path}`, {
-            method: 'POST',
-            body
-        })
-
-        return response
-    }
-
-    const reloadImg = file => {
-        fetch(file, { cache: 'reload', mode: 'no-cors' })
-            .then(() => document.body.querySelectorAll(`img[src='${file}']`).forEach(img => (img.src = file)))
-            .catch(e => console.log('error', e));
-    }
-
     async function onSubmit(event) {
         let canContinue = []
         event.preventDefault()
@@ -74,17 +56,23 @@ export default function CreateStyle({ supplies, flowers, style }) {
             convertedJSON[key] = value;
         });
 
-        canContinue.push(setAlert(!convertedJSON.defaultStyle || convertedJSON.description.length === 0 || convertedJSON.name.length === 0 || convertedJSON.flower.length === 0 || convertedJSON.pageColor.length === 0 || convertedJSON.price.length === 0 || !convertedJSON.type, 'Please fill out each field.'))
-        convertedJSON.supplies = findChecked('supplies')
+        if(!convertedJSON.defaultStyle || convertedJSON.description.length === 0 || convertedJSON.name.length === 0 || convertedJSON.flower.length === 0 || convertedJSON.pageColor.length === 0 || convertedJSON.price.length === 0 || !convertedJSON.type) {
+            setWarning('Please fill out each field')
+            return
+        }
 
-        canContinue.push(setAlert(convertedJSON.name.includes(','), 'The name cannot include commas.'))
+        if(convertedJSON.name.includes(',')) {
+            setWarning('The name cannot include commas')
+            return
+        }
+
+        convertedJSON.supplies = findChecked('supplies')
 
         if (convertedJSON.image.name.length !== 0) {
 
             // only jpg
-            canContinue.push(setAlert(convertedJSON.image.type !== 'image/jpeg', 'The image is not the right type. Please upload a jpg or jpeg file.'))
-
-            if (canContinue.includes(false)) {
+            if(convertedJSON.image.type !== 'image/jpeg') {
+                setWarning('The image is not the right type. Please upload a jpg or jpeg file')
                 return
             }
 
@@ -96,17 +84,16 @@ export default function CreateStyle({ supplies, flowers, style }) {
             const response = await setImage(convertedJSON.image, path)
             convertedJSON.image = `/styles/${convertedJSON.type}/${convertedJSON.name.split(' ').join('-')}.${end[end.length - 1]}`
 
-            canContinue.push(setAlert(response.status !== 201, 'Something went wrong uploading the image'))
+            if (response.status !== 201) {
+                setWarning('Something went wrong while uploading the image')
+                return
+            }
+
         } else {
             delete convertedJSON.image
         }
 
-        if (canContinue.includes(false)) {
-            return
-        }
-
         try {
-
             let res = await fetch(`/api/styles/${style[0]._id}/update`, {
                 method: 'POST',
                 body: JSON.stringify(convertedJSON),
@@ -115,20 +102,19 @@ export default function CreateStyle({ supplies, flowers, style }) {
             res = await res.json()
 
             if (res.ok === 1) {
-                alertService.warn('Succesfully edited style!', { autoClose: false, keepAfterRouteChange: true })
+                setMessage('Successfully edited style')
                 router.back()
             }
         } catch (error) {
             console.log('Error: ' + error.message)
-            alertService.warn('Something went wrong with the style creation.', { autoClose: false, keepAfterRouteChange: false })
-            scrollToTop()
+            setWarning('Something went wrong with the style creation.')
             return
         }
-
     }
 
     return (
         <Layout pageTitle='Edit Style'>
+
             <Alert />
 
             <h1>Edit Style</h1>
@@ -144,6 +130,7 @@ export async function getStaticPaths() {
     try {
         const { styles, error } = await getStyles(0)
         if (error) throw new Error(error)
+        
         let paths = []
         paths = styles.map((style) => {
             return {

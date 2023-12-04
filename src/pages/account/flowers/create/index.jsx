@@ -1,30 +1,26 @@
 
 import { useRouter } from 'next/router'
-import UserContext from 'context/UserContext'
 import { useContext, useEffect, useState } from 'react'
 
+import UserContext from 'context/UserContext'
 
-
-import { alertService } from 'services/alert.service'
 import { Alert } from 'components/allPages/Alert'
-import { scrollToTop, setAlert } from 'functions/utils'
-import { findChecked } from 'functions/newDance'
-import ColorInput from "components/account/flowers/ColorInput"
-
+import ColorInput from 'components/account/flowers/ColorInput'
 import Layout from 'components/allPages/Layout'
 import Line, { SmallLine } from 'components/Line'
 import FlowerForm from 'components/account/flowers/FlowerForm'
 import Button, { SmallButton } from 'components/Button'
 import { FlexButton } from 'components/styles/ButtonStyles'
+
+import { scrollToTop, setAlert } from 'functions/utils'
+import { findChecked } from 'functions/newDance'
 import { setColorObject } from 'functions/account'
 
-
-
 export default function AddFlower() {
-
     const router = useRouter();
 
     const { userName, setUserName } = useContext(UserContext)
+
     const [fileObj, setFileObj] = useState()
     const [file, setFile] = useState('/no-image.jpg')
     const [colorArray, setColorArray] = useState([])
@@ -44,7 +40,7 @@ export default function AddFlower() {
             const colors = { paths }
             if (colors.paths) {
                 tempColors = JSON.parse(colors.paths)
-                colorArray.length === 0  && tempColors.pathObj.length > 0 ? setColorArray(tempColors.pathObj) : ''
+                colorArray.length === 0 && tempColors.pathObj.length > 0 ? setColorArray(tempColors.pathObj) : ''
             }
 
         }
@@ -70,7 +66,7 @@ export default function AddFlower() {
             // make sure first color is filled and then add to colorArray
             if (setAlert(!document.querySelector('#colorName').value || !document.querySelector('input[name="defaultColor"]:checked') || file === '/no-image.jpg', 'The first color needs to be filled out before moving to other colors.')) {
                 if (file.includes('temp')) {
-                    console.log("need to set image")
+                    console.log('need to set image')
                     const end = file.split('.')
                     const path = `.,public,flowers,${document.querySelector('#name').value.split(' ').join('-')},${document.querySelector('#colorName').value.split(' ').join('-')}.${end[end.length - 1]}`
 
@@ -92,7 +88,7 @@ export default function AddFlower() {
                             paths: setColorObject(tempArray)
                         },
                         pathname: '/account/flowers/create/color',
-                    }, '/account/flowers/create/color')  
+                    }, '/account/flowers/create/color')
 
                 }
             }

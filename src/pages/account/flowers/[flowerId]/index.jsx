@@ -1,35 +1,28 @@
-import { getFlowers, getFlower } from 'mongoDb/flowers'
+import { getFlowers, getFlower } from 'mongodb/flowers'
 
 import { useRouter } from 'next/router'
-import UserContext from 'context/UserContext'
-import { useContext, useEffect, useState } from 'react'
+import { useContext, useEffect } from 'react'
 
-import { alertService } from 'services/alert.service'
-import { Alert } from 'components/allPages/Alert'
-import { scrollToTop } from 'functions/utils'
+import UserContext from 'context/UserContext'
 
 import Layout from 'components/allPages/Layout'
 import FlowerView from 'components/account/flowers/FlowerView'
-
-
-import { FlexButton, SmallFlexButton } from 'components/styles/ButtonStyles'
-import Button, { SmallButton } from 'components/Button'
+import { FlexButton } from 'components/styles/ButtonStyles'
+import Button from 'components/Button'
 import Line from 'components/Line'
 
+import { capitalize } from 'functions/utils'
 
 export default function ViewFlower({ flower }) {
     const router = useRouter();
 
     const { userName, setUserName } = useContext(UserContext)
 
-
-    // useEffect(() => {
-    //     if (userName === 'default') {
-    //         router.push('/account/login')
-    //     }
-
-
-    // }, [router, userName])
+    useEffect(() => {
+        if (userName === 'default') {
+            router.push('/account/login')
+        }
+    }, [router, userName])
 
 
     if (router.isFallback) {
@@ -38,9 +31,8 @@ export default function ViewFlower({ flower }) {
 
     return (
         <Layout pageTitle='View Flower'>
-            <Alert />
 
-            <h1 style={{ textTransform:'capitalize'}}>{flower[0].name}</h1>
+            <h1>{capitalize(flower[0].name)}</h1>
             <h2>Here you can see all the information about the {flower[0].name}.</h2>
 
             <Line></Line>
@@ -50,7 +42,7 @@ export default function ViewFlower({ flower }) {
             <Line></Line>
 
             <FlexButton>
-                <Button text="Back" type="button" action={() => { router.back() }}></Button>
+                <Button text='Back' type='button' action={() => { router.back() }}></Button>
             </FlexButton>
 
         </Layout>
@@ -61,6 +53,7 @@ export async function getStaticPaths() {
     try {
         const { flowers, error } = await getFlowers(0)
         if (error) throw new Error(error)
+
         let paths = []
         paths = flowers.map((flower) => {
             return {
@@ -81,14 +74,14 @@ export async function getStaticProps(context) {
     const { params } = context
 
     try {
-        const {flowers, error } = await getFlower(params.flowerId)
+        const { flowers, error } = await getFlower(params.flowerId)
         if (error) throw new Error(error)
 
         return {
             props: {
                 flower: flowers,
             }
-        } 
+        }
 
     } catch (error) {
         console.log('Error:' + error.message)

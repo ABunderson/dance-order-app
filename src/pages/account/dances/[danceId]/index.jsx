@@ -1,19 +1,18 @@
-import { getStyles } from 'mongoDb/styles'
-import { getDances, getDanceById } from 'mongoDb/dances'
+import { getStyles } from 'mongodb/styles'
+import { getDances, getDanceById } from 'mongodb/dances'
 
 import { useRouter } from 'next/router'
-import UserContext from 'context/UserContext'
 import { useContext, useEffect } from 'react'
 
-import Layout from 'components/allPages/Layout'
-import DanceView from 'components/account/dances/DanceView'
-import { Alert } from 'components/allPages/Alert'
-import { FlexButton} from 'components/styles/ButtonStyles'
-import Button from 'components/Button'
+import UserContext from 'context/UserContext'
 
+import Layout from 'components/allPages/Layout'
+import { Alert } from 'components/allPages/Alert'
+import DanceView from 'components/account/dances/DanceView'
+import Button from 'components/Button'
+import { FlexButton} from 'components/styles/ButtonStyles'
 
 export default function ViewDance({ styles, dance }) {
-
     const router = useRouter();
 
     const {userName, setUserName} = useContext(UserContext)
@@ -35,6 +34,7 @@ export default function ViewDance({ styles, dance }) {
             <h1>View Dance</h1>
 
             <DanceView dance={dance} styles={styles} ></DanceView>
+
             <FlexButton><Button text="Back" type="button" action={() => {router.back()}}></Button></FlexButton>
 
         </Layout>
@@ -42,10 +42,11 @@ export default function ViewDance({ styles, dance }) {
 }
 
 export async function getStaticPaths() {
+
     try {
         const { dances, error } = await getDances(0)
-
         if (error) throw new Error(error)
+
         let paths = []
         paths = dances.map((dance) => {
             return {
@@ -72,6 +73,7 @@ export async function getStaticProps(context) {
         dance = dances
     } catch (error) {
         console.log('Error:' + error.message)
+        return
     }
 
     let stylesReturn
@@ -81,6 +83,7 @@ export async function getStaticProps(context) {
         stylesReturn = styles
     } catch (error) {
         console.log('Error:' + error.message)
+        return
     }
 
     return {

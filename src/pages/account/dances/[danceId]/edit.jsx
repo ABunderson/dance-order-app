@@ -1,25 +1,25 @@
-import { getStyles } from 'mongoDb/styles'
-import { getFlowers } from 'mongoDb/flowers'
-import { getDances, getDanceById } from 'mongoDb/dances'
+import { getStyles } from 'mongodb/styles'
+import { getFlowers } from 'mongodb/flowers'
+import { getDances, getDanceById } from 'mongodb/dances'
 
 import { useRouter } from 'next/router'
-import UserContext from 'context/UserContext'
 import { useContext, useEffect } from 'react'
 
-import { alertService } from 'services/alert.service'
-import { Alert } from 'components/allPages/Alert'
-import { scrollToTop } from 'functions/utils'
-import { findFlowersNeeded, checkFlowers, getSelectedFlowers, flowerTypes, findChecked } from 'functions/newDance'
+import UserContext from 'context/UserContext'
+import MessageContext from 'context/MessageContext'
 
+import { Alert } from 'components/allPages/Alert'
 import Layout from 'components/allPages/Layout'
 import DanceForm from 'components/account/dances/DanceForm'
 
+import { setWarning } from 'functions/utils'
+import { findFlowersNeeded, checkFlowers, getSelectedFlowers, flowerTypes, findChecked } from 'functions/newDance'
 
 export default function EditDance({ styles, flowers, dance }) {
-
     const router = useRouter();
 
-    const {userName, setUserName} = useContext(UserContext)
+    const { userName, setUserName } = useContext(UserContext)
+    const { message, setMessage } = useContext(MessageContext)
 
     useEffect(() => {
         if (userName === 'default') {
@@ -40,8 +40,7 @@ export default function EditDance({ styles, flowers, dance }) {
         convertedJSON.editDate = new Date()
 
         if (convertedJSON.schools.length === 0 || convertedJSON.danceDate.length === 0 || convertedJSON.name.length === 0) {
-            alertService.warn('Please fill out each field.', { autoClose: false, keepAfterRouteChange: false })
-            scrollToTop()
+            setWarning('Please fill out each field')
             return
         }
 
@@ -50,13 +49,11 @@ export default function EditDance({ styles, flowers, dance }) {
             const data = await response.json()
 
             if (data.dances[0]) {
-                alertService.warn('There is already a dance created for that day.', { autoClose: false, keepAfterRouteChange: false })
-                scrollToTop()
+                setWarning('There is already a dance created for that day')
                 return
             }
         } catch (error) {
-            alertService.warn('The check for other dances on the selected week failed.', { autoClose: false, keepAfterRouteChange: false })
-            scrollToTop()
+            setWarning('The check for other dances on the selected week failed')
             return
         }
 
@@ -69,14 +66,12 @@ export default function EditDance({ styles, flowers, dance }) {
         date.setHours(date.getHours() + 30)
 
         if (date.getDay() !== 6) {
-            alertService.warn('Please pick a Saturday', { autoClose: false, keepAfterRouteChange: false })
-            scrollToTop()
+            setWarning('Please pick a Saturday')
             return
         }
 
         if (convertedJSON.editDate.getTime() > date.getTime()) {
-            alertService.warn('The dance date must be today or a future day.', { autoClose: false, keepAfterRouteChange: false })
-            scrollToTop()
+            setWarning('The dance date must be today or a future day')
             return
         }
 
@@ -108,13 +103,12 @@ export default function EditDance({ styles, flowers, dance }) {
                 res = await res.json()
 
                 if (res._id) {
-                    alertService.warn('Succesfully added dance!', { autoClose: false, keepAfterRouteChange: true })
+                    setMessage('Successfully edited dance')
                     router.back()
                 }
             } catch (error) {
                 console.log('Error: ' + error.message)
-                alertService.warn('Something went wrong with the dance creation.', { autoClose: false, keepAfterRouteChange: false })
-                scrollToTop()
+                setWarning('Something went wrong with the dance creation')
                 return
             }
         }
@@ -122,6 +116,7 @@ export default function EditDance({ styles, flowers, dance }) {
 
     return (
         <Layout pageTitle='Edit Dance'>
+
             <Alert />
 
             <h1>Edit Dance</h1>
@@ -133,10 +128,11 @@ export default function EditDance({ styles, flowers, dance }) {
 }
 
 export async function getStaticPaths() {
+
     try {
         const { dances, error } = await getDances(0)
-
         if (error) throw new Error(error)
+
         let paths = []
         paths = dances.map((dance) => {
             return {
@@ -162,6 +158,7 @@ export async function getStaticProps(context) {
         dance = dances
     } catch (error) {
         console.log('Error:' + error.message)
+        return
     }
 
     let stylesReturn
@@ -171,6 +168,7 @@ export async function getStaticProps(context) {
         stylesReturn = styles
     } catch (error) {
         console.log('Error:' + error.message)
+        return
     }
 
     let flowersReturn
@@ -180,6 +178,7 @@ export async function getStaticProps(context) {
         flowersReturn = flowers
     } catch (error) {
         console.log('Error:' + error.message)
+        return
     }
 
     return {

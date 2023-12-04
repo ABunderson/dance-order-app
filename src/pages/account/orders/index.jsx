@@ -1,37 +1,46 @@
-import { getOrders } from 'mongoDb/orders'
+import { getOrders } from 'mongodb/orders'
 
 import { useRouter } from 'next/router'
-import { useContext, useEffect } from 'react'
-import { useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 
 import UserContext from 'context/UserContext'
+import MessageContext from 'context/MessageContext'
 
 import Layout from 'components/allPages/Layout'
 import Line from 'components/Line'
 import ShowOrders from 'components/account/orders/ShowOrders'
 import Button, { SmallButton } from 'components/Button'
-
-import { alertService } from 'services/alert.service'
 import { Alert } from 'components/allPages/Alert'
-import { scrollToTop } from 'functions/utils'
-
 import { SmallFlexButton } from 'components/styles/ButtonStyles'
 import PrintView from 'components/orders/finalize/PrintView'
+
+import { alertService } from 'services/alert.service'
+import { setWarning } from 'functions/utils'
 import { deleteBadOrders } from 'functions/orders'
-
-
 
 export default function AllOrders({ orders }) {
     const router = useRouter()
-    const {userName, setUserName} = useContext(UserContext)
-    const [ordersList, setOrdersList] = useState(orders)
-    const [printOrder, setPrintOrder] = useState(orders[0])
+
+    const { userName, setUserName } = useContext(UserContext)
+    const { message, setMessage } = useContext(MessageContext)
+
+    const [ ordersList, setOrdersList ] = useState(orders)
+    const [ printOrder, setPrintOrder ] = useState(orders[0])
+
+    let count = 0
 
     useEffect(() => {
         if (userName === 'default') {
             router.push('/account/login')
         }
+
         deleteBadOrders()
+
+        if (message !== 'default') {
+            if (count === 0) alertService.warn(message, { autoClose: false, keepAfterRouteChange: false })
+            setMessage('default')
+            count += 1
+        }
     },)
 
     const filterPrint = (filter) => {
@@ -52,7 +61,6 @@ export default function AllOrders({ orders }) {
     const print = async (order) => {
         const sendObject = {}
 
-
         try {
             sendObject.finishType = 'print'
 
@@ -61,7 +69,6 @@ export default function AllOrders({ orders }) {
                 body: JSON.stringify(sendObject),
             })
             res = await res.json()
-            // console.log(res)
 
             const response = await fetch(`/api/orders`)
             const data = await response.json()
@@ -75,13 +82,10 @@ export default function AllOrders({ orders }) {
             }
         } catch (error) {
             console.log('Error: ' + error.message)
-            alertService.warn('something went wrong with the database connection.', { autoClose: false, keepAfterRouteChange: false })
-            scrollToTop()
+            setWarning('Something went wrong with the database connection')
             return
         }
     }
-
-    // products.sort((p1, p2) => (p1.FinalPrice > p2.FinalPrice) ? 1 : (p1.FinalPrice < p2.FinalPrice) ? -1 : 0);
 
     const sort = async (value) => {
 
@@ -133,7 +137,6 @@ export default function AllOrders({ orders }) {
             default:
                 break;
         }
-
         setOrdersList(sortList)
     }
 
@@ -147,8 +150,9 @@ export default function AllOrders({ orders }) {
     }
 
     return (
-        <Layout pageTitle="Orders">
+        <Layout pageTitle='Orders'>
             <Alert />
+
             <h1>Orders</h1>
             <p>Here you can see, print, or remove any orders. Click the information about the order to view it. Print status can be set to not printed when viewing orders.</p>
 
@@ -180,7 +184,6 @@ export default function AllOrders({ orders }) {
             <PrintView order={printOrder} id={'printA'}></PrintView>
 
         </Layout>
-
     )
 }
 
@@ -188,6 +191,7 @@ export async function getStaticProps() {
     try {
         const { orders, error } = await getOrders(0)
         if (error) throw new Error(error)
+
         return {
             props: {
                 orders: orders,

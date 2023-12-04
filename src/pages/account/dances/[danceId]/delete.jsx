@@ -1,26 +1,26 @@
-import { getStyles } from 'mongoDb/styles'
-import { getDances, getDanceById } from 'mongoDb/dances'
+import { getStyles } from 'mongodb/styles'
+import { getDances, getDanceById } from 'mongodb/dances'
 
 import { useRouter } from 'next/router'
-import UserContext from 'context/UserContext'
 import { useContext, useEffect } from 'react'
 
-import { alertService } from 'services/alert.service'
-import { Alert } from 'components/allPages/Alert'
-import { scrollToTop } from 'functions/utils'
+import UserContext from 'context/UserContext'
+import MessageContext from 'context/MessageContext'
 
+import { Alert } from 'components/allPages/Alert'
 import Layout from 'components/allPages/Layout'
-import DanceView from 'components/account/dances/DanceView'
-import { FlexButton } from 'components/styles/ButtonStyles'
 import Button from 'components/Button'
 import Line from 'components/Line'
+import DanceView from 'components/account/dances/DanceView'
+import { FlexButton } from 'components/styles/ButtonStyles'
 
+import { setWarning } from 'functions/utils'
 
 export default function DeleteDance({ styles, dance }) {
-
     const router = useRouter();
 
-    const {userName, setUserName} = useContext(UserContext)
+    const { userName, setUserName } = useContext(UserContext)
+    const { message, setMessage } = useContext(MessageContext)
 
     useEffect(() => {
         if (userName === 'default') {
@@ -33,34 +33,31 @@ export default function DeleteDance({ styles, dance }) {
     }
 
     const deleteDance = async () => {
-
         try {
-
             let res = await fetch(`/api/dances/${dance[0]._id}/delete`, {
                 method: 'POST',
             })
             res = await res.json()
 
             if (res.ok) {
-                alertService.warn('Succesfully deleted dance!', { autoClose: false, keepAfterRouteChange: true })
+                setMessage('Successfully deleted dance')
                 router.back()
             }
         } catch (error) {
             console.log('Error: ' + error.message)
-            alertService.warn('Something went wrong when deleting the dance.', { autoClose: false, keepAfterRouteChange: false })
-            scrollToTop()
+            setWarning('Something went wrong while deleting the dance')
             return
         }
     }
 
-
-
     return (
         <Layout pageTitle='Delete Dance'>
+
             <Alert />
             
             <h1>Delete Dance</h1>
             <h2>Are you sure you want to delete this dance? This action cannot be undone.</h2>
+
             <FlexButton>
                 <Button text='Delete' type='button' action={deleteDance}></Button>
                 <Button text="Back" type="button" action={() => { router.back() }}></Button>
@@ -79,6 +76,7 @@ export async function getStaticPaths() {
     try {
         const { dances, error } = await getDances(0)
         if (error) throw new Error(error)
+
         let paths = []
         paths = dances.map((dance) => {
             return {
@@ -105,6 +103,7 @@ export async function getStaticProps(context) {
         dance = dances
     } catch (error) {
         console.log('Error:' + error.message)
+        return
     }
 
     let stylesReturn
@@ -114,6 +113,7 @@ export async function getStaticProps(context) {
         stylesReturn = styles
     } catch (error) {
         console.log('Error:' + error.message)
+        return
     }
 
     return {
