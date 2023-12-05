@@ -31,7 +31,7 @@ export default function CreateStyle({ supplies, flowers, style }) {
         }
 
         !file ? setFile(style.image) : ''
-    }, [file, setFile, style])
+    }, [file, setFile, style, userName, router])
 
     const handleOnChange = async (event) => {
         setFile('/no-image.jpg')

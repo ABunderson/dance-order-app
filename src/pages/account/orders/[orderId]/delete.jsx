@@ -4,6 +4,7 @@ import { useRouter } from 'next/router'
 import { useContext, useEffect } from 'react'
 
 import UserContext from 'context/UserContext'
+import MessageContext from 'context/MessageContext'
 
 import { alertService } from 'services/alert.service'
 import { Alert } from 'components/allPages/Alert'
@@ -93,7 +94,7 @@ export async function getStaticProps(context) {
     try {
         const { orders, error } = await getOrderById(params.orderId)
         if (error) throw new Error(error)
-        
+
         return {
             props: {
                 orders: orders
