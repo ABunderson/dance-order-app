@@ -22,6 +22,7 @@ import PrintView from 'components/orders/finalize/PrintView'
 
 import { deleteBadOrders } from 'functions/orders'
 import { setWarning } from 'functions/utils'
+import { alertService } from 'services/alert.service'
 
 export default function Account({ dances, styles, flowers, supplies, addons, orders }) {
     const router = useRouter()
@@ -32,7 +33,7 @@ export default function Account({ dances, styles, flowers, supplies, addons, ord
     const [printOrder, setPrintOrder] = useState(orders[0])
     const [ordersList, setOrdersList] = useState(orders)
 
-    let count = 1
+    let count = 0
 
     useEffect(() => {
         // if you click on the account button when not logged in it goes to the login page
@@ -41,7 +42,7 @@ export default function Account({ dances, styles, flowers, supplies, addons, ord
         }
 
         if (message !== 'default') {
-            if (count === 0) alertService.warn(message, { autoClose: false, keepAfterRouteChange: false })
+            if (count === 0) setWarning(message)
             setMessage('default')
             count += 1
         }
@@ -74,12 +75,30 @@ export default function Account({ dances, styles, flowers, supplies, addons, ord
             setOrdersList(newOrders)
 
             if (res.ok) {
-                setPrintOrder(order)
-                window.print()
+                getPrintOrder(order._id)
+                getPrintOrder(order._id).then(function () {
+                    window.print()
+                })
             }
         } catch (error) {
             console.log('Error: ' + error.message)
             setWarning('Something went wrong with the database connection')
+            return
+        }
+    }
+
+    const getPrintOrder = async (id) => {
+        try {
+            const response = await fetch(`/api/orders/${id}`)
+            const data = await response.json()
+            const order = data.orders[0]
+
+            if (order._id) {
+                setPrintOrder(order)
+            }
+        } catch (error) {
+            console.log('Error: ' + error.message)
+            setWarning('Something went wrong retrieving the order from the database')
             return
         }
     }

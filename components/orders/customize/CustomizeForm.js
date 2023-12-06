@@ -5,7 +5,6 @@ import { StyledForm } from 'components/styles/FormStyles'
 import { FlexButton } from 'components/styles/ButtonStyles'
 
 const CustomizeForm = ({ backAction, forwardAction, flower, supplies, styleId, flowerColors }) => {
-
     let defaultFlower = { ...flower[0] }
 
     if (flowerColors.length === 0) {
@@ -17,7 +16,6 @@ const CustomizeForm = ({ backAction, forwardAction, flower, supplies, styleId, f
         defaultFlower.colors = defaultColors
 
     } else {
-
         let defaultColors = flower[0]?.colors?.filter((item) => {
              return flowerColors[0].colors?.includes(item.colorName)
         })

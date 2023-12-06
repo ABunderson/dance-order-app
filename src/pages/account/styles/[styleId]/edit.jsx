@@ -93,6 +93,8 @@ export default function CreateStyle({ supplies, flowers, style }) {
             delete convertedJSON.image
         }
 
+        convertedJSON.price = Number(convertedJSON.price)
+
         try {
             let res = await fetch(`/api/styles/${style[0]._id}/update`, {
                 method: 'POST',

@@ -3,6 +3,7 @@ import clientPromise from '../../../../../lib/mongodb/index'
 const ObjectId = require('mongodb').ObjectId
 
 export default async function handler(req, res) {
+    console.log('in post')
     const { danceId } = req.query
     const client = await clientPromise;
     const db = client.db("danceProducts");

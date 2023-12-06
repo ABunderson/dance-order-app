@@ -12,13 +12,15 @@ import ShowList from 'components/account/ShowList'
 import Button from 'components/Button'
 import { Alert } from 'components/allPages/Alert'
 
+import { setWarning } from 'functions/utils'
+
 export default function AllDances({ dances }) {
     const router = useRouter()
 
     const { userName, setUserName } = useContext(UserContext)
     const { message, setMessage } = useContext(MessageContext)
 
-    let count = 1
+    let count = 0
 
     useEffect(() => {
         if (userName === 'default') {
@@ -26,7 +28,7 @@ export default function AllDances({ dances }) {
         }
 
         if (message !== 'default') {
-            if (count === 0) alertService.warn(message, { autoClose: false, keepAfterRouteChange: false })
+            if (count === 0) setWarning(message)
             setMessage('default')
             count += 1
         }

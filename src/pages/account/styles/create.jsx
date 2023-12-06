@@ -85,6 +85,8 @@ export default function CreateStyle({ supplies, flowers }) {
             return
         }
 
+        convertedJSON.price = Number(convertedJSON.price)
+
         try {
             let res = await fetch('/api/styles', {
                 method: 'POST',

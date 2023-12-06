@@ -27,9 +27,9 @@ export default function AddFlower() {
 
 
     useEffect(() => {
-        // if (userName === 'default') {
-        //     router.push('/account/login')
-        // }
+        if (userName === 'default') {
+            router.push('/account/login')
+        }
 
         !file ? setFile('/no-image.jpg') : ''
 

@@ -27,10 +27,9 @@ export default function Finalize() {
     const [breadcrumbs, setBreadcrumbs] = useState([])
 
     useEffect(() => {
-
         if (orderNumber === 'default') {
             setMessage('The order was lost or did not exist')
-            // router.push('/')
+            router.push('/')
         }
 
         if (!order) {
@@ -122,7 +121,6 @@ export default function Finalize() {
             const newOrder = data.orders
 
             setPrintOrder(newOrder[0])
-
         } catch (error) {
             setWarning('The order could not be updated')
             return

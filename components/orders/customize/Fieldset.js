@@ -4,6 +4,14 @@ import { FlexDiv } from 'components/styles/BasicFlex'
 // import { StyledFieldset } from 'components/styles/FieldsetStyles'
 import { FieldsetGridDiv } from 'components/styles/Grid'
 
+const ColorDiv = styled(FlexDiv)`
+    @media (max-width: 650px) {
+        div {
+            width: inherit;
+        }
+    }
+`
+
 export const StyledFieldset = styled.fieldset`
     cursor: pointer;
     width: 100%;
@@ -82,13 +90,9 @@ export const StyledFieldset = styled.fieldset`
 `
 
 const Fieldset = ({ item, type }) => {
-
     let desc = ''
-    // type === 'flower' ? desc = 'pick a color of flower ' : 'not a flower '
     let radioGroup
-
     const idName = item.name.split(' ').join('')
-    // console.log(idName)
 
     switch (type) {
         case 'flower':
@@ -114,7 +118,7 @@ const Fieldset = ({ item, type }) => {
             <legend>{item.name} {type === 'slap' ? 'bracelet' : ''}</legend>
             <p>{desc}. Selected items are green.</p>
             {type === 'ribbon' ? (
-                <FlexDiv>
+                <ColorDiv>
                     {item.colors[0].map((color, index) => {
                         const idColor = color.split(' ').join('')
                         return <div key={color + item.name}>
@@ -127,7 +131,7 @@ const Fieldset = ({ item, type }) => {
                             </label>
                         </div>
                     })}
-                </FlexDiv>
+                </ColorDiv>
             ) : (
                 <FieldsetGridDiv>
                     {item.colors.map((color, index) => {

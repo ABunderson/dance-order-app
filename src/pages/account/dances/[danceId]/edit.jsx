@@ -44,17 +44,19 @@ export default function EditDance({ styles, flowers, dance }) {
             return
         }
 
-        try {
-            const response = await fetch(`/api/dances/date/${convertedJSON.danceDate}`)
-            const data = await response.json()
+        if (convertedJSON.danceDate !== dance[0].danceDate) {
+            try {
+                const response = await fetch(`/api/dances/date/${convertedJSON.danceDate}`)
+                const data = await response.json()
 
-            if (data.dances[0]) {
-                setWarning('There is already a dance created for that day')
+                if (data.dances[0]) {
+                    setWarning('There is already a dance created for that day')
+                    return
+                }
+            } catch (error) {
+                setWarning('The check for other dances on the selected week failed')
                 return
             }
-        } catch (error) {
-            setWarning('The check for other dances on the selected week failed')
-            return
         }
 
         convertedJSON.schools = convertedJSON.schools.split(',')
@@ -94,15 +96,13 @@ export default function EditDance({ styles, flowers, dance }) {
             delete convertedJSON.fullrose
 
             try {
-
-                let res = await fetch('/api/dances', {
+                let res = await fetch(`/api/dances/${dance[0]._id}/update`, {
                     method: 'POST',
                     body: JSON.stringify(convertedJSON),
                 })
-
                 res = await res.json()
 
-                if (res._id) {
+                if (res.ok === 1) {
                     setMessage('Successfully edited dance')
                     router.back()
                 }

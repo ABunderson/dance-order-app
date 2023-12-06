@@ -12,6 +12,7 @@ import Line from 'components/Line'
 import ShowList from 'components/account/ShowList'
 import Button from 'components/Button'
 import { Alert } from 'components/allPages/Alert'
+import { setWarning } from 'functions/utils'
 
 export default function AllStyles({ styles }) {
     const router = useRouter()
@@ -27,7 +28,7 @@ export default function AllStyles({ styles }) {
         }
 
         if (message !== 'default') {
-            if (count === 0) alertService.warn(message, { autoClose: false, keepAfterRouteChange: false })
+            if (count === 0) setWarning(message)
             setMessage('default')
             count += 1
         }

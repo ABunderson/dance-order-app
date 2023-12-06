@@ -24,8 +24,8 @@ export default function AllOrders({ orders }) {
     const { userName, setUserName } = useContext(UserContext)
     const { message, setMessage } = useContext(MessageContext)
 
-    const [ ordersList, setOrdersList ] = useState(orders)
-    const [ printOrder, setPrintOrder ] = useState(orders[0])
+    const [ordersList, setOrdersList] = useState(orders)
+    const [printOrder, setPrintOrder] = useState(orders[0])
 
     let count = 0
 
@@ -37,7 +37,7 @@ export default function AllOrders({ orders }) {
         deleteBadOrders()
 
         if (message !== 'default') {
-            if (count === 0) alertService.warn(message, { autoClose: false, keepAfterRouteChange: false })
+            if (count === 0) setWarning(message)
             setMessage('default')
             count += 1
         }
@@ -77,12 +77,30 @@ export default function AllOrders({ orders }) {
             setOrdersList(newOrders)
 
             if (res.ok) {
-                setPrintOrder(order)
-                window.print()
+                getPrintOrder(order._id)
+                getPrintOrder(order._id).then(function () {
+                    window.print()
+                })
             }
         } catch (error) {
             console.log('Error: ' + error.message)
-            setWarning('Something went wrong with the database connection')
+            setWarning('Something went wrong retrieving the order from the database')
+            return
+        }
+    }
+
+    const getPrintOrder = async (id) => {
+        try {
+            const response = await fetch(`/api/orders/${id}`)
+            const data = await response.json()
+            const order = data.orders[0]
+
+            if (order._id) {
+                setPrintOrder(order)
+            }
+        } catch (error) {
+            console.log('Error: ' + error.message)
+            setWarning('Something went wrong retrieving the order from the database')
             return
         }
     }

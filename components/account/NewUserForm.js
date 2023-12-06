@@ -19,7 +19,7 @@ const NewUserForm = ({ action }) => {
             <p style={{fontSize:'1.15rem'}}>Passwords must be at least 8 characters and contain at least 1 number, 1 capital letter, and 1 special character</p>
 
             <label htmlFor='shop'>Shop: </label>
-            <input type='text' name='shop' id='shop' defaultValue={'TpdFlorist'} required/>
+            <input type='text' name='shop' id='shop' defaultValue={''} required/>
             
             <label htmlFor='shopCode'>Shop Code: </label>
             <input type='text' name='shopCode' id='shopCode' defaultValue={''} required/>

@@ -46,21 +46,21 @@ export default function Customize({ style, flower, supplies }) {
 
         // this gets the flower colors that are available for the dance if they are specified or returns the default colors
         async function getOutputColors() {
-
             try {
                 const response = await fetch(`/api/dances/${danceNumber}`)
                 const data = await response.json()
                 const danceInfo = data.dances[0]
 
-                let flowerInfo = danceInfo.flowers.filter((item) => {
-                    return item.flowerName === flower[0].name
-                })
+                if (flower[0]) {
+                    let flowerInfo = danceInfo.flowers.filter((item) => {
+                        return item.flowerName === flower[0].name
+                    })
 
-                setDanceColors(flowerInfo)
-
+                    setDanceColors(flowerInfo)
+                }
             } catch (error) {
                 console.log('Error: ' + error.message)
-                setWarning('Something has gone wrong with the database connection')
+                setWarning('Available flower colors could not be retrieved from the database')
                 return
             }
         }
@@ -168,6 +168,8 @@ export async function getStaticProps(context) {
                 }
             }
             flowerArray = flowers
+        } else if (styles[0].flower === 'none') {
+            flowerArray = ['none']
         }
 
         let supplyArray = []

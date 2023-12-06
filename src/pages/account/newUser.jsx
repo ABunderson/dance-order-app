@@ -97,6 +97,8 @@ export default function LoginPage() {
             
             <NewUserForm action={onSubmit}></NewUserForm>
 
+            <h2>Just for testing purposes the shop is 'TpdFlorist' and the code is 'TpdDanceOrders'</h2>
+
         </Layout>
     )
 }

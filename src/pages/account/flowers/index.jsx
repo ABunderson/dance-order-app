@@ -13,6 +13,8 @@ import Line from 'components/Line'
 import ShowList from 'components/account/ShowList'
 import Button from 'components/Button'
 
+import { setWarning } from 'functions/utils'
+
 export default function AllFlowers({ flowers }) {
     const router = useRouter()
 
@@ -22,12 +24,12 @@ export default function AllFlowers({ flowers }) {
     let count = 0
 
     useEffect(() => {
-        // if (userName === 'default') {
-        //     router.push('/account/login')
-        // }
+        if (userName === 'default') {
+            router.push('/account/login')
+        }
 
         if (message !== 'default') {
-            if (count === 0) alertService.warn(message, { autoClose: false, keepAfterRouteChange: false })
+            if (count === 0) setWarning(message)
             setMessage('default')
             count += 1
         }
@@ -39,9 +41,11 @@ export default function AllFlowers({ flowers }) {
             <Alert />
 
             <h1>Flowers</h1>
+            <h1 style={{color: 'red'}}>Warning this page is still under construction!!</h1>
+            <h1 style={{color: 'red'}}>You can see the flowers but they can be edited, removed or added</h1>
             <p>Here you can see, add, edit, or remove any Flowers.</p>
 
-            <Button text='Create' type='button' action={() => {router.push('/account/flowers/create')}}></Button>
+            <Button text='Add' type='button' action={() => {router.push('/account/flowers/create')}}></Button>
 
             <Line></Line>
 
