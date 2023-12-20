@@ -36,6 +36,11 @@ export default function LoginPage() {
             return
         }
 
+        convertedJSON.username = convertedJSON.username.trim()
+        convertedJSON.password = convertedJSON.password.trim()
+        convertedJSON.shopCode = convertedJSON.shopCode.trim()
+        convertedJSON.shop = convertedJSON.shop.trim()
+
         try {
             if (await checkUserName(convertedJSON.username)) {
                 setWarning('That username is already being used. Please pick a different one')
@@ -96,8 +101,6 @@ export default function LoginPage() {
             <p>To ensure that only florists affiliated with this site can make new accounts you must know the secret code for your floral shop along with the used shop name.</p>
             
             <NewUserForm action={onSubmit}></NewUserForm>
-
-            <h2>{`Just for testing purposes the shop is 'TpdFlorist' and the code is 'TpdDanceOrders'`}</h2>
 
         </Layout>
     )

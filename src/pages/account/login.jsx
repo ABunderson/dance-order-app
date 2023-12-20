@@ -31,6 +31,14 @@ export default function LoginPage() {
             convertedJSON[key] = value;
         });
 
+        if (convertedJSON.userName.length === 0 || convertedJSON.password.length === 0) {
+            setWarning('Please fill in all fields')
+            return
+        }
+
+        convertedJSON.userName = convertedJSON.userName.trim()
+        convertedJSON.password = convertedJSON.password.trim()
+
         try {
             convertedJSON.password = await hashPassword(convertedJSON.password)
 

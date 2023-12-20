@@ -20,6 +20,11 @@ const StyledHeader = styled.header`
         display: flex;
         justify-content: space-between;
 
+        a {
+            display: flex;
+            align-items: center;
+        }
+
         @media (max-width: 550px) {
             padding-left: 1rem;
             padding-right: 1rem;
@@ -42,6 +47,7 @@ const Header = () => {
                         height={80}
                         priority
                     />
+                    <h1>Flower Shop Name</h1>
                 </Link>
                 
                 <Link href={user.userName !== 'default' ? '/account' : "/account/login"}>
@@ -49,8 +55,8 @@ const Header = () => {
                         src="/icons/account.png"
                         alt="An Account icon. Icon from Icons8"
                         title="Click to login to your account. Florists only"
-                        width={80}
-                        height={80}
+                        width={40}
+                        height={40}
                         priority
                     />
                 </Link>
