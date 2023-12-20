@@ -37,11 +37,13 @@ export const FlexButton = styled.div`
     display: flex;
     justify-content: center;
     gap: 50px;
+    align-items: center;
 
     @media (max-width: 670px){
         flex-direction: column;
         gap: 2rem;
         padding-bottom: 1rem;
+        align-items: flex-start;
     }
 `
 

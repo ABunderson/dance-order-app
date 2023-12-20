@@ -19,10 +19,10 @@ import Button from 'components/Button'
 import ShowList from 'components/account/ShowList'
 import ShowOrder from 'components/account/orders/ShowOrders'
 import PrintView from 'components/orders/finalize/PrintView'
+import { FlexButton } from 'components/styles/ButtonStyles'
 
 import { deleteBadOrders } from 'functions/orders'
 import { setWarning } from 'functions/utils'
-import { alertService } from 'services/alert.service'
 
 export default function Account({ dances, styles, flowers, supplies, addons, orders }) {
     const router = useRouter()
@@ -109,29 +109,42 @@ export default function Account({ dances, styles, flowers, supplies, addons, ord
             <Alert />
 
             <h1>Welcome {userName}</h1>
-            <p>Here you can see, add, edit, or remove dances, styles, flowers, supplies, addons, and default styles. Each category only shows five items. To see all the items click on the category header.</p>
+            <p>Here you can see, add, edit, or remove dances, styles, flowers, supplies, addons, and default styles. Each category only shows five items.</p>
             <Button text='Log Out' type='button' action={logOut}></Button>
             <Line></Line>
 
-            <Link href='/account/orders'><h2>Orders</h2></Link>
+            <FlexButton>
+                <Link href='/account/orders'><h2>Orders</h2></Link>
+                <Button text='See All' type='button' action={() => { router.push('/account/orders') }}></Button>
+            </FlexButton>
             <p>See orders that have been placed. This is where you can print orders that were not printed right after being taken.</p>
             <ShowOrder objects={ordersList} place={'main'} printAction={print}></ShowOrder>
             <PrintView order={printOrder} id={'printA'}></PrintView>
             <Line></Line>
 
-            <Link href='/account/dances'><h2>Dances</h2></Link>
+
+            <FlexButton>
+                <Link href='/account/dances'><h2>Dances</h2></Link>
+                <Button text='See All' type='button' action={() => { router.push('/account/dances') }}></Button>
+            </FlexButton>
             <p>This is where you can create different dances. A dance has the date, a name, which schools are participating, and also allows you to decide which styles and flower colors are available that week.</p>
             <Button text='Add' type='button' action={() => { router.push('/account/dances/create') }}></Button>
             <ShowList objects={dances} type='dances' place='main'></ShowList>
             <Line></Line>
 
-            <Link href='account/styles'><h2>Styles</h2></Link>
+            <FlexButton>
+                <Link href='account/styles'><h2>Styles</h2></Link>
+                <Button text='See All' type='button' action={() => { router.push('/account/styles') }}></Button>
+            </FlexButton>
             <p>A style is either a boutonniere or a corsage. Here you can also pick which styles are default styles which mean they show on any week where there is not a dance created.</p>
             <Button text='Create' type='button' action={() => { router.push('/account/styles/create') }}></Button>
             <ShowList objects={styles} type='styles' place='main'></ShowList>
             <Line></Line>
 
-            <Link href='account/flowers'><h2>Flowers</h2></Link>
+            <FlexButton>
+                <Link href='account/flowers'><h2>Flowers</h2></Link>
+                <Button text='See All' type='button' action={() => {router.push('/account/flowers')}}></Button>
+            </FlexButton>
             <p>These are the types of flowers that the styles use. Each flower can have multiple colors.</p>
             <Button text='Add' type='button' action={() => { router.push('/account/flowers/create') }}></Button>
             <ShowList objects={flowers} place='main'></ShowList>
