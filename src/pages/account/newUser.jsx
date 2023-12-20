@@ -10,7 +10,7 @@ import { Alert } from 'components/allPages/Alert'
 import { hashPassword, login } from 'functions/account'
 import { setWarning } from 'functions/utils'
 
-export default function LoginPage() {
+export default function NewUser() {
     const router = useRouter()
 
     const { userName, setUserName } = useContext(UserContext)

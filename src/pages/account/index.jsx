@@ -15,7 +15,7 @@ import MessageContext from 'context/MessageContext'
 import Layout from 'components/allPages/Layout'
 import { Alert } from 'components/allPages/Alert'
 import Line from 'components/Line'
-import Button from 'components/Button'
+import Button, { SmallButton } from 'components/Button'
 import ShowList from 'components/account/ShowList'
 import ShowOrder from 'components/account/orders/ShowOrders'
 import PrintView from 'components/orders/finalize/PrintView'
@@ -111,6 +111,11 @@ export default function Account({ dances, styles, flowers, supplies, addons, ord
             <h1>Welcome {userName}</h1>
             <p>Here you can see, add, edit, or remove dances, styles, flowers, supplies, addons, and default styles. Each category only shows five items.</p>
             <Button text='Log Out' type='button' action={logOut}></Button>
+            <FlexButton>
+                <SmallButton text='Change Username' type='button' action={() => { router.push('/account/changeUsername') }}></SmallButton>
+                <SmallButton text='Change Password' type='button' action={() => { router.push('/account/changePassword') }}></SmallButton>
+            </FlexButton>
+
             <Line></Line>
 
             <FlexButton>
@@ -121,7 +126,6 @@ export default function Account({ dances, styles, flowers, supplies, addons, ord
             <ShowOrder objects={ordersList} place={'main'} printAction={print}></ShowOrder>
             <PrintView order={printOrder} id={'printA'}></PrintView>
             <Line></Line>
-
 
             <FlexButton>
                 <Link href='/account/dances'><h2>Dances</h2></Link>
@@ -143,7 +147,7 @@ export default function Account({ dances, styles, flowers, supplies, addons, ord
 
             <FlexButton>
                 <Link href='account/flowers'><h2>Flowers</h2></Link>
-                <Button text='See All' type='button' action={() => {router.push('/account/flowers')}}></Button>
+                <Button text='See All' type='button' action={() => { router.push('/account/flowers') }}></Button>
             </FlexButton>
             <p>These are the types of flowers that the styles use. Each flower can have multiple colors.</p>
             <Button text='Add' type='button' action={() => { router.push('/account/flowers/create') }}></Button>
