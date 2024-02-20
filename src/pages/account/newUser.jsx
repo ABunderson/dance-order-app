@@ -100,6 +100,7 @@ export default function NewUser() {
             <p>This page is only for florists affiliated with this site. If you are not a florist please go back to the home page by clicking on the logo at the top.</p>
             <p>To ensure that only florists affiliated with this site can make new accounts you must know the secret code for your floral shop along with the used shop name.</p>
             
+            <p>For testing puposes only the shop is TpdFlorist and the code is TpdDanceOrders</p>
             <NewUserForm action={onSubmit}></NewUserForm>
 
         </Layout>
