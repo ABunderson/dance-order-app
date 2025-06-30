@@ -32,7 +32,7 @@ export default function Information({ dances }) {
 
         // converting to a date picked a different day so hours were added to fix it
         let date = new Date(convertedJSON.danceDate)
-        date.setHours(date.getHours() + 30)
+        date.setHours(date.getHours() + 20)
 
         // backend validation
         if (convertedJSON.danceDate.length === 0 || convertedJSON.dressColor.length === 0 || convertedJSON.firstName.length === 0 || convertedJSON.lastName.length === 0 || convertedJSON.phoneOne.length === 0 || convertedJSON.phoneTwo.length === 0 || convertedJSON.school.length === 0) {
