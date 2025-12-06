@@ -1,7 +1,11 @@
 {
   "compilerOptions": {
     "target": "es5",
-    "lib": ["dom", "dom.iterable", "esnext"],
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "esnext"
+    ],
     "allowJs": true,
     "skipLibCheck": true,
     "strict": true,
@@ -14,15 +18,38 @@
     "jsx": "preserve",
     "incremental": true,
     "paths": {
-      "@/*": ["./src/*"],
-      "components/*": ["./components/*"],
-      "mongoDb/*": ["./lib/mongodb/*"],
-      "mongodb/*": ["./lib/mongodb/*"],
-      "services/*": ["./services/*"],
-      "context/*": ["./context/*"],
-      "functions/*": ["./functions/*"]
+      "@/*": [
+        "./src/*"
+      ],
+      "components/*": [
+        "./components/*"
+      ],
+      "mongoDb/*": [
+        "./lib/mongodb/*"
+      ],
+      "mongodb/*": [
+        "./lib/mongodb/*"
+      ],
+      "services/*": [
+        "./services/*"
+      ],
+      "context/*": [
+        "./context/*"
+      ],
+      "functions/*": [
+        "./functions/*"
+      ]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "components/allPages/Alert.jsx", "src/pages/_app.tsx", "src/pages/index.jsx"],
-  "exclude": ["node_modules"]
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    "components/allPages/Alert.jsx",
+    "src/pages/_app.tsx",
+    "src/pages/index.jsx"
+  ],
+  "exclude": [
+    "node_modules"
+  ]
 }

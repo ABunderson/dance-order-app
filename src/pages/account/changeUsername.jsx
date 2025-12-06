@@ -54,7 +54,7 @@ export default function ChangeUsername() {
 
             res = await res.json()
 
-            if (res.result.ok === 1) {
+            if (res.acknowledged && res.modifiedCount > 0) {
                 setUserName(convertedJSON.username)
                 setMessage('Successfully changed username')
                 router.push('/account')

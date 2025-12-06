@@ -89,7 +89,7 @@ export default function Finalize() {
             })
             res = await res.json()
 
-            if (res.result.ok) {
+            if (res.acknowledged && res.modifiedCount > 0) {
                 getNewOrder()
 
                 // This is awkward but it gets the information available before it trys to print

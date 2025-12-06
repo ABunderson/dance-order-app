@@ -11,11 +11,11 @@ export default async function handler(req, res) {
         case "POST":
             
             let bodyObject = JSON.parse(req.body);
-            let myOrder = await db.collection("orders").updateOne({ _id: ObjectId(filter)}, {$set:bodyObject} );
+            let myOrder = await db.collection("orders").updateOne({ _id: new ObjectId(filter)}, {$set:bodyObject} );
             res.json(myOrder);
             break;
         case "GET":
-            const thisOrder = await db.collection("orders").find({ _id: ObjectId(filter)}).toArray();
+            const thisOrder = await db.collection("orders").find({ _id: new ObjectId(filter)}).toArray();
             res.json({ status: 200, data: thisOrder });
             break;
     }

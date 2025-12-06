@@ -59,7 +59,7 @@ export default function ChangePassword() {
 
             res = await res.json()
 
-            if (res.result.ok === 1) {
+            if (res.acknowledged && res.modifiedCount > 0) {
                 setMessage('Successfully changed password')
                 router.push('/account')
             }

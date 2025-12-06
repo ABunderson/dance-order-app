@@ -124,7 +124,7 @@ export default function GetStyles({ addons, ribbon }) {
                 })
                 res = await res.json()
 
-                if (res.result.ok === 1) {
+                if (res.acknowledged && res.modifiedCount > 0) {
                     router.push({
                         query: {
                             paths: setCrumbs(breadcrumbs, { order: 6, locName: 'Finishing Touches', path: window.location.pathname })

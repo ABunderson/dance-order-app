@@ -170,64 +170,58 @@ export default function Account({ dances, styles, flowers, supplies, addons, ord
 
 export async function getStaticProps() {
 
-    let dancesReturn
+    let dancesReturn = []
     try {
         const { dances, error } = await getDances(5)
         if (error) throw new Error(error)
         dancesReturn = dances
     } catch (error) {
         console.log('Error:' + error.message)
-        return
     }
 
-    let ordersReturn
+    let ordersReturn = []
     try {
         const { orders, error } = await getOrders(5)
         if (error) throw new Error(error)
         ordersReturn = orders
     } catch (error) {
         console.log('Error:' + error.message)
-        return
     }
 
-    let stylesReturn
+    let stylesReturn = []
     try {
         const { styles, error } = await getStyles(5)
         if (error) throw new Error(error)
         stylesReturn = styles
     } catch (error) {
-        console.log('Error:' + error.message)
-        return
+        console.log('Error: ' + error.message)
     }
 
-    let flowersReturn
+    let flowersReturn = []
     try {
         const { flowers, error } = await getFlowers(5)
         if (error) throw new Error(error)
         flowersReturn = flowers
     } catch (error) {
         console.log('Error:' + error.message)
-        return
     }
 
-    let suppliesReturn
+    let suppliesReturn = []
     try {
         const { supplies, error } = await getSupplies(5)
         if (error) throw new Error(error)
         suppliesReturn = supplies
     } catch (error) {
         console.log('Error:' + error.message)
-        return
     }
 
-    let addonsReturn
+    let addonsReturn = []
     try {
         const { addons, error } = await getAddons(5)
         if (error) throw new Error(error)
         addonsReturn = addons
     } catch (error) {
         console.log('Error:' + error.message)
-        return
     }
 
     return {

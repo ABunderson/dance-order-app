@@ -9,11 +9,11 @@ export default async function handler(req, res) {
     let filter = danceId
     switch (req.method) {
         case "POST":
-            let myOrder = await db.collection("dances").deleteOne({ _id: ObjectId(filter)} );
+            let myOrder = await db.collection("dances").deleteOne({ _id: new ObjectId(filter)} );
             res.json(myOrder);
             break;
         case "GET":
-            const thisOrder = await db.collection("dances").find({ _id: ObjectId(filter)}).toArray();
+            const thisOrder = await db.collection("dances").find({ _id: new ObjectId(filter)}).toArray();
             res.json({ status: 200, data: thisOrder });
             break;
     }

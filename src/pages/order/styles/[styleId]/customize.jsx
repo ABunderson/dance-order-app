@@ -95,7 +95,7 @@ export default function Customize({ style, flower, supplies }) {
 
                 res = await res.json()
 
-                if (res.result.ok === 1) {
+                if (res.acknowledged && res.modifiedCount > 0) {
 
                     router.push({
                         query: {
